@@ -12,8 +12,10 @@ import { generateProofSignature } from './crypto';
 import { ReaderSettings } from './components/ReaderSettings';
 import { SnapshotModal } from './components/SnapshotModal';
 import { AudioPlayer } from './components/AudioPlayer';
-import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Settings, BookOpen, Keyboard, History, Headphones } from 'lucide-react';
+import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Settings, BookOpen, Keyboard, History, Headphones, Terminal } from 'lucide-react';
 import getCaretCoordinates from 'textarea-caret';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const lightBgs = ['#fdfaf6', '#fcf8f2', '#f9f5f0', '#fdfbf7', '#faf6f0'];
 const darkBgs = ['#1a1918', '#1c1b1a', '#181818', '#1e1d1c', '#1b1b1b'];
@@ -58,6 +60,8 @@ function App() {
     reorderNotes, createSnapshot, restoreSnapshot 
   } = useNotes();
   const [isDark, setIsDark] = useState(false);
+  const [isTerminalMode, setIsTerminalMode] = useState(false);
+
   const [isFocusMode, setIsFocusMode] = useState(false);
   const [isTypewriterMode, setIsTypewriterMode] = useState(false);
   const [isReaderMode, setIsReaderMode] = useState(false);
@@ -115,9 +119,15 @@ function App() {
   const currentBg = currentNote ? bgArray[currentNote.bgIndex % bgArray.length] : bgArray[0];
 
   useEffect(() => {
-    document.body.className = isDark ? 'theme-dark' : 'theme-light';
-    document.body.style.backgroundColor = currentBg;
-  }, [isDark, currentBg]);
+    let className = isDark ? 'theme-dark' : 'theme-light';
+    if (isTerminalMode) {
+      className += ' theme-terminal';
+      document.body.style.backgroundColor = '#0a0a0a';
+    } else {
+      document.body.style.backgroundColor = currentBg;
+    }
+    document.body.className = className;
+  }, [isDark, currentBg, isTerminalMode]);
 
   const getStatus = () => {
     if (text.length === 0) return { label: 'Aguardando digitação', class: '' };
@@ -388,6 +398,9 @@ function App() {
               <span className="badge-dot"></span>
               {status.label}
             </div>
+            <button className={`icon-btn ${isTerminalMode ? 'active' : ''}`} onClick={() => setIsTerminalMode(!isTerminalMode)} data-tooltip="Modo Terminal">
+              <Terminal size={20} />
+            </button>
             <button className="icon-btn" onClick={() => setIsDark(!isDark)} data-tooltip="Alternar Tema">
               {isDark ? <Sun size={20} /> : <Moon size={20} />}
             </button>
@@ -431,10 +444,8 @@ function App() {
               ) : isReaderMode ? (
                 <article className="reader-article" style={{ fontSize: `${readerFontSize}px` }}>
                   <h1 className="reader-title">{currentNote.title || 'Sem Título'}</h1>
-                  <div className="reader-body">
-                    {text.split('\n\n').map((paragraph, index) => (
-                      <p key={index}>{paragraph}</p>
-                    ))}
+                  <div className="reader-body markdown-preview">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
                   </div>
                 </article>
               ) : (

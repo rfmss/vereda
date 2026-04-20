@@ -1388,3 +1388,92 @@ body {
 .text-statistics-wrapper [data-tooltip]:hover::before {
   transform: translateX(-50%) translateY(-10px);
 }
+
+/* Markdown Preview (Reader Mode) */
+.markdown-preview h1, .markdown-preview h2, .markdown-preview h3, .markdown-preview h4, .markdown-preview h5, .markdown-preview h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.markdown-preview p {
+  margin-bottom: 1em;
+}
+
+.markdown-preview strong {
+  font-weight: 700;
+}
+
+.markdown-preview em {
+  font-style: italic;
+}
+
+.markdown-preview blockquote {
+  border-left: 4px solid var(--accent-color);
+  padding-left: 1em;
+  margin-left: 0;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.markdown-preview ul, .markdown-preview ol {
+  margin-bottom: 1em;
+  padding-left: 2em;
+}
+
+.markdown-preview li {
+  margin-bottom: 0.5em;
+}
+
+.markdown-preview code {
+  background: var(--bg-sidebar);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.markdown-preview pre code {
+  display: block;
+  padding: 1em;
+  background: var(--bg-sidebar);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+/* Terminal Mode Theme */
+.theme-terminal {
+  --bg-color: #050505;
+  --bg-sidebar: #0a0a0a;
+  --text-main: #33ff00;
+  --text-muted: #117700;
+  --border-color: #33ff0033;
+  --accent-color: #33ff00;
+  --font-content: 'Courier New', Courier, monospace;
+  --font-ui: 'Courier New', Courier, monospace;
+}
+
+.theme-terminal .sidebar,
+.theme-terminal .editor-content-wrapper,
+.theme-terminal .reader-article {
+  box-shadow: none !important;
+}
+
+.theme-terminal .icon-btn,
+.theme-terminal .btn,
+.theme-terminal .note-item,
+.theme-terminal .editor-textarea {
+  text-shadow: 0 0 5px rgba(51, 255, 0, 0.5);
+}
+
+.theme-terminal .editor-textarea::selection,
+.theme-terminal .editor-title-input::selection {
+  background-color: #33ff00;
+  color: #000;
+}
+
+.theme-terminal * {
+  border-color: var(--border-color) !important;
+}
