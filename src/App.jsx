@@ -473,6 +473,15 @@ function App() {
         </button>
       </main>
 
+      {showSnapshotModal && (
+        <SnapshotModal 
+          isOpen={showSnapshotModal} 
+          onClose={() => setShowSnapshotModal(false)}
+          currentNote={currentNote}
+          onCreateSnapshot={createSnapshot}
+          onRestoreSnapshot={restoreSnapshot}
+        />
+      )}
       {showVerifier && <VerifierModal onClose={() => setShowVerifier(false)} />}
       <CustomDialog {...dialogState} />
       <CustomCursor />
@@ -481,3 +490,4 @@ function App() {
 }
 
 export default App;
+
