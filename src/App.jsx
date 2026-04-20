@@ -119,15 +119,19 @@ function App() {
         const caret = getCaretCoordinates(textareaRef.current, textareaRef.current.selectionStart);
         const wrapper = editorWrapperRef.current;
         const textareaRect = textareaRef.current.getBoundingClientRect();
-        const wrapperRect = wrapper.getBoundingClientRect();
         
-        // Posição Y absoluta da textarea dentro do conteúdo rolável do wrapper
-        const absoluteTextareaTop = (textareaRect.top - wrapperRect.top) + wrapper.scrollTop;
+        // Posição Y do cursor em relação à tela (viewport)
+        const caretYOnScreen = textareaRect.top + caret.top;
         
-        // O alvo de rolagem é a posição do cursor menos metade da tela
-        const targetScroll = absoluteTextareaTop + caret.top - (wrapper.clientHeight / 2) + 100;
+        // A "linha de visão" ideal (metade da tela)
+        const targetY = window.innerHeight * 0.5;
         
-        wrapper.scrollTo({ top: targetScroll, behavior: 'smooth' });
+        // Se o cursor "passar" da metade da tela para baixo, nós rolamos a página
+        // para mantê-lo na linha de visão. Se ele clicar lá no topo, não fazemos nada!
+        if (caretYOnScreen > targetY + 20) {
+          const delta = caretYOnScreen - targetY;
+          wrapper.scrollBy({ top: delta, behavior: 'smooth' });
+        }
       } catch (e) {
         console.error("Caret sync failed", e);
       }
