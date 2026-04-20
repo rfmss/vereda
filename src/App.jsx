@@ -119,18 +119,15 @@ function App() {
         const caret = getCaretCoordinates(textareaRef.current, textareaRef.current.selectionStart);
         const wrapper = editorWrapperRef.current;
         const textareaRect = textareaRef.current.getBoundingClientRect();
+        const wrapperRect = wrapper.getBoundingClientRect();
         
-        // Absolute Y position of the caret on the screen
-        const caretYOnScreen = textareaRect.top + caret.top;
+        // Posição Y absoluta da textarea dentro do conteúdo rolável do wrapper
+        const absoluteTextareaTop = (textareaRect.top - wrapperRect.top) + wrapper.scrollTop;
         
-        // We want the caret to be at exactly 50% of the screen height
-        const targetY = window.innerHeight / 2;
+        // O alvo de rolagem é a posição do cursor menos metade da tela
+        const targetScroll = absoluteTextareaTop + caret.top - (wrapper.clientHeight / 2) + 100;
         
-        // The difference is how much we need to scroll the wrapper
-        const delta = caretYOnScreen - targetY;
-        
-        // Scroll by the difference
-        wrapper.scrollBy({ top: delta, behavior: 'smooth' });
+        wrapper.scrollTo({ top: targetScroll, behavior: 'smooth' });
       } catch (e) {
         console.error("Caret sync failed", e);
       }
@@ -139,11 +136,19 @@ function App() {
     syncCaret();
     
     const el = textareaRef.current;
-    el.addEventListener('keyup', syncCaret);
-    el.addEventListener('click', syncCaret);
+    
+    let syncTimeout;
+    const debouncedSync = () => {
+      clearTimeout(syncTimeout);
+      syncTimeout = setTimeout(syncCaret, 100); // Suave delay de 100ms para classe
+    };
+
+    el.addEventListener('keyup', debouncedSync);
+    el.addEventListener('click', debouncedSync);
     return () => {
-      el.removeEventListener('keyup', syncCaret);
-      el.removeEventListener('click', syncCaret);
+      clearTimeout(syncTimeout);
+      el.removeEventListener('keyup', debouncedSync);
+      el.removeEventListener('click', debouncedSync);
     };
   }, [text, isTypewriterMode]);
 
