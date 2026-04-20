@@ -18,6 +18,39 @@ import getCaretCoordinates from 'textarea-caret';
 const lightBgs = ['#fdfaf6', '#fcf8f2', '#f9f5f0', '#fdfbf7', '#faf6f0'];
 const darkBgs = ['#1a1918', '#1c1b1a', '#181818', '#1e1d1c', '#1b1b1b'];
 
+// Cinematic Scroll state
+let cinematicScrollId = null;
+
+const cinematicScroll = (element, targetScroll) => {
+  cancelAnimationFrame(cinematicScrollId);
+  const startScroll = element.scrollTop;
+  const distance = targetScroll - startScroll;
+  
+  if (Math.abs(distance) < 2) return;
+  
+  // Distâncias pequenas = rápido. Distâncias longas = super lento e majestoso.
+  const duration = Math.min(Math.max(Math.abs(distance) * 1.5, 250), 1200);
+  const startTime = performance.now();
+  
+  const animate = (currentTime) => {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    
+    // Easing "Ease-in-out cubic" super suave
+    const ease = progress < 0.5 
+      ? 4 * progress * progress * progress 
+      : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+      
+    element.scrollTop = startScroll + distance * ease;
+    
+    if (progress < 1) {
+      cinematicScrollId = requestAnimationFrame(animate);
+    }
+  };
+  
+  cinematicScrollId = requestAnimationFrame(animate);
+};
+
 function App() {
   const { 
     notes, currentNote, currentNoteId, setCurrentNoteId, 
@@ -119,20 +152,19 @@ function App() {
         const caret = getCaretCoordinates(textareaRef.current, textareaRef.current.selectionStart);
         const wrapper = editorWrapperRef.current;
         const textareaRect = textareaRef.current.getBoundingClientRect();
+        const wrapperRect = wrapper.getBoundingClientRect();
         
-        // Posição Y do cursor em relação à tela (viewport)
-        const caretYOnScreen = textareaRect.top + caret.top;
+        // Posição Y absoluta matemática da textarea (à prova de falhas durante o scroll)
+        const absoluteTextareaTop = (textareaRect.top - wrapperRect.top) + wrapper.scrollTop;
         
-        // A "linha de visão" fixa (metade da tela)
-        const targetY = window.innerHeight * 0.5;
+        // Posição Y absoluta do cursor
+        const absoluteCaretY = absoluteTextareaTop + caret.top;
         
-        // A digitação SEMPRE fica na mesma linha de visão
-        const delta = caretYOnScreen - targetY;
+        // Alvo final fixo e cravado no centro exato da tela
+        const targetScroll = absoluteCaretY - (wrapper.clientHeight / 2);
         
-        // Evita rolagens microscópicas que causam tremor
-        if (Math.abs(delta) > 5) {
-          wrapper.scrollBy({ top: delta, behavior: 'smooth' });
-        }
+        // Rola suavemente com nossa animação customizada
+        cinematicScroll(wrapper, targetScroll);
       } catch (e) {
         console.error("Caret sync failed", e);
       }
@@ -145,14 +177,15 @@ function App() {
     let syncTimeout;
     const debouncedSync = () => {
       clearTimeout(syncTimeout);
-      syncTimeout = setTimeout(syncCaret, 100); // Suave delay de 100ms para classe
+      syncTimeout = setTimeout(syncCaret, 50); // Delay mínimo para performance
     };
 
     el.addEventListener('keyup', debouncedSync);
-    // Removido evento de click para que o simples ato de clicar em outro parágrafo não puxe a tela violentamente
+    el.addEventListener('click', debouncedSync); // Restaurado o click para alinhar onde o usuário focou
     return () => {
       clearTimeout(syncTimeout);
       el.removeEventListener('keyup', debouncedSync);
+      el.removeEventListener('click', debouncedSync);
     };
   }, [text, isTypewriterMode]);
 
