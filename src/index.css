@@ -623,9 +623,52 @@ body {
 
 /* Text Statistics & Gamification */
 .text-statistics-wrapper {
-  position: relative;
-  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  z-index: 100;
+  background-color: var(--bg-color);
+  transition: all 0.3s ease;
 }
+
+.app-layout.focus-mode .text-statistics-wrapper,
+.app-layout.reader-mode .text-statistics-wrapper {
+  left: 0;
+  width: 100%;
+}
+
+/* Tiptap Base Styles */
+.tiptap-editor {
+  flex: 1;
+  outline: none;
+}
+.tiptap-editor p.is-editor-empty:first-child::before {
+  color: var(--text-muted);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+.tiptap-editor strong { font-weight: 700; }
+.tiptap-editor em { font-style: italic; }
+.tiptap-editor h1, .tiptap-editor h2, .tiptap-editor h3 {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.2;
+}
+.tiptap-editor blockquote {
+  border-left: 4px solid var(--accent-color);
+  padding-left: 1em;
+  margin-left: 0;
+  color: var(--text-muted);
+  font-style: italic;
+}
+.tiptap-editor ul, .tiptap-editor ol { padding-left: 2em; margin-bottom: 1em; }
+.tiptap-editor li { margin-bottom: 0.5em; }
+
 
 .goal-progress-container {
   position: absolute;
@@ -1443,16 +1486,32 @@ body {
   overflow-x: auto;
 }
 
-/* Terminal Mode Theme */
+/* Terminal Mode Theme (TVA Tempad) */
 .theme-terminal {
-  --bg-color: #050505;
-  --bg-sidebar: #0a0a0a;
-  --text-main: #33ff00;
-  --text-muted: #117700;
-  --border-color: #33ff0033;
-  --accent-color: #33ff00;
+  --bg-color: #1a1614;
+  --bg-sidebar: #15110f;
+  --text-main: #ff8c00;
+  --text-muted: #a35a00;
+  --border-color: rgba(255, 140, 0, 0.2);
+  --accent-color: #ffaa33;
   --font-content: 'Courier New', Courier, monospace;
   --font-ui: 'Courier New', Courier, monospace;
+}
+
+.theme-terminal::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.8;
 }
 
 .theme-terminal .sidebar,
@@ -1464,14 +1523,15 @@ body {
 .theme-terminal .icon-btn,
 .theme-terminal .btn,
 .theme-terminal .note-item,
-.theme-terminal .editor-textarea {
-  text-shadow: 0 0 5px rgba(51, 255, 0, 0.5);
+.theme-terminal .editor-textarea,
+.theme-terminal .text-statistics-wrapper {
+  text-shadow: 0 0 4px rgba(255, 140, 0, 0.4);
 }
 
 .theme-terminal .editor-textarea::selection,
 .theme-terminal .editor-title-input::selection {
-  background-color: #33ff00;
-  color: #000;
+  background-color: #ff8c00;
+  color: #1a1614;
 }
 
 .theme-terminal * {

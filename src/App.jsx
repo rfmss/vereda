@@ -16,6 +16,7 @@ import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Se
 import getCaretCoordinates from 'textarea-caret';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { RichTextEditor } from './components/RichTextEditor';
 
 const lightBgs = ['#fdfaf6', '#fcf8f2', '#f9f5f0', '#fdfbf7', '#faf6f0'];
 const darkBgs = ['#1a1918', '#1c1b1a', '#181818', '#1e1d1c', '#1b1b1b'];
@@ -76,6 +77,7 @@ function App() {
   const [isExporting, setIsExporting] = useState(false);
   const [dialogState, setDialogState] = useState({ isOpen: false });
   const textareaRef = useRef(null);
+  const tiptapRef = useRef(null);
   const editorWrapperRef = useRef(null);
 
   // Initialize tracker with current note data
@@ -159,16 +161,27 @@ function App() {
     
     const syncCaret = () => {
       try {
-        const caret = getCaretCoordinates(textareaRef.current, textareaRef.current.selectionStart);
         const wrapper = editorWrapperRef.current;
-        const textareaRect = textareaRef.current.getBoundingClientRect();
+        if (!wrapper) return;
         const wrapperRect = wrapper.getBoundingClientRect();
-        
-        // Posição Y absoluta matemática da textarea (à prova de falhas durante o scroll)
-        const absoluteTextareaTop = (textareaRect.top - wrapperRect.top) + wrapper.scrollTop;
-        
-        // Posição Y absoluta do cursor
-        const absoluteCaretY = absoluteTextareaTop + caret.top;
+        let absoluteCaretY;
+
+        if (isTerminalMode && textareaRef.current) {
+          const caret = getCaretCoordinates(textareaRef.current, textareaRef.current.selectionStart);
+          const textareaRect = textareaRef.current.getBoundingClientRect();
+          const absoluteTextareaTop = (textareaRect.top - wrapperRect.top) + wrapper.scrollTop;
+          absoluteCaretY = absoluteTextareaTop + caret.top;
+        } else if (!isTerminalMode && tiptapRef.current) {
+          const view = tiptapRef.current.view;
+          if (!view || !view.state) return;
+          const { head } = view.state.selection;
+          const coords = view.coordsAtPos(head);
+          // coords.top is relative to the viewport.
+          // We convert it to absolute Y inside the scroll container
+          absoluteCaretY = (coords.top - wrapperRect.top) + wrapper.scrollTop;
+        } else {
+          return;
+        }
         
         // Alvo final fixo e cravado no centro exato da tela
         const targetScroll = absoluteCaretY - (wrapper.clientHeight / 2);
@@ -190,14 +203,40 @@ function App() {
       syncTimeout = setTimeout(syncCaret, 50); // Delay mínimo para performance
     };
 
-    el.addEventListener('keyup', debouncedSync);
-    el.addEventListener('click', debouncedSync); // Restaurado o click para alinhar onde o usuário focou
+    // Listeners for textarea
+    if (el) {
+      el.addEventListener('keyup', debouncedSync);
+      el.addEventListener('click', debouncedSync);
+    }
+    
+    // For Tiptap, we can't easily attach native listeners to the DOM node here because it might unmount/remount
+    // However, Tiptap handles its own updates. We'll pass debouncedSync to it.
+    
     return () => {
       clearTimeout(syncTimeout);
-      el.removeEventListener('keyup', debouncedSync);
-      el.removeEventListener('click', debouncedSync);
+      if (el) {
+        el.removeEventListener('keyup', debouncedSync);
+        el.removeEventListener('click', debouncedSync);
+      }
     };
-  }, [text, isTypewriterMode]);
+  }, [text, isTypewriterMode, isTerminalMode]);
+
+  // Expose debouncedSync for Tiptap
+  const handleTiptapKeydown = () => {
+    if (isTypewriterMode) {
+      const wrapper = editorWrapperRef.current;
+      if (!wrapper) return;
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const view = tiptapRef.current?.view;
+      if (view) {
+          const { head } = view.state.selection;
+          const coords = view.coordsAtPos(head);
+          const absoluteCaretY = (coords.top - wrapperRect.top) + wrapper.scrollTop;
+          const targetScroll = absoluteCaretY - (wrapper.clientHeight / 2);
+          cinematicScroll(wrapper, targetScroll);
+      }
+    }
+  };
 
 
   // Auto-resize textarea to avoid double scrollbars and layout shifts
@@ -450,17 +489,32 @@ function App() {
                 </article>
               ) : (
                 <>
-                  <MarkdownToolbar onInsert={handleInsertMarkdown} />
-                  <textarea
-                    ref={textareaRef}
-                    className="editor-textarea"
-                    placeholder="Comece a escrever sua obra..."
-                    value={text}
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    onPaste={handlePaste}
-                    spellCheck="false"
-                  />
+                  {!isTerminalMode && <MarkdownToolbar onInsert={handleInsertMarkdown} />}
+                  <div className="editor-textarea-container" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    {!isTerminalMode ? (
+                      <RichTextEditor
+                        content={text}
+                        onChange={handleChange}
+                        editorRef={tiptapRef}
+                        onKeyDown={(e) => {
+                          handleTiptapKeydown();
+                          handleKeyDown(e);
+                        }}
+                        onClick={handleTiptapKeydown}
+                      />
+                    ) : (
+                      <textarea
+                        ref={textareaRef}
+                        className="editor-textarea"
+                        placeholder="Comece a escrever sua obra..."
+                        value={text}
+                        onChange={handleChange}
+                        onKeyDown={handleKeyDown}
+                        onPaste={handlePaste}
+                        spellCheck="false"
+                      />
+                    )}
+                  </div>
                   <TextStatistics 
                     text={text} 
                     goal={currentNote?.wordGoal} 
