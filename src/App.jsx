@@ -123,13 +123,14 @@ function App() {
         // Posição Y do cursor em relação à tela (viewport)
         const caretYOnScreen = textareaRect.top + caret.top;
         
-        // A "linha de visão" ideal (metade da tela)
+        // A "linha de visão" fixa (metade da tela)
         const targetY = window.innerHeight * 0.5;
         
-        // Se o cursor "passar" da metade da tela para baixo, nós rolamos a página
-        // para mantê-lo na linha de visão. Se ele clicar lá no topo, não fazemos nada!
-        if (caretYOnScreen > targetY + 20) {
-          const delta = caretYOnScreen - targetY;
+        // A digitação SEMPRE fica na mesma linha de visão
+        const delta = caretYOnScreen - targetY;
+        
+        // Evita rolagens microscópicas que causam tremor
+        if (Math.abs(delta) > 5) {
           wrapper.scrollBy({ top: delta, behavior: 'smooth' });
         }
       } catch (e) {
@@ -148,13 +149,13 @@ function App() {
     };
 
     el.addEventListener('keyup', debouncedSync);
-    el.addEventListener('click', debouncedSync);
+    // Removido evento de click para que o simples ato de clicar em outro parágrafo não puxe a tela violentamente
     return () => {
       clearTimeout(syncTimeout);
       el.removeEventListener('keyup', debouncedSync);
-      el.removeEventListener('click', debouncedSync);
     };
   }, [text, isTypewriterMode]);
+
 
   // Auto-resize textarea to avoid double scrollbars and layout shifts
   useEffect(() => {
