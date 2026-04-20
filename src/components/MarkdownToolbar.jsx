@@ -11,14 +11,14 @@ export function MarkdownToolbar({ onInsert }) {
       <button 
         className="toolbar-btn" 
         onClick={() => handleFormat('**')} 
-        title="Negrito (Ctrl+B)"
+        data-tooltip="Negrito (Ctrl+B)"
       >
         <Bold size={16} />
       </button>
       <button 
         className="toolbar-btn" 
         onClick={() => handleFormat('*')} 
-        title="Itálico (Ctrl+I)"
+        data-tooltip="Itálico (Ctrl+I)"
       >
         <Italic size={16} />
       </button>
@@ -26,21 +26,21 @@ export function MarkdownToolbar({ onInsert }) {
       <button 
         className="toolbar-btn" 
         onClick={() => handleFormat('### ', '', 'Título')} 
-        title="Título 3"
+        data-tooltip="Título 3"
       >
         <Heading size={16} />
       </button>
       <button 
         className="toolbar-btn" 
         onClick={() => handleFormat('> ', '', 'Citação')} 
-        title="Citação"
+        data-tooltip="Citação"
       >
         <Quote size={16} />
       </button>
       <button 
         className="toolbar-btn" 
         onClick={() => handleFormat('- ', '', 'Item')} 
-        title="Lista de Itens"
+        data-tooltip="Lista de Itens"
       >
         <List size={16} />
       </button>

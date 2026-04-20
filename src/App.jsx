@@ -358,37 +358,37 @@ function App() {
       <main className="main-editor-area">
         <header className="top-toolbar">
           <div className="toolbar-left">
-            <button className="icon-btn" onClick={() => setIsFocusMode(true)} title="Modo Foco (Edição em tela cheia)">
+            <button className="icon-btn" onClick={() => setIsFocusMode(true)} data-tooltip="Modo Foco (Edição em tela cheia)">
               <Maximize2 size={20} />
             </button>
-            <button className="icon-btn" onClick={() => setIsReaderMode(true)} title="Modo Leitor (Apenas leitura)">
+            <button className="icon-btn" onClick={() => setIsReaderMode(true)} data-tooltip="Modo Leitor (Apenas leitura)">
               <BookOpen size={20} />
             </button>
             <div style={{ position: 'relative' }}>
-              <button className={`icon-btn ${showAudioPlayer ? 'active' : ''}`} onClick={() => setShowAudioPlayer(!showAudioPlayer)} title="Áudio Ambiente">
+              <button className={`icon-btn ${showAudioPlayer ? 'active' : ''}`} onClick={() => setShowAudioPlayer(!showAudioPlayer)} data-tooltip="Áudio Ambiente">
                 <Headphones size={20} />
               </button>
               <AudioPlayer isOpen={showAudioPlayer} onClose={() => setShowAudioPlayer(false)} />
             </div>
-            <button className={`icon-btn ${isTypewriterMode ? 'active' : ''}`} onClick={() => setIsTypewriterMode(!isTypewriterMode)} title="Modo Máquina de Escrever">
+            <button className={`icon-btn ${isTypewriterMode ? 'active' : ''}`} onClick={() => setIsTypewriterMode(!isTypewriterMode)} data-tooltip="Modo Máquina de Escrever">
               <Keyboard size={20} />
             </button>
-            <button className={`icon-btn ${showSnapshotModal ? 'active' : ''}`} onClick={() => setShowSnapshotModal(true)} title="Histórico de Versões">
+            <button className={`icon-btn ${showSnapshotModal ? 'active' : ''}`} onClick={() => setShowSnapshotModal(true)} data-tooltip="Histórico de Versões">
               <History size={20} />
             </button>
-            <button className={`icon-btn ${isGrammarMode ? 'active' : ''}`} onClick={() => setIsGrammarMode(!isGrammarMode)} title="Alternar Marcador Gramatical">
+            <button className={`icon-btn ${isGrammarMode ? 'active' : ''}`} onClick={() => setIsGrammarMode(!isGrammarMode)} data-tooltip="Alternar Marcador Gramatical">
               <Highlighter size={20} />
             </button>
-            <button className="icon-btn" onClick={() => setShowVerifier(true)} title="Verificar Autoria">
+            <button className="icon-btn" onClick={() => setShowVerifier(true)} data-tooltip="Verificar Autoria">
               <ShieldCheck size={20} />
             </button>
           </div>
           <div className="toolbar-right">
-            <div className={`badge ${status.class}`} title="Índice de Autoria Humana">
+            <div className={`badge ${status.class}`} data-tooltip="Índice de Autoria Humana">
               <span className="badge-dot"></span>
               {status.label}
             </div>
-            <button className="icon-btn" onClick={() => setIsDark(!isDark)} title="Alternar Tema">
+            <button className="icon-btn" onClick={() => setIsDark(!isDark)} data-tooltip="Alternar Tema">
               {isDark ? <Sun size={20} /> : <Moon size={20} />}
             </button>
             <button className="btn outline-btn" onClick={handleExport} disabled={text.length === 0 || isExporting}>
@@ -467,7 +467,7 @@ function App() {
         <button 
           className={`floating-exit-btn ${(isReaderMode || isFocusMode) ? 'visible' : ''}`}
           onClick={() => { setIsReaderMode(false); setIsFocusMode(false); }}
-          title="Sair do Modo Expandido (Esc)"
+          data-tooltip="Sair do Modo Expandido (Esc)"
         >
           <Minimize2 size={24} />
         </button>

@@ -1343,3 +1343,48 @@ body {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Custom Tooltips */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(5px);
+  background-color: var(--text-main);
+  color: var(--bg-color);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-family: var(--font-ui);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+[data-tooltip]:hover::before {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(10px);
+}
+
+/* For buttons at the top right/left that might clip or look better opening above */
+.floating-exit-btn[data-tooltip]::before,
+.text-statistics-wrapper [data-tooltip]::before {
+  top: auto;
+  bottom: 100%;
+  transform: translateX(-50%) translateY(-5px);
+}
+
+.floating-exit-btn[data-tooltip]:hover::before,
+.text-statistics-wrapper [data-tooltip]:hover::before {
+  transform: translateX(-50%) translateY(-10px);
+}

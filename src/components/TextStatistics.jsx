@@ -70,7 +70,7 @@ export function TextStatistics({ text, goal = 0, onSetGoal }) {
               />
             </form>
           ) : (
-            <button className={`goal-btn ${isGoalReached ? 'reached' : ''}`} onClick={() => setIsEditingGoal(true)} title="Definir meta diária">
+            <button className={`goal-btn ${isGoalReached ? 'reached' : ''}`} onClick={() => setIsEditingGoal(true)} data-tooltip="Definir meta diária">
               {goal > 0 ? (
                 <>
                   {isGoalReached ? <CheckCircle2 size={14} /> : <Target size={14} />}
