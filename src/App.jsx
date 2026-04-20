@@ -12,7 +12,7 @@ import { generateProofSignature } from './crypto';
 import { ReaderSettings } from './components/ReaderSettings';
 import { SnapshotModal } from './components/SnapshotModal';
 import { AudioPlayer } from './components/AudioPlayer';
-import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Settings, BookOpen, Focus, History, Headphones } from 'lucide-react';
+import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Settings, BookOpen, Keyboard, History, Headphones } from 'lucide-react';
 import getCaretCoordinates from 'textarea-caret';
 
 const lightBgs = ['#fdfaf6', '#fcf8f2', '#f9f5f0', '#fdfbf7', '#faf6f0'];
@@ -371,7 +371,7 @@ function App() {
               <AudioPlayer isOpen={showAudioPlayer} onClose={() => setShowAudioPlayer(false)} />
             </div>
             <button className={`icon-btn ${isTypewriterMode ? 'active' : ''}`} onClick={() => setIsTypewriterMode(!isTypewriterMode)} title="Modo Máquina de Escrever">
-              <Focus size={20} />
+              <Keyboard size={20} />
             </button>
             <button className={`icon-btn ${showSnapshotModal ? 'active' : ''}`} onClick={() => setShowSnapshotModal(true)} title="Histórico de Versões">
               <History size={20} />
