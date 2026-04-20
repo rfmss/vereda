@@ -45,12 +45,16 @@ export const RichTextEditor = ({ content, onChange, onFocus, onBlur, onKeyDown, 
 
   // Sync external content changes into the editor if needed
   useEffect(() => {
-    if (editor && content !== editor.storage.markdown.getMarkdown()) {
-      // We only update if the content actually changed externally (e.g. restoring a snapshot)
-      // Be careful not to reset cursor position during normal typing
-      const currentSelection = editor.state.selection;
-      editor.commands.setContent(content, false, { preserveWhitespace: 'full' });
-      // Restoring selection might be complex, so this is mainly for full document swaps
+    if (editor) {
+      try {
+        const currentMarkdown = editor.storage.markdown.getMarkdown();
+        const newContent = content || '';
+        if (newContent !== currentMarkdown) {
+          editor.commands.setContent(newContent, false);
+        }
+      } catch (e) {
+        console.error("Tiptap sync error:", e);
+      }
     }
   }, [content, editor]);
 
