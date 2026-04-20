@@ -156,14 +156,24 @@ function App() {
     };
   }, [text, isTypewriterMode]);
 
-  // Auto-resize textarea to avoid double scrollbars
+  // Auto-resize textarea to avoid double scrollbars and layout shifts
   useEffect(() => {
     const el = textareaRef.current;
+    const wrapper = editorWrapperRef.current;
     if (el && !isReaderMode) {
+      // Guardar a posição atual de rolagem para evitar o solavanco (snap)
+      const scrollPos = wrapper ? wrapper.scrollTop : 0;
+      
       el.style.height = 'auto';
       el.style.height = el.scrollHeight + 'px';
+      
+      // Restaurar imediatamente a rolagem antes que o navegador "pinte" a tela
+      if (wrapper) {
+        wrapper.scrollTop = scrollPos;
+      }
     }
   }, [text, isReaderMode, currentNoteId]);
+
 
   const getReadingTime = () => {
     const wordsPerMinute = 200;
