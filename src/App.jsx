@@ -33,7 +33,6 @@ const cinematicScroll = (element, targetScroll) => {
   
   if (Math.abs(distance) < 2) return;
   
-  // Distâncias pequenas = rápido. Distâncias longas = super lento e majestoso.
   const duration = Math.min(Math.max(Math.abs(distance) * 1.5, 250), 1200);
   const startTime = performance.now();
   
@@ -41,7 +40,6 @@ const cinematicScroll = (element, targetScroll) => {
     const elapsed = currentTime - startTime;
     const progress = Math.min(elapsed / duration, 1);
     
-    // Easing "Ease-in-out cubic" super suave
     const ease = progress < 0.5 
       ? 4 * progress * progress * progress 
       : 1 - Math.pow(-2 * progress + 2, 3) / 2;
@@ -79,12 +77,11 @@ function App() {
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [dialogState, setDialogState] = useState({ isOpen: false });
-  const [guideDismissed, setGuideDismissed] = useState(false); // Novo: guia manual
+  const [guideDismissed, setGuideDismissed] = useState(false); 
   const textareaRef = useRef(null);
   const tiptapRef = useRef(null);
   const editorWrapperRef = useRef(null);
 
-  // Initialize tracker with current note data
   const { text, humanScore, eventLog, pastedChunks, organicKeys, handleKeyDown, handlePaste, handleChange } = useKeystrokeTracker(
     currentNote?.content || '',
     currentNote?.eventLog || [],
@@ -93,12 +90,10 @@ function App() {
     currentNote?.organicKeys || 0
   );
 
-  // Reset guide dismiss when changing notes
   useEffect(() => {
     setGuideDismissed(false);
   }, [currentNoteId]);
 
-  // Auto-save: debounced save to localStorage via updateCurrentNote
   useEffect(() => {
     if (!currentNoteId) return;
     const timer = setTimeout(() => {
@@ -117,7 +112,6 @@ function App() {
     return () => clearTimeout(timer);
   }, [text, humanScore, pastedChunks, organicKeys, currentNoteId]);
 
-  // If no note is selected, select the first one or create one
   useEffect(() => {
     if (!currentNoteId && notes.length > 0) {
       setCurrentNoteId(notes[0].id);
@@ -140,10 +134,8 @@ function App() {
     document.body.className = className;
   }, [isDark, currentBg, isTerminalMode]);
 
-  // Global Keyboard Shortcuts (UX best practices)
   useEffect(() => {
     const handleGlobalKeyDown = (e) => {
-      // ESC: Sair de modos ou fechar modais
       if (e.key === 'Escape') {
         if (dialogState.isOpen) setDialogState({ ...dialogState, isOpen: false });
         else if (showVerifier) setShowVerifier(false);
@@ -154,7 +146,6 @@ function App() {
         }
       }
       
-      // ENTER: Confirmar diálogos se abertos
       if (e.key === 'Enter' && dialogState.isOpen && dialogState.onConfirm) {
         dialogState.onConfirm();
       }
@@ -173,7 +164,6 @@ function App() {
 
   const status = getStatus();
 
-  // Scroll Progress and Reading Time
   useEffect(() => {
     const wrapper = editorWrapperRef.current;
     if (!wrapper || (!isReaderMode && !isFocusMode)) return;
@@ -188,7 +178,6 @@ function App() {
     return () => wrapper.removeEventListener('scroll', handleScroll);
   }, [isReaderMode, isFocusMode]);
 
-  // Typewriter Mode sync
   useEffect(() => {
     if (!isTypewriterMode || !textareaRef.current || !editorWrapperRef.current) return;
     
@@ -209,17 +198,12 @@ function App() {
           if (!view || !view.state) return;
           const { head } = view.state.selection;
           const coords = view.coordsAtPos(head);
-          // coords.top is relative to the viewport.
-          // We convert it to absolute Y inside the scroll container
           absoluteCaretY = (coords.top - wrapperRect.top) + wrapper.scrollTop;
         } else {
           return;
         }
         
-        // Alvo final fixo e cravado no centro exato da tela
         const targetScroll = absoluteCaretY - (wrapper.clientHeight / 2);
-        
-        // Rola suavemente com nossa animação customizada
         cinematicScroll(wrapper, targetScroll);
       } catch (e) {
         console.error("Caret sync failed", e);
@@ -233,17 +217,13 @@ function App() {
     let syncTimeout;
     const debouncedSync = () => {
       clearTimeout(syncTimeout);
-      syncTimeout = setTimeout(syncCaret, 50); // Delay mínimo para performance
+      syncTimeout = setTimeout(syncCaret, 50);
     };
 
-    // Listeners for textarea
     if (el) {
       el.addEventListener('keyup', debouncedSync);
       el.addEventListener('click', debouncedSync);
     }
-    
-    // For Tiptap, we can't easily attach native listeners to the DOM node here because it might unmount/remount
-    // However, Tiptap handles its own updates. We'll pass debouncedSync to it.
     
     return () => {
       clearTimeout(syncTimeout);
@@ -254,7 +234,6 @@ function App() {
     };
   }, [text, isTypewriterMode, isTerminalMode]);
 
-  // Expose debouncedSync for Tiptap
   const handleTiptapKeydown = () => {
     if (isTypewriterMode) {
       const wrapper = editorWrapperRef.current;
@@ -271,25 +250,18 @@ function App() {
     }
   };
 
-
-  // Auto-resize textarea to avoid double scrollbars and layout shifts
   useEffect(() => {
     const el = textareaRef.current;
     const wrapper = editorWrapperRef.current;
     if (el && !isReaderMode) {
-      // Guardar a posição atual de rolagem para evitar o solavanco (snap)
       const scrollPos = wrapper ? wrapper.scrollTop : 0;
-      
       el.style.height = 'auto';
       el.style.height = el.scrollHeight + 'px';
-      
-      // Restaurar imediatamente a rolagem antes que o navegador "pinte" a tela
       if (wrapper) {
         wrapper.scrollTop = scrollPos;
       }
     }
   }, [text, isReaderMode, currentNoteId]);
-
 
   const getReadingTime = () => {
     const wordsPerMinute = 200;
@@ -389,7 +361,6 @@ function App() {
     }, 0);
   };
 
-  // Atalhos Globais
   useEffect(() => {
     const handleKeyDownGlobal = (e) => {
       if (e.key === 'Escape') {
@@ -407,252 +378,251 @@ function App() {
       }
     };
     window.addEventListener('keydown', handleKeyDownGlobal);
-    return () => window.removeEventListener('keydown', handleKeyDownGlobal);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
   }, [text, currentNote, eventLog, humanScore, pastedChunks, isExporting, createNote]);
 
   return (
     <>
-    <OfflineBanner />
-    <div className={`app-layout ${isReaderMode ? `reader-mode theme-${readerTheme}` : ''} ${isFocusMode ? 'focus-mode' : ''} ${isTypewriterMode ? 'typewriter-mode' : ''} ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
-      {(isReaderMode || isFocusMode) && (
-        <div className="reader-progress-bar" style={{ width: `${scrollProgress}%` }} />
-      )}
-      <Sidebar 
-        notes={notes} 
-        currentNoteId={currentNoteId} 
-        onCreate={(genre) => createNote('', genre || null)}
-        onCreateChapter={createChapter}
-        onSelect={setCurrentNoteId} 
-        onReorder={reorderNotes}
-        onUpdateTitle={(id, title) => updateNote(id, { title })}
-        onDeleteRequest={(id) => {
-          setDialogState({
-            isOpen: true,
-            type: 'confirm',
-            title: 'Deletar anotação',
-            message: 'Tem certeza que deseja deletar esta anotação permanentemente?',
-            onConfirm: () => {
-              deleteNote(id);
-              setDialogState({ isOpen: false });
-            },
-            onCancel: () => setDialogState({ isOpen: false })
-          });
-        }} 
-      />
-
-      <div 
-        className="sidebar-edge-trigger" 
-        onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-        title={isSidebarCollapsed ? "Expandir Menu" : "Recolher Menu"}
-      >
-        <div className="trigger-chevron"></div>
-      </div>
-      
-      <main className="main-editor-area">
-        <DictionaryTooltip />
-        <header className="top-toolbar">
-          <div className="toolbar-left">
-            <button className={`icon-btn sidebar-toggle-btn ${isSidebarCollapsed ? 'collapsed' : ''}`} onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)} data-tooltip="Alternar Menu Lateral">
-              <Columns size={20} />
-            </button>
-            <button className="icon-btn" onClick={() => setIsFocusMode(true)} data-tooltip="Modo Foco (Edição em tela cheia)">
-              <Maximize2 size={20} />
-            </button>
-            <button className="icon-btn" onClick={() => setIsReaderMode(true)} data-tooltip="Modo Leitor (Apenas leitura)">
-              <BookOpen size={20} />
-            </button>
-            <div style={{ position: 'relative' }}>
-              <button className={`icon-btn ${showAudioPlayer ? 'active' : ''}`} onClick={() => setShowAudioPlayer(!showAudioPlayer)} data-tooltip="Áudio Ambiente">
-                <Headphones size={20} />
-              </button>
-              <AudioPlayer isOpen={showAudioPlayer} onClose={() => setShowAudioPlayer(false)} />
-            </div>
-            <button className={`icon-btn ${isTypewriterMode ? 'active' : ''}`} onClick={() => setIsTypewriterMode(!isTypewriterMode)} data-tooltip="Modo Máquina de Escrever">
-              <Keyboard size={20} />
-            </button>
-            <button className={`icon-btn ${showSnapshotModal ? 'active' : ''}`} onClick={() => setShowSnapshotModal(true)} data-tooltip="Histórico de Versões">
-              <History size={20} />
-            </button>
-            <button className={`icon-btn ${isGrammarMode ? 'active' : ''}`} onClick={() => setIsGrammarMode(!isGrammarMode)} data-tooltip="Alternar Marcador Gramatical">
-              <Highlighter size={20} />
-            </button>
-            <button className="icon-btn" onClick={() => setShowVerifier(true)} data-tooltip="Verificar Autoria">
-              <ShieldCheck size={20} />
-            </button>
-          </div>
-          <div className="toolbar-right">
-            <div className={`badge ${status.class}`} data-tooltip="Índice de Autoria Humana">
-              <span className="badge-dot"></span>
-              {status.label}
-            </div>
-            <button className={`icon-btn ${isTerminalMode ? 'active' : ''}`} onClick={() => setIsTerminalMode(!isTerminalMode)} data-tooltip="Modo Terminal">
-              <Terminal size={20} />
-            </button>
-            <button className="icon-btn" onClick={() => setIsDark(!isDark)} data-tooltip="Alternar Tema">
-              {isDark ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-            <button className="icon-btn outline-btn" onClick={handleExport} data-tooltip="Gerar Certificado de Autoria Humana (Proof of Writing)">
-              <Download size={18} />
-              <span>Certificar</span>
-            </button>
-          </div>
-        </header>
-
-        <div className={`editor-content-wrapper ${currentNote?.genreName === 'Livro (Template Completo)' ? 'paged-mode' : ''}`} ref={editorWrapperRef}>
-          {isReaderMode && (
-            <div className="reader-meta-info">
-              <span>{getReadingTime()} min de leitura</span>
-              <button className="reader-settings-toggle" onClick={() => setShowReaderSettings(!showReaderSettings)}>
-                <Settings size={18} />
-              </button>
-              <ReaderSettings 
-                isOpen={showReaderSettings} 
-                onClose={() => setShowReaderSettings(false)}
-                fontSize={readerFontSize}
-                setFontSize={setReaderFontSize}
-                theme={readerTheme}
-                setTheme={setReaderTheme}
-              />
-            </div>
-          )}
-          {currentNote ? (
-            <div className="editor-container-inner">
-              {/* Ghost Content: Miolo de Livro (Placeholder Estrutural) */}
-              {currentNote.genreName === 'Livro (Template Completo)' && text.length === 0 && (
-                <div className="ghost-book-template">
-                  <div className="ghost-section" style={{ textAlign: 'center', marginTop: '40mm' }}>
-                    <h2 style={{ border: 'none' }}>FOLHA DE ROSTO</h2>
-                    <div className="ghost-text-block" style={{ width: '40%', margin: '2rem auto' }}></div>
-                    <div className="ghost-text-block" style={{ width: '20%', margin: '0 auto' }}></div>
-                  </div>
-                  <div className="ghost-section" style={{ marginTop: '100mm', textAlign: 'right' }}>
-                    <h2 style={{ border: 'none' }}>DEDICATÓRIA</h2>
-                    <div className="ghost-text-block" style={{ width: '40%', marginLeft: 'auto' }}></div>
-                    <div className="ghost-text-block" style={{ width: '30%', marginLeft: 'auto' }}></div>
-                  </div>
-                  <div className="ghost-section" style={{ marginTop: '60mm' }}>
-                    <h2>SUMÁRIO</h2>
-                    <div className="ghost-text-block" style={{ width: '90%' }}></div>
-                    <div className="ghost-text-block" style={{ width: '85%' }}></div>
-                    <div className="ghost-text-block" style={{ width: '88%' }}></div>
-                  </div>
-                  <div className="ghost-section" style={{ marginTop: '60mm' }}>
-                    <h2>PREFÁCIO</h2>
-                    <div className="ghost-text-block"></div>
-                    <div className="ghost-text-block"></div>
-                    <div className="ghost-text-block" style={{ width: '92%' }}></div>
-                  </div>
-                </div>
-              )}
-              {!isReaderMode && (
-                <input
-                  type="text"
-                  className="editor-title-input"
-                  placeholder={currentNote.titlePlaceholder || "Título do Documento..."}
-                  value={currentNote.title || ''}
-                  onChange={(e) => updateCurrentNote({ title: e.target.value })}
-                />
-              )}
-              {isGrammarMode ? (
-                <GrammarViewer text={text} />
-              ) : isReaderMode ? (
-                <article className="reader-article" style={{ fontSize: `${readerFontSize}px` }}>
-                  <h1 className="reader-title">{currentNote.title || 'Sem Título'}</h1>
-                  <div className="reader-body markdown-preview">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
-                  </div>
-                </article>
-              ) : (
-                <>
-                  {!isTerminalMode && <MarkdownToolbar onInsert={handleInsertMarkdown} />}
-                  {/* Placeholder de gênero — só aparece quando o texto está vazio e não foi descartado */}
-                  {currentNote.genrePlaceholder && text.length === 0 && !guideDismissed && (
-                    <div 
-                      className="genre-guide-banner"
-                      onClick={() => {
-                        setGuideDismissed(true);
-                        // Focar o editor após um micro-delay
-                        setTimeout(() => {
-                          if (isTerminalMode) textareaRef.current?.focus();
-                          else tiptapRef.current?.view.focus();
-                        }, 10);
-                      }}
-                      title="Clique para começar a escrever"
-                    >
-                      <div className="genre-guide-header-label">
-                        <span className="genre-guide-chip">{currentNote.genreName}</span>
-                        guia de escrita • clique para ocultar
-                      </div>
-                      <div className="genre-guide-markdown">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{currentNote.genrePlaceholder}</ReactMarkdown>
-                      </div>
-                    </div>
-                  )}
-                  <div className="editor-textarea-container" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    {!isTerminalMode ? (
-                      <RichTextEditor
-                        content={text}
-                        onChange={handleChange}
-                        editorRef={tiptapRef}
-                        onKeyDown={(e) => {
-                          handleTiptapKeydown();
-                          handleKeyDown(e);
-                        }}
-                        onClick={handleTiptapKeydown}
-                      />
-                    ) : (
-                      <textarea
-                        ref={textareaRef}
-                        className="editor-textarea"
-                        placeholder={currentNote.genrePlaceholder || 'Comece a escrever sua obra…'}
-                        value={text}
-                        onChange={handleChange}
-                        onKeyDown={handleKeyDown}
-                        onPaste={handlePaste}
-                        spellCheck="false"
-                      />
-                    )}
-                  </div>
-                  <TextStatistics
-                    text={text}
-                    goal={currentNote?.wordGoal}
-                    onSetGoal={(goal) => updateCurrentNote({ wordGoal: goal })}
-                  />
-                </>
-              )}
-            </div>
-          ) : (
-            <div className="empty-state">Selecione ou crie uma anotação.</div>
-          )}
-        </div>
-      </div>
+      <OfflineBanner />
+      <div className={`app-layout ${isReaderMode ? `reader-mode theme-${readerTheme}` : ''} ${isFocusMode ? 'focus-mode' : ''} ${isTypewriterMode ? 'typewriter-mode' : ''} ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+        {(isReaderMode || isFocusMode) && (
+          <div className="reader-progress-bar" style={{ width: `${scrollProgress}%` }} />
+        )}
         
-        {/* Botões flutuantes para sair */}
-        <button 
-          className={`floating-exit-btn ${(isReaderMode || isFocusMode) ? 'visible' : ''}`}
-          onClick={() => { setIsReaderMode(false); setIsFocusMode(false); }}
-          data-tooltip="Sair do Modo Expandido (Esc)"
-        >
-          <Minimize2 size={24} />
-        </button>
-      </main>
-
-      {showSnapshotModal && (
-        <SnapshotModal 
-          isOpen={showSnapshotModal} 
-          onClose={() => setShowSnapshotModal(false)}
-          currentNote={currentNote}
-          onCreateSnapshot={createSnapshot}
-          onRestoreSnapshot={restoreSnapshot}
+        <Sidebar 
+          notes={notes} 
+          currentNoteId={currentNoteId} 
+          onCreate={(genre) => createNote('', genre || null)}
+          onCreateChapter={createChapter}
+          onSelect={setCurrentNoteId} 
+          onReorder={reorderNotes}
+          onUpdateTitle={(id, title) => updateNote(id, { title })}
+          onDeleteRequest={(id) => {
+            setDialogState({
+              isOpen: true,
+              type: 'confirm',
+              title: 'Deletar anotação',
+              message: 'Tem certeza que deseja deletar esta anotação permanentemente?',
+              onConfirm: () => {
+                deleteNote(id);
+                setDialogState({ isOpen: false });
+              },
+              onCancel: () => setDialogState({ isOpen: false })
+            });
+          }} 
         />
-      )}
-      {showVerifier && <VerifierModal onClose={() => setShowVerifier(false)} />}
-      <CustomDialog {...dialogState} />
-      <CustomCursor />
-    </div>
+
+        <div 
+          className="sidebar-edge-trigger" 
+          onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          title={isSidebarCollapsed ? "Expandir Menu" : "Recolher Menu"}
+        >
+          <div className="trigger-chevron"></div>
+        </div>
+        
+        <main className="main-editor-area">
+          <DictionaryTooltip />
+          <header className="top-toolbar">
+            <div className="toolbar-left">
+              <button className={`icon-btn sidebar-toggle-btn ${isSidebarCollapsed ? 'collapsed' : ''}`} onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)} data-tooltip="Alternar Menu Lateral">
+                <Columns size={20} />
+              </button>
+              <button className="icon-btn" onClick={() => setIsFocusMode(true)} data-tooltip="Modo Foco (Edição em tela cheia)">
+                <Maximize2 size={20} />
+              </button>
+              <button className="icon-btn" onClick={() => setIsReaderMode(true)} data-tooltip="Modo Leitor (Apenas leitura)">
+                <BookOpen size={20} />
+              </button>
+              <div style={{ position: 'relative' }}>
+                <button className={`icon-btn ${showAudioPlayer ? 'active' : ''}`} onClick={() => setShowAudioPlayer(!showAudioPlayer)} data-tooltip="Áudio Ambiente">
+                  <Headphones size={20} />
+                </button>
+                <AudioPlayer isOpen={showAudioPlayer} onClose={() => setShowAudioPlayer(false)} />
+              </div>
+              <button className={`icon-btn ${isTypewriterMode ? 'active' : ''}`} onClick={() => setIsTypewriterMode(!isTypewriterMode)} data-tooltip="Modo Máquina de Escrever">
+                <Keyboard size={20} />
+              </button>
+              <button className={`icon-btn ${showSnapshotModal ? 'active' : ''}`} onClick={() => setShowSnapshotModal(true)} data-tooltip="Histórico de Versões">
+                <History size={20} />
+              </button>
+              <button className={`icon-btn ${isGrammarMode ? 'active' : ''}`} onClick={() => setIsGrammarMode(!isGrammarMode)} data-tooltip="Alternar Marcador Gramatical">
+                <Highlighter size={20} />
+              </button>
+              <button className="icon-btn" onClick={() => setShowVerifier(true)} data-tooltip="Verificar Autoria">
+                <ShieldCheck size={20} />
+              </button>
+            </div>
+            <div className="toolbar-right">
+              <div className={`badge ${status.class}`} data-tooltip="Índice de Autoria Humana">
+                <span className="badge-dot"></span>
+                {status.label}
+              </div>
+              <button className={`icon-btn ${isTerminalMode ? 'active' : ''}`} onClick={() => setIsTerminalMode(!isTerminalMode)} data-tooltip="Modo Terminal">
+                <Terminal size={20} />
+              </button>
+              <button className="icon-btn" onClick={() => setIsDark(!isDark)} data-tooltip="Alternar Tema">
+                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+              <button className="icon-btn outline-btn" onClick={handleExport} data-tooltip="Gerar Certificado de Autoria Humana (Proof of Writing)">
+                <Download size={18} />
+                <span>Certificar</span>
+              </button>
+            </div>
+          </header>
+
+          <div className={`editor-content-wrapper ${currentNote?.genreName === 'Livro (Template Completo)' ? 'paged-mode' : ''}`} ref={editorWrapperRef}>
+            {isReaderMode && (
+              <div className="reader-meta-info">
+                <span>{getReadingTime()} min de leitura</span>
+                <button className="reader-settings-toggle" onClick={() => setShowReaderSettings(!showReaderSettings)}>
+                  <Settings size={18} />
+                </button>
+                <ReaderSettings 
+                  isOpen={showReaderSettings} 
+                  onClose={() => setShowReaderSettings(false)}
+                  fontSize={readerFontSize}
+                  setFontSize={setReaderFontSize}
+                  theme={readerTheme}
+                  setTheme={setReaderTheme}
+                />
+              </div>
+            )}
+            
+            {currentNote ? (
+              <div className="editor-container-inner">
+                {/* Ghost Content: Miolo de Livro (Placeholder Estrutural) */}
+                {currentNote.genreName === 'Livro (Template Completo)' && text.length === 0 && (
+                  <div className="ghost-book-template">
+                    <div className="ghost-section" style={{ textAlign: 'center', marginTop: '40mm' }}>
+                      <h2 style={{ border: 'none' }}>FOLHA DE ROSTO</h2>
+                      <div className="ghost-text-block" style={{ width: '40%', margin: '2rem auto' }}></div>
+                      <div className="ghost-text-block" style={{ width: '20%', margin: '0 auto' }}></div>
+                    </div>
+                    <div className="ghost-section" style={{ marginTop: '100mm', textAlign: 'right' }}>
+                      <h2 style={{ border: 'none' }}>DEDICATÓRIA</h2>
+                      <div className="ghost-text-block" style={{ width: '40%', marginLeft: 'auto' }}></div>
+                      <div className="ghost-text-block" style={{ width: '30%', marginLeft: 'auto' }}></div>
+                    </div>
+                    <div className="ghost-section" style={{ marginTop: '60mm' }}>
+                      <h2>SUMÁRIO</h2>
+                      <div className="ghost-text-block" style={{ width: '90%' }}></div>
+                      <div className="ghost-text-block" style={{ width: '85%' }}></div>
+                      <div className="ghost-text-block" style={{ width: '88%' }}></div>
+                    </div>
+                    <div className="ghost-section" style={{ marginTop: '60mm' }}>
+                      <h2>PREFÁCIO</h2>
+                      <div className="ghost-text-block"></div>
+                      <div className="ghost-text-block"></div>
+                      <div className="ghost-text-block" style={{ width: '92%' }}></div>
+                    </div>
+                  </div>
+                )}
+                
+                {!isReaderMode && (
+                  <input
+                    type="text"
+                    className="editor-title-input"
+                    placeholder={currentNote.titlePlaceholder || "Título do Documento..."}
+                    value={currentNote.title || ''}
+                    onChange={(e) => updateCurrentNote({ title: e.target.value })}
+                  />
+                )}
+                
+                {isGrammarMode ? (
+                  <GrammarViewer text={text} />
+                ) : isReaderMode ? (
+                  <article className="reader-article" style={{ fontSize: `${readerFontSize}px` }}>
+                    <h1 className="reader-title">{currentNote.title || 'Sem Título'}</h1>
+                    <div className="reader-body markdown-preview">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
+                    </div>
+                  </article>
+                ) : (
+                  <>
+                    {!isTerminalMode && <MarkdownToolbar onInsert={handleInsertMarkdown} />}
+                    {currentNote.genrePlaceholder && text.length === 0 && !guideDismissed && (
+                      <div 
+                        className="genre-guide-banner"
+                        onClick={() => {
+                          setGuideDismissed(true);
+                          setTimeout(() => {
+                            if (isTerminalMode) textareaRef.current?.focus();
+                            else tiptapRef.current?.view.focus();
+                          }, 10);
+                        }}
+                        title="Clique para começar a escrever"
+                      >
+                        <div className="genre-guide-header-label">
+                          <span className="genre-guide-chip">{currentNote.genreName}</span>
+                          guia de escrita • clique para ocultar
+                        </div>
+                        <div className="genre-guide-markdown">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>{currentNote.genrePlaceholder}</ReactMarkdown>
+                        </div>
+                      </div>
+                    )}
+                    <div className="editor-textarea-container" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                      {!isTerminalMode ? (
+                        <RichTextEditor
+                          content={text}
+                          onChange={handleChange}
+                          editorRef={tiptapRef}
+                          onKeyDown={(e) => {
+                            handleTiptapKeydown();
+                            handleKeyDown(e);
+                          }}
+                          onClick={handleTiptapKeydown}
+                        />
+                      ) : (
+                        <textarea
+                          ref={textareaRef}
+                          className="editor-textarea"
+                          placeholder={currentNote.genrePlaceholder || 'Comece a escrever sua obra…'}
+                          value={text}
+                          onChange={handleChange}
+                          onKeyDown={handleKeyDown}
+                          onPaste={handlePaste}
+                          spellCheck="false"
+                        />
+                      )}
+                    </div>
+                    <TextStatistics
+                      text={text}
+                      goal={currentNote?.wordGoal}
+                      onSetGoal={(goal) => updateCurrentNote({ wordGoal: goal })}
+                    />
+                  </>
+                )}
+              </div>
+            ) : (
+              <div className="empty-state">Selecione ou crie uma anotação.</div>
+            )}
+          </div>
+          
+          <button 
+            className={`floating-exit-btn ${(isReaderMode || isFocusMode) ? 'visible' : ''}`}
+            onClick={() => { setIsReaderMode(false); setIsFocusMode(false); }}
+            data-tooltip="Sair do Modo Expandido (Esc)"
+          >
+            <Minimize2 size={24} />
+          </button>
+        </main>
+
+        {showSnapshotModal && (
+          <SnapshotModal 
+            isOpen={showSnapshotModal} 
+            onClose={() => setShowSnapshotModal(false)}
+            currentNote={currentNote}
+            onCreateSnapshot={createSnapshot}
+            onRestoreSnapshot={restoreSnapshot}
+          />
+        )}
+        {showVerifier && <VerifierModal onClose={() => setShowVerifier(false)} />}
+        <CustomDialog {...dialogState} />
+        <CustomCursor />
+      </div>
     </>
   );
 }
 
 export default App;
-
