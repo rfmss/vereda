@@ -12,7 +12,7 @@ export function CustomDialog({ isOpen, title, message, type, onConfirm, onCancel
           </div>
         )}
         <div className="modal-body dialog-body">
-          <p>{message}</p>
+          <p className="dialog-message">{message}</p>
           <div className="dialog-actions">
             {type === 'confirm' && (
               <button className="btn outline-btn" onClick={onCancel}>
@@ -20,10 +20,11 @@ export function CustomDialog({ isOpen, title, message, type, onConfirm, onCancel
               </button>
             )}
             <button 
-              className={`btn ${type === 'confirm' ? 'danger-btn' : ''}`} 
+              className={`btn ${type === 'confirm' ? 'confirm-btn' : 'primary-btn'}`} 
               onClick={onConfirm}
+              autoFocus
             >
-              {type === 'confirm' ? 'Confirmar' : 'Ok'}
+              {type === 'confirm' ? 'Confirmar' : 'Entendido'}
             </button>
           </div>
         </div>

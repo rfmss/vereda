@@ -699,23 +699,34 @@ body {
 .badge {
   display: flex;
   align-items: center;
+.badge {
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
-  padding: 0.4rem 0.8rem;
+  padding: 0.3rem 0.7rem;
   border-radius: 999px;
-  background-color: rgba(47, 74, 138, 0.08);
-  font-size: 0.8rem;
+  background-color: transparent;
+  font-size: 0.7rem;
   font-weight: 500;
-  border: 1px solid rgba(47, 74, 138, 0.15);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+}
+
+.badge:hover {
+  border-color: var(--accent);
   color: var(--accent);
 }
-.badge.verified { color: var(--accent); border-color: rgba(47, 74, 138, 0.3); background-color: rgba(47, 74, 138, 0.1); }
-.badge.suspicious { color: var(--error); border-color: rgba(215,58,73,0.3); background-color: rgba(215,58,73,0.1); }
+
+.badge.verified { color: var(--accent); border-color: rgba(47, 74, 138, 0.2); }
+.badge.suspicious { color: var(--error); border-color: rgba(215,58,73,0.2); }
+
 .badge-dot { 
-  width: 6px; 
-  height: 6px; 
+  width: 5px; 
+  height: 5px; 
   border-radius: 50%; 
-  background-color: var(--complement); /* Ponto sempre na cor complementar */
-  box-shadow: 0 0 5px var(--complement);
+  background-color: var(--complement);
+  opacity: 0.6;
 }
 
 .btn {
@@ -739,12 +750,16 @@ body {
 
 .outline-btn {
   background-color: transparent;
-  color: var(--accent);
-  border: 1px solid var(--accent);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  font-size: 0.75rem;
+  padding: 0.4rem 0.8rem;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 }
 .outline-btn:hover {
-  background-color: var(--accent);
-  color: white;
+  border-color: var(--accent);
+  color: var(--accent);
+  background: transparent;
 }
 
 .editor-content-wrapper {
@@ -1211,13 +1226,19 @@ body {
 }
 
 .modal {
-  background: var(--bg-color);
+  background-color: var(--bg-sidebar);
   width: 90%;
   max-width: 500px;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.05);
+  animation: modalEnter 0.4s cubic-bezier(0.19, 1, 0.22, 1);
   overflow: hidden;
   border: 1px solid var(--border-color);
+}
+
+@keyframes modalEnter {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .modal-header {
@@ -1517,6 +1538,36 @@ body {
   text-align: center;
   font-size: 1rem;
 }
+.dialog-message {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.confirm-btn {
+  background-color: var(--error);
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.confirm-btn:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.primary-btn {
+  background-color: var(--accent);
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
 .dialog-actions {
   display: flex;
   justify-content: center;
@@ -1690,7 +1741,7 @@ body {
   50% { opacity: 1; }
 }
 
-/* Custom Tooltips */
+/* Tooltips Premium e Inteligentes */
 [data-tooltip] {
   position: relative;
 }
@@ -1698,38 +1749,36 @@ body {
 [data-tooltip]::before {
   content: attr(data-tooltip);
   position: absolute;
-  top: 100%;
+  top: 130%; /* Abre para baixo por padrão */
   left: 50%;
-  transform: translateX(-50%) translateY(5px);
-  background-color: var(--text-main);
-  color: var(--bg-color);
-  padding: 6px 10px;
+  transform: translateX(-50%) translateY(-5px);
+  background: #1a1918;
+  color: #dcdccc;
+  padding: 6px 12px;
   border-radius: 6px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-family: var(--font-ui);
+  font-weight: 500;
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 10000;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05);
+  letter-spacing: 0.02em;
 }
 
 [data-tooltip]:hover::before {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(10px);
+  transform: translateX(-50%) translateY(5px);
 }
 
-/* For buttons at the top right/left that might clip or look better opening above */
-.floating-exit-btn[data-tooltip]::before,
-.text-statistics-wrapper [data-tooltip]::before {
+/* Tooltips que abrem para CIMA (em elementos no fundo da tela) */
+.text-statistics-wrapper [data-tooltip]::before,
+.dictionary-float [data-tooltip]::before {
   top: auto;
-  bottom: 100%;
-  transform: translateX(-50%) translateY(-5px);
-}
-
 .floating-exit-btn[data-tooltip]:hover::before,
 .text-statistics-wrapper [data-tooltip]:hover::before {
   transform: translateX(-50%) translateY(-10px);

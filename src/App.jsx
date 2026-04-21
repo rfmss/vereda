@@ -140,11 +140,35 @@ function App() {
     document.body.className = className;
   }, [isDark, currentBg, isTerminalMode]);
 
+  // Global Keyboard Shortcuts (UX best practices)
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      // ESC: Sair de modos ou fechar modais
+      if (e.key === 'Escape') {
+        if (dialogState.isOpen) setDialogState({ ...dialogState, isOpen: false });
+        else if (showVerifier) setShowVerifier(false);
+        else if (showSnapshotModal) setShowSnapshotModal(false);
+        else if (isReaderMode || isFocusMode) {
+          setIsReaderMode(false);
+          setIsFocusMode(false);
+        }
+      }
+      
+      // ENTER: Confirmar diálogos se abertos
+      if (e.key === 'Enter' && dialogState.isOpen && dialogState.onConfirm) {
+        dialogState.onConfirm();
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, [dialogState, showVerifier, showSnapshotModal, isReaderMode, isFocusMode]);
+
   const getStatus = () => {
-    if (text.length === 0) return { label: 'Aguardando digitação', class: '' };
-    if (humanScore < 50) return { label: `Escrita Orgânica: ${Math.floor(humanScore)}%`, class: 'suspicious' };
-    if (humanScore > 90) return { label: `Escrita Orgânica: ${Math.floor(humanScore)}%`, class: 'verified' };
-    return { label: `Escrita Orgânica: ${Math.floor(humanScore)}%`, class: '' };
+    if (text.length === 0) return { label: 'Em espera', class: '' };
+    if (humanScore < 50) return { label: `Análise: ${Math.floor(humanScore)}%`, class: 'suspicious' };
+    if (humanScore > 90) return { label: `Integridade: OK`, class: 'verified' };
+    return { label: `Humano: ${Math.floor(humanScore)}%`, class: '' };
   };
 
   const status = getStatus();
@@ -467,9 +491,9 @@ function App() {
             <button className="icon-btn" onClick={() => setIsDark(!isDark)} data-tooltip="Alternar Tema">
               {isDark ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-            <button className="btn outline-btn" onClick={handleExport} disabled={text.length === 0 || isExporting}>
-              <Download size={16} />
-              {isExporting ? '...' : 'Gerar Certificado'}
+            <button className="icon-btn outline-btn" onClick={handleExport} data-tooltip="Gerar Certificado de Autoria Humana (Proof of Writing)">
+              <Download size={18} />
+              <span>Certificar</span>
             </button>
           </div>
         </header>

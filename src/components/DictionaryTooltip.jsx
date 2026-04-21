@@ -26,9 +26,20 @@ export function DictionaryTooltip() {
           const range = selection.getRangeAt(0);
           const rect = range.getBoundingClientRect();
           
+          // Boundary checking
+          let left = rect.left + (rect.width / 2);
+          const tooltipWidth = 250; // Estimated width
+          const margin = 20;
+
+          if (left - (tooltipWidth / 2) < margin) {
+            left = tooltipWidth / 2 + margin;
+          } else if (left + (tooltipWidth / 2) > window.innerWidth - margin) {
+            left = window.innerWidth - (tooltipWidth / 2) - margin;
+          }
+
           setPosition({
             top: rect.top - 10,
-            left: rect.left + (rect.width / 2)
+            left: left
           });
           setWord(selectedText);
           setVisible(true);
