@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Plus, Trash2, GripVertical, FolderPlus, BookOpen, Feather, Theater, X, HardDrive } from 'lucide-react';
+import { Plus, Trash2, GripVertical, FolderPlus, BookOpen, Feather, X, HardDrive } from 'lucide-react';
 import {
   DndContext,
   closestCenter,

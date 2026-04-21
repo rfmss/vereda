@@ -12,7 +12,7 @@ import { generateProofSignature } from './crypto';
 import { ReaderSettings } from './components/ReaderSettings';
 import { SnapshotModal } from './components/SnapshotModal';
 import { AudioPlayer } from './components/AudioPlayer';
-import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Settings, BookOpen, Keyboard, History, Headphones, Terminal, PanelLeft } from 'lucide-react';
+import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Settings, BookOpen, Keyboard, History, Headphones, Terminal, Columns } from 'lucide-react';
 import getCaretCoordinates from 'textarea-caret';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -453,7 +453,7 @@ function App() {
         <header className="top-toolbar">
           <div className="toolbar-left">
             <button className={`icon-btn sidebar-toggle-btn ${isSidebarCollapsed ? 'collapsed' : ''}`} onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)} data-tooltip="Alternar Menu Lateral">
-              <PanelLeft size={20} />
+              <Columns size={20} />
             </button>
             <button className="icon-btn" onClick={() => setIsFocusMode(true)} data-tooltip="Modo Foco (Edição em tela cheia)">
               <Maximize2 size={20} />
