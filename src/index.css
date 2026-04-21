@@ -452,7 +452,8 @@ body {
   flex-direction: column;
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   flex-shrink: 0;
-  overflow: hidden;
+  overflow: visible; /* Permitir que menus flutuantes apareçam sobre o editor */
+  z-index: 10; /* Garantir que fique sobre o editor se necessário */
 }
 
 .sidebar-header {
@@ -1815,191 +1816,116 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   Offline Banner — Service Worker Progress Panel
+   Offline PWA — Design Discreto
    ═══════════════════════════════════════════════════════════ */
 
-/* Fio de progresso colado no topo da viewport */
 .sw-progress-track {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  z-index: 99990;
-  background: transparent;
-  pointer-events: none;
-  overflow: hidden;
+  height: 4px;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .sw-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent) 0%, #f0b48a 50%, var(--accent) 100%);
-  background-size: 200% 100%;
-  animation: swShimmer 2.2s linear infinite;
-  box-shadow: 0 0 8px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 35%, transparent);
-  transition: width 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: width;
+  background: var(--accent);
+  transition: width 0.4s ease;
 }
 
-.sw-progress-fill.ready {
-  background: linear-gradient(90deg, #2ea44f, #52c96a);
-  background-size: 100%;
-  animation: none;
-  box-shadow: 0 0 10px rgba(46, 164, 79, 0.8), 0 0 28px rgba(46, 164, 79, 0.3);
-  transition: width 0.4s ease, background 0.5s ease, box-shadow 0.5s ease;
-}
-
-@keyframes swShimmer {
-  0%   { background-position: 100% 0; }
-  100% { background-position: -100% 0; }
-}
-
-/* ── Painel flutuante top-right ── */
-.sw-status-pill {
+.sw-discreet-line {
   position: fixed;
-  top: 10px;
-  right: 14px;
-  z-index: 99991;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 10px 14px 10px 12px;
-  min-width: 230px;
-  max-width: 300px;
-  background: var(--bg-sidebar);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  font-family: var(--font-ui);
-  color: var(--text-muted);
-  letter-spacing: 0.01em;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10), 0 1px 4px rgba(0, 0, 0, 0.06);
-  animation: swPillSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  pointer-events: none;
-  user-select: none;
-}
-
-.sw-status-pill.ready {
-  color: #2ea44f;
-  border-color: rgba(46, 164, 79, 0.3);
-  background: color-mix(in srgb, #2ea44f 6%, var(--bg-sidebar));
-  animation: swPillPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-.sw-status-pill.offline-mode {
-  color: var(--error);
-  border-color: color-mix(in srgb, var(--error) 28%, transparent);
-  background: color-mix(in srgb, var(--error) 6%, var(--bg-sidebar));
-}
-
-/* Linha 1: ícone + label + MB */
-.sw-pill-row {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 0.78rem;
+  top: 4px; /* Mais colado na barra para não colidir com o toolbar do editor */
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.6rem; /* Menor e mais discreto */
   font-weight: 600;
-  color: var(--text-main);
-}
-
-.sw-pill-label {
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.sw-pill-size {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  color: var(--accent);
-  opacity: 0.9;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.sw-status-pill.ready .sw-pill-size {
-  color: #2ea44f;
-}
-
-.sw-status-pill.offline-mode .sw-pill-size {
-  display: none;
-}
-
-.sw-size-total {
-  font-weight: 400;
-  opacity: 0.55;
-}
-
-/* Linha 2: mensagem motivacional */
-.sw-pill-msg {
-  font-size: 0.70rem;
-  font-style: italic;
   color: var(--text-muted);
-  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
   opacity: 0;
-  transform: translateY(3px);
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transform: translateY(-2px);
+  transition: all 0.4s ease;
+  z-index: 10000;
 }
 
-.sw-pill-msg.visible {
-  opacity: 1;
+.sw-discreet-line.visible {
+  opacity: 0.8;
   transform: translateY(0);
 }
 
-.sw-msg-ready {
-  font-style: normal;
-  font-weight: 500;
-  color: #2ea44f;
-  opacity: 1 !important;
-  transform: none !important;
+.sw-discreet-line em {
+  font-style: italic;
+  text-transform: none;
+  margin-left: 8px;
+  opacity: 0.7;
 }
 
-/* Mini barra de progresso interna */
-.sw-inner-track {
-  height: 2px;
-  background: var(--border-color);
-  border-radius: 99px;
-  overflow: hidden;
-  margin-top: 2px;
+/* Selo de Pronto (Bunker) */
+.sw-ready-seal {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 10000;
+  background: #2ea44f;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(46, 164, 79, 0.3);
+  animation: swPillPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: help;
 }
 
-.sw-inner-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), #f0b48a);
-  border-radius: 99px;
-  transition: width 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.sw-ready-seal:hover {
+  transform: scale(1.1);
+  background: #2c974b;
 }
 
-/* Ícone spinner */
-.sw-spin {
-  animation: swSpinIcon 1.3s linear infinite;
-  opacity: 0.75;
-  flex-shrink: 0;
+.sw-seal-dot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background: #52c96a;
+  border: 2px solid white;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
 }
 
-@keyframes swSpinIcon {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+.sw-offline-warning {
+  position: fixed;
+  top: 10px;
+  right: 15px;
+  background: var(--error);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 10000;
 }
 
-@keyframes swPillSlideIn {
-  from { opacity: 0; transform: translateX(18px) scale(0.96); }
-  to   { opacity: 1; transform: translateX(0)   scale(1); }
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(82, 201, 106, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(82, 201, 106, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(82, 201, 106, 0); }
 }
 
 @keyframes swPillPop {
-  from { transform: scale(0.90); opacity: 0.5; }
-  to   { transform: scale(1);    opacity: 1; }
-}
-
-body.theme-dark .sw-status-pill {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), 0 1px 4px rgba(0, 0, 0, 0.2);
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -2126,6 +2052,14 @@ body.theme-dark .sw-status-pill {
   max-height: 450px;
   overflow-y: auto;
   border-left: 6px solid var(--accent-color);
+  cursor: pointer;
+  user-select: none; /* Impede a seleção do texto do guia */
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.genre-guide-banner:hover {
+  background: var(--bg-color);
+  opacity: 0.95;
 }
 
 .genre-guide-header-label {

@@ -78,7 +78,7 @@ const GENRE_CATALOG = [
         titlePlaceholder: 'O Elefante na Sala',
         description: 'Contexto e respiro visual',
         placeholder:
-          '# Escrita Descentralizada\n\n"No Fediverso, a atenção não é roubada por algoritmos; ela é conquistada pela utilidade."\n\n**O Desafio:** Escreva para humanos, respeitando a etiqueta do Content Warning (CW).\n\n**Modelos Mentais:**\n• **Ancoragem de Contexto:** Evite o "Context Collapse". Defina seu nicho na primeira linha.\n• **Alt-Text Empathy:** Descrever imagens aumenta a oxitocina da comunidade e a acessibilidade real.\n• **Thread de Valor:** Se for longo, use o modelo 1/x com resumo no topo.\n\n**Neuro-Gatilho:** *Processamento Pré-atentativo.* Use quebras de linha para tornar o texto legível "antes de ler".',
+          '# Sua voz no comando\n\nNo Fediverso, não existe algoritmo te vigiando. Você escreve para pessoas reais que escolheram te ouvir. \n\n**O jeito certo de brilhar:**\n\n• **Use o "Aviso de Conteúdo" (CW):** É como uma capa de livro. Se o assunto for sensível ou muito longo, dê um título e deixe a pessoa escolher se quer ler. É educação digital.\n\n• **Imagens precisam de "Alt-Text":** Descrever o que está na foto não é só acessibilidade, é mostrar que você se importa com todos os leitores.\n\n• **Seja útil, não barulhento:** Uma boa thread (fio) aqui vale mais do que mil posts vazios. Tente o modelo "Resumo no início" para prender a atenção.\n\n**Dica de Mestre:** O cérebro humano descansa em textos com parágrafos curtos. Use o espaço a seu favor.',
       },
       {
         name: 'Nostr / Bluesky',
@@ -86,7 +86,30 @@ const GENRE_CATALOG = [
         titlePlaceholder: 'Protocolo de Intenções',
         description: 'Soberania e fluxo de consciência',
         placeholder:
-          '# O Protocolo da Verdade\n\n"A soberania digital começa na forma como você estrutura seus pensamentos."\n\n**O Desafio:** Escreva um "Post-it" mental que ressoe com a identidade soberana.\n\n**Estrutura de Ouro:**\n• **Assinatura de Voz:** No Nostr, sua chave é sua identidade. No texto, sua consistência é sua confiança.\n• **O Gatilho da Curiosidade:** Comece com uma afirmação contraintuitiva.\n• **Engajamento Honestos:** Não use "threads" caça-cliques. Use profundidade real.\n\n**Neuro-Gatilho:** *Dopamina de Descoberta.* O cérebro federado busca o novo, não o repetitivo.',
+          '# Liberdade com Responsabilidade\n\nSua identidade é sua chave. Sua palavra é sua marca.\n\n**Como se destacar:**\n\n• **Autenticidade Direta:** Sem algoritmos, a única coisa que te mantém relevante é a verdade no que você escreve.\n\n• **Fluxo e Pausa:** No Bluesky, o ritmo é rápido. No Nostr, é perene. Escreva pensando no que vai durar mais de 24 horas.\n\n**Dica de Mestre:** Comece com uma pergunta que você mesmo não sabe a resposta. O engajamento aqui é conversa, não curtida.',
+      },
+    ],
+  },
+  {
+    group: 'Profissional & Estrutura',
+    icon: HardDrive,
+    color: '#a78bfa',
+    genres: [
+      {
+        name: 'Reportagem / Jornalismo',
+        title: 'Sem título',
+        titlePlaceholder: 'Notícia de um Sequestro Literário',
+        description: 'Fatos, lide e pirâmide invertida',
+        placeholder:
+          '# O Fato em Primeiro Lugar\n\n"O jornalismo é a primeira versão da história. Seja preciso, seja rápido, seja honesto."\n\n**A Estrutura Clássica (Pirâmide Invertida):**\n\n1. **O Lide:** O que? Quem? Quando? Onde? Por que? Tudo no primeiro parágrafo.\n2. **O Corpo:** Detalhes em ordem decrescente de importância.\n3. **Contexto:** Por que isso importa agora?\n\n**Dica Globoplay:** Conte uma história humana por trás dos dados. As pessoas esquecem números, mas lembram de rostos.',
+      },
+      {
+        name: 'Livro (Template Completo)',
+        title: 'Sem título',
+        titlePlaceholder: 'Dom Casmurro e o Sumário Perdido',
+        description: 'Estrutura completa: da capa ao fim',
+        placeholder:
+          '# Guia de Estrutura: Seu Livro Começa Aqui\n\nEste é o esqueleto de uma obra profissional. Siga a ordem para garantir que seu livro tenha "cara de livro".\n\n---\n\n## 1. Elementos Pré-Textuais\n\n• **Folha de Rosto:** Título, Subtítulo e seu nome.\n• **Dedicatória:** Para quem você queima as pestanas?\n• **Epígrafe:** Uma citação que resuma a alma da obra.\n• **Sumário:** O mapa da jornada.\n• **Prefácio:** Por que este livro existe?\n\n---\n\n## 2. O Miolo (A Obra)\n\n### Capítulo 1: O Chamado\nComece aqui sua narrativa. Lembre-se: mostre, não apenas conte.\n\n---\n\n## 3. Elementos Pós-Textuais\n\n• **Agradecimentos:** Ninguém escreve sozinho.\n• **Sobre o Autor:** Quem é você no mundo das letras?\n\n**Dica de Ouro:** Ao imprimir ou exportar, cada "---" será o sinal para você dar uma quebra de página manual no seu editor final.',
       },
     ],
   },

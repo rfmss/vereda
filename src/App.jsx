@@ -78,6 +78,7 @@ function App() {
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [dialogState, setDialogState] = useState({ isOpen: false });
+  const [guideDismissed, setGuideDismissed] = useState(false); // Novo: guia manual
   const textareaRef = useRef(null);
   const tiptapRef = useRef(null);
   const editorWrapperRef = useRef(null);
@@ -90,6 +91,11 @@ function App() {
     currentNote?.pastedChunks || 0,
     currentNote?.organicKeys || 0
   );
+
+  // Reset guide dismiss when changing notes
+  useEffect(() => {
+    setGuideDismissed(false);
+  }, [currentNoteId]);
 
   // Auto-save: debounced save to localStorage via updateCurrentNote
   useEffect(() => {
@@ -496,12 +502,23 @@ function App() {
               ) : (
                 <>
                   {!isTerminalMode && <MarkdownToolbar onInsert={handleInsertMarkdown} />}
-                  {/* Placeholder de gênero — só aparece quando o texto está vazio */}
-                  {currentNote.genrePlaceholder && text.length === 0 && (
-                    <div className="genre-guide-banner">
+                  {/* Placeholder de gênero — só aparece quando o texto está vazio e não foi descartado */}
+                  {currentNote.genrePlaceholder && text.length === 0 && !guideDismissed && (
+                    <div 
+                      className="genre-guide-banner"
+                      onClick={() => {
+                        setGuideDismissed(true);
+                        // Focar o editor após um micro-delay
+                        setTimeout(() => {
+                          if (isTerminalMode) textareaRef.current?.focus();
+                          else tiptapRef.current?.view.focus();
+                        }, 10);
+                      }}
+                      title="Clique para começar a escrever"
+                    >
                       <div className="genre-guide-header-label">
                         <span className="genre-guide-chip">{currentNote.genreName}</span>
-                        guia de escrita
+                        guia de escrita • clique para ocultar
                       </div>
                       <div className="genre-guide-markdown">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{currentNote.genrePlaceholder}</ReactMarkdown>

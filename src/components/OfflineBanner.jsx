@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
-import { WifiOff, CheckCircle2, Loader, HardDrive } from 'lucide-react';
+import { WifiOff, CheckCircle2, Loader, HardDrive, ShieldCheck } from 'lucide-react';
 
 // ─── Tamanho total do app shell (do build: 966.23 KiB) ───────────────────────
 // Atualizar aqui se o bundle crescer significativamente.
@@ -144,8 +144,11 @@ export function OfflineBanner() {
       });
     }, 110);
 
-    return () => clearInterval(animRef.current);
-  }, [phase, offlineReady]);
+    return () => {
+      clearInterval(animRef.current);
+      clearTimeout(fallbackTimer);
+    };
+  }, [phase, offlineReady, forceReady, progress]);
 
   // ── Rotação de mensagens (a cada 4s, com fade) ─────────────────────────────
   useEffect(() => {
@@ -178,86 +181,38 @@ export function OfflineBanner() {
   return (
     <>
       {/* Fio de progresso colado no topo */}
-      {showTrack && (
+      {showTrack && !isReady && (
         <div
           className="sw-progress-track"
           role="progressbar"
           aria-valuenow={Math.round(progress)}
           aria-valuemin={0}
           aria-valuemax={100}
-          aria-label="Progresso do cache offline"
         >
           <div
-            className={`sw-progress-fill ${isReady ? 'ready' : ''}`}
+            className="sw-progress-fill"
             style={{ width: `${progress}%` }}
           />
+          
+          {/* Linha discreta de status abaixo da barra */}
+          <div className={`sw-discreet-line ${msgVisible ? 'visible' : ''}`}>
+             Salvando para uso offline: {currentMB}MB / {TOTAL_MB}MB ({Math.round(progress)}%) • <em>{MESSAGES[msgIndex]}</em>
+          </div>
         </div>
       )}
 
-      {/* Painel de status — top-right */}
-      {showPill && (
-        <div
-          className={`sw-status-pill ${isReady ? 'ready' : ''} ${!isOnline ? 'offline-mode' : ''}`}
-          aria-live="polite"
-        >
+      {/* Selo de prontidão (Bunker Mode) — aparece apenas quando pronto */}
+      {isReady && (
+        <div className="sw-ready-seal" data-tooltip="Modo Bunker: Este app agora funciona 100% sem internet.">
+          <ShieldCheck size={18} />
+          <span className="sw-seal-dot"></span>
+        </div>
+      )}
 
-          {/* ── Linha 1: ícone + status + tamanho ── */}
-          <div className="sw-pill-row">
-            {!isOnline ? (
-              <WifiOff size={13} strokeWidth={2.5} />
-            ) : isReady ? (
-              <CheckCircle2 size={13} strokeWidth={2.5} />
-            ) : (
-              <Loader size={13} strokeWidth={2.5} className="sw-spin" />
-            )}
-
-            <span className="sw-pill-label">
-              {!isOnline
-                ? 'Modo offline ativo'
-                : isReady
-                  ? 'Pronto para o bunker'
-                  : phase === 'checking'
-                    ? 'Verificando cache…'
-                    : 'Salvando offline…'}
-            </span>
-
-            {/* Tamanho em MB */}
-            <span className="sw-pill-size">
-              {!isOnline ? null : isReady ? (
-                <>
-                  <HardDrive size={11} strokeWidth={2} />
-                  {displayedMB} MB
-                </>
-              ) : (
-                <>{currentMB} <span className="sw-size-total">/ {TOTAL_MB} MB</span></>
-              )}
-            </span>
-          </div>
-
-          {/* ── Linha 2: mensagem motivacional (só durante install) ── */}
-          {!isOnline && (
-            <div className="sw-pill-msg">
-              Seus textos continuam disponíveis — sem internet.
-            </div>
-          )}
-          {isOnline && !isReady && (
-            <div className={`sw-pill-msg ${msgVisible ? 'visible' : ''}`}>
-              {MESSAGES[msgIndex]}
-            </div>
-          )}
-          {isOnline && isReady && (
-            <div className="sw-pill-msg visible sw-msg-ready">
-              Desligue o wi-fi. O Vereda continua aqui. 🛡️
-            </div>
-          )}
-
-          {/* Mini barra interna de progresso */}
-          {isOnline && !isReady && (
-            <div className="sw-inner-track">
-              <div className="sw-inner-fill" style={{ width: `${progress}%` }} />
-            </div>
-          )}
-
+      {/* Caso esteja offline, mostramos um aviso discreto se não estiver pronto */}
+      {!isOnline && !isReady && (
+        <div className="sw-offline-warning">
+          <WifiOff size={14} /> Modo offline limitado (cache incompleto)
         </div>
       )}
     </>
