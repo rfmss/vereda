@@ -462,7 +462,7 @@ function App() {
           </div>
         </header>
 
-        <div className="editor-content-wrapper" ref={editorWrapperRef}>
+        <div className={`editor-content-wrapper ${currentNote?.genreName === 'Livro (Template Completo)' ? 'paged-mode' : ''}`} ref={editorWrapperRef}>
           {isReaderMode && (
             <div className="reader-meta-info">
               <span>{getReadingTime()} min de leitura</span>

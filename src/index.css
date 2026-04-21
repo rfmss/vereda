@@ -1837,14 +1837,14 @@ body {
 
 .sw-discreet-line {
   position: fixed;
-  top: 4px; /* Mais colado na barra para não colidir com o toolbar do editor */
+  top: 2px; /* Mais colado ainda no topo absoluto */
   left: 0;
   right: 0;
   text-align: center;
-  font-size: 0.6rem; /* Menor e mais discreto */
-  font-weight: 600;
+  font-size: 0.55rem; /* Ultra discreto */
+  font-weight: 700;
   color: var(--text-muted);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   pointer-events: none;
   opacity: 0;
@@ -2134,4 +2134,175 @@ body {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   Modo de Páginas Virtuais — Estilo Word / Profissional
+   ═══════════════════════════════════════════════════════════ */
+
+/* Layout de Página no Editor */
+.editor-content-wrapper.paged-mode {
+  background: var(--bg-sidebar); /* Fundo contrastante para a "folha" */
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+  overflow-y: auto !important;
+}
+
+.editor-content-wrapper.paged-mode .editor-container-inner {
+  max-width: 820px; /* Largura próxima ao A4 com margens */
+  margin: 0 auto;
+  background: white;
+  color: #333;
+  min-height: 297mm; /* Altura mínima de uma folha A4 */
+  padding: 30mm 25mm; /* Margens padrão de livro/documento */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+  position: relative;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* No modo Dark ou Terminal, mantemos a folha branca por padrão para o livro */
+body.theme-dark .editor-content-wrapper.paged-mode .editor-container-inner {
+  background: #fdfdfd;
+}
+
+.editor-content-wrapper.paged-mode .editor-textarea,
+.editor-content-wrapper.paged-mode .tiptap.ProseMirror {
+  background: transparent !important;
+  color: #1a1a1a !important;
+  font-family: 'Lora', 'Georgia', serif; /* Fonte clássica de livro */
+  font-size: 1.15rem;
+  line-height: 1.8;
+  padding: 0 !important;
+  min-height: auto;
+}
+
+.editor-content-wrapper.paged-mode .editor-title-input {
+  text-align: center;
+  font-family: 'Lora', 'Georgia', serif;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: #1a1a1a;
+  border-bottom: 1px solid #eee;
+  width: 100%;
+  background: transparent;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+/* Indicador visual de quebra de página (hr) no editor */
+.editor-content-wrapper.paged-mode hr {
+  border: none;
+  height: 2px;
+  background: #eee;
+  margin: 4rem -25mm; /* Estende para fora das margens */
+  position: relative;
+  overflow: visible;
+}
+
+.editor-content-wrapper.paged-mode hr::after {
+  content: "QUEBRA DE PÁGINA";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fdfdfd;
+  padding: 0 15px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #ccc;
+  letter-spacing: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Configuração Profissional de Impressão (Print/PDF)
+   ═══════════════════════════════════════════════════════════ */
+
+@media print {
+  /* Ocultar elementos de interface */
+  .sidebar, 
+  .top-toolbar, 
+  .sw-progress-track, 
+  .sw-discreet-line, 
+  .sw-ready-seal,
+  .floating-exit-btn,
+  .text-statistics-wrapper,
+  .markdown-toolbar,
+  .reader-meta-info,
+  .genre-guide-banner,
+  .dictionary-float {
+    display: none !important;
+  }
+
+  /* Reset de Layout para Impressão */
+  body, html {
+    background: white !important;
+    color: black !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .app-layout {
+    display: block !important;
+  }
+
+  .main-editor-area {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .editor-content-wrapper {
+    padding: 0 !important;
+    background: white !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  .editor-container-inner {
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Forçar quebra de página em HR */
+  hr {
+    visibility: hidden !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    margin: 0 !important;
+    height: 0 !important;
+  }
+
+  /* Tipografia de Impressão */
+  .editor-textarea,
+  .tiptap.ProseMirror,
+  .reader-body {
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
+    color: black !important;
+  }
+
+  .editor-title-input, 
+  .reader-title {
+    font-size: 24pt !important;
+    margin-bottom: 30pt !important;
+    text-align: center !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Evitar órfãos e viúvas */
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid !important;
+  }
+}
+
 
