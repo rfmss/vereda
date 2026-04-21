@@ -389,7 +389,7 @@ function App() {
       <Sidebar 
         notes={notes} 
         currentNoteId={currentNoteId} 
-        onCreate={createNote} 
+        onCreate={(genre) => createNote('', genre || null)}
         onCreateChapter={createChapter}
         onSelect={setCurrentNoteId} 
         onReorder={reorderNotes}
@@ -496,6 +496,16 @@ function App() {
               ) : (
                 <>
                   {!isTerminalMode && <MarkdownToolbar onInsert={handleInsertMarkdown} />}
+                  {/* Placeholder de gênero — só aparece quando o texto está vazio */}
+                  {currentNote.genrePlaceholder && text.length === 0 && (
+                    <div className="genre-guide-banner">
+                      <div className="genre-guide-label">
+                        <span className="genre-guide-chip">{currentNote.genreName}</span>
+                        guia de escrita
+                      </div>
+                      <pre className="genre-guide-text">{currentNote.genrePlaceholder}</pre>
+                    </div>
+                  )}
                   <div className="editor-textarea-container" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                     {!isTerminalMode ? (
                       <RichTextEditor
@@ -512,7 +522,7 @@ function App() {
                       <textarea
                         ref={textareaRef}
                         className="editor-textarea"
-                        placeholder="Comece a escrever sua obra..."
+                        placeholder={currentNote.genrePlaceholder || 'Comece a escrever sua obra…'}
                         value={text}
                         onChange={handleChange}
                         onKeyDown={handleKeyDown}
@@ -521,9 +531,9 @@ function App() {
                       />
                     )}
                   </div>
-                  <TextStatistics 
-                    text={text} 
-                    goal={currentNote?.wordGoal} 
+                  <TextStatistics
+                    text={text}
+                    goal={currentNote?.wordGoal}
                     onSetGoal={(goal) => updateCurrentNote({ wordGoal: goal })}
                   />
                 </>

@@ -243,6 +243,205 @@ body {
   display: none;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   Gêneros Literários — Menu de long-press e guia de escrita
+   ═══════════════════════════════════════════════════════════ */
+
+/* Wrapper do botão + para posicionamento do menu */
+.new-note-btn-wrapper {
+  position: relative;
+}
+
+/* Hint de dica que aparece no hover */
+.new-note-hint {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  font-family: var(--font-ui);
+  color: var(--text-main);
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  animation: hintFadeIn 0.2s ease forwards;
+  pointer-events: none;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hint-hold {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-style: italic;
+}
+
+@keyframes hintFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Menu de gêneros */
+.genre-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 240px;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  z-index: 300;
+  overflow: hidden;
+  animation: menuSlideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  font-family: var(--font-ui);
+}
+
+@keyframes menuSlideDown {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)  scale(1); }
+}
+
+.genre-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.genre-menu-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+.genre-menu-close:hover { color: var(--text-main); }
+
+.genre-group {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.genre-group:last-child { border-bottom: none; }
+
+.genre-group-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 14px 4px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
+
+.genre-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  width: 100%;
+  padding: 7px 14px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: var(--font-ui);
+}
+
+.genre-item:hover {
+  background: rgba(128, 128, 128, 0.08);
+}
+
+.genre-item-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.genre-item-desc {
+  font-size: 0.70rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Badge de gênero no item da sidebar */
+.note-genre-badge {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 600;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  opacity: 0.7;
+  margin-bottom: 2px;
+}
+
+/* ── Banner de Guia de Escrita no Editor ── */
+.genre-guide-banner {
+  margin-bottom: 2rem;
+  padding: 1.2rem 1.5rem;
+  border: 1px dashed var(--border-color);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 3%, transparent);
+  animation: guideFadeIn 0.4s ease forwards;
+}
+
+@keyframes guideFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.genre-guide-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0.8rem;
+  font-size: 0.72rem;
+  font-family: var(--font-ui);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.genre-guide-chip {
+  background: var(--accent);
+  color: var(--bg-color);
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 0.67rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.genre-guide-text {
+  font-family: var(--font-editor);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-style: italic;
+  margin: 0;
+}
+
 /* Sidebar */
 .sidebar {
   width: 300px;

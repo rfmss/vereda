@@ -23,18 +23,22 @@ export function useNotes() {
     }
   }, [notes]);
 
-  const createNote = (title = '') => {
+  const createNote = (title = '', genre = null) => {
     const newNote = {
       id: Date.now().toString(),
-      title: title,
+      title: title || (genre ? genre.title : ''),
       content: '',
+      // O placeholder do gênero NUNCA vai para o content —
+      // ele é exibido como hint fantasma e não polui o PoHW.
+      genrePlaceholder: genre ? genre.placeholder : null,
+      genreName: genre ? genre.name : null,
       eventLog: [],
       humanScore: 0,
       pastedChunks: 0,
       wordGoal: 0,
       snapshots: [],
       lastModified: Date.now(),
-      bgIndex: Math.floor(Math.random() * 5) // random background for Anthropic style
+      bgIndex: Math.floor(Math.random() * 5)
     };
     setNotes(prev => [newNote, ...prev]);
     setCurrentNoteId(newNote.id);
