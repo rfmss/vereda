@@ -520,26 +520,27 @@ function App() {
               {/* Ghost Content: Miolo de Livro (Placeholder Estrutural) */}
               {currentNote.genreName === 'Livro (Template Completo)' && text.length === 0 && (
                 <div className="ghost-book-template">
-                  <div className="ghost-section">
-                    <h2>Folha de Rosto</h2>
-                    <div className="ghost-text-block" style={{ width: '60%', margin: '0 auto' }}></div>
-                    <div className="ghost-text-block" style={{ width: '40%', margin: '0 auto' }}></div>
+                  <div className="ghost-section" style={{ textAlign: 'center', marginTop: '40mm' }}>
+                    <h2 style={{ border: 'none' }}>FOLHA DE ROSTO</h2>
+                    <div className="ghost-text-block" style={{ width: '40%', margin: '2rem auto' }}></div>
+                    <div className="ghost-text-block" style={{ width: '20%', margin: '0 auto' }}></div>
                   </div>
-                  <div className="ghost-section">
-                    <h2>Dedicatória</h2>
-                    <div className="ghost-text-block" style={{ width: '30%', margin: '0 auto 0 0' }}></div>
+                  <div className="ghost-section" style={{ marginTop: '100mm', textAlign: 'right' }}>
+                    <h2 style={{ border: 'none' }}>DEDICATÓRIA</h2>
+                    <div className="ghost-text-block" style={{ width: '40%', marginLeft: 'auto' }}></div>
+                    <div className="ghost-text-block" style={{ width: '30%', marginLeft: 'auto' }}></div>
                   </div>
-                  <div className="ghost-section">
-                    <h2>Sumário</h2>
-                    <div className="ghost-text-block" style={{ width: '80%' }}></div>
-                    <div className="ghost-text-block" style={{ width: '75%' }}></div>
-                    <div className="ghost-text-block" style={{ width: '85%' }}></div>
-                  </div>
-                  <div className="ghost-section">
-                    <h2>Prefácio</h2>
-                    <div className="ghost-text-block"></div>
-                    <div className="ghost-text-block"></div>
+                  <div className="ghost-section" style={{ marginTop: '60mm' }}>
+                    <h2>SUMÁRIO</h2>
                     <div className="ghost-text-block" style={{ width: '90%' }}></div>
+                    <div className="ghost-text-block" style={{ width: '85%' }}></div>
+                    <div className="ghost-text-block" style={{ width: '88%' }}></div>
+                  </div>
+                  <div className="ghost-section" style={{ marginTop: '60mm' }}>
+                    <h2>PREFÁCIO</h2>
+                    <div className="ghost-text-block"></div>
+                    <div className="ghost-text-block"></div>
+                    <div className="ghost-text-block" style={{ width: '92%' }}></div>
                   </div>
                 </div>
               )}
@@ -624,6 +625,7 @@ function App() {
             <div className="empty-state">Selecione ou crie uma anotação.</div>
           )}
         </div>
+      </div>
         
         {/* Botões flutuantes para sair */}
         <button 

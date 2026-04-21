@@ -18,8 +18,6 @@ import { CSS } from '@dnd-kit/utilities';
 
 // ─── Catálogo de Gêneros Literários ──────────────────────────────────────────
 // placeholder: texto "fantasma" que ensina o escritor. NUNCA entra no content.
-// ─── Catálogo de Gêneros Literários ──────────────────────────────────────────
-// placeholder: texto "fantasma" que ensina o escritor. NUNCA entra no content.
 const GENRE_CATALOG = [
   {
     group: 'Narrativo',
@@ -274,12 +272,6 @@ export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSel
       holdFired.current = true;
       setMenuOpen(true);
     }, 480);
-
-    const fallbackTimer = setTimeout(async () => {
-      const names = await caches.keys();
-      if (names.length > 0) setForceReady(true);
-    }, 5000);
-    return () => clearTimeout(fallbackTimer);
   };
 
   const cancelHold = () => {
