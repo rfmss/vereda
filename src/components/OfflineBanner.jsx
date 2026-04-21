@@ -58,6 +58,7 @@ export function OfflineBanner() {
   const [msgIndex,     setMsgIndex]     = useState(0);
   const [msgVisible,   setMsgVisible]   = useState(true);
   const [realMB,       setRealMB]       = useState(null); // MB real após ready
+  const [forceReady,   setForceReady]   = useState(false); // Fallback caso offlineReady falhe
 
   const animRef       = useRef(null);
   const dismissTimer  = useRef(null);
@@ -97,7 +98,7 @@ export function OfflineBanner() {
 
   // ── Animação da barra de progresso ─────────────────────────────────────────
   useEffect(() => {
-    const isReady = offlineReady[0];
+    const isReady = offlineReady[0] || forceReady;
 
     if (isReady) {
       clearInterval(animRef.current);
@@ -112,6 +113,22 @@ export function OfflineBanner() {
       dismissTimer.current = setTimeout(() => setPhase('dismissed'), 7000);
       return () => clearTimeout(dismissTimer.current);
     }
+
+    // Fallback: se estivermos em 85% por mais de 5 segundos, verificamos se já temos cache
+    const fallbackTimer = setTimeout(async () => {
+      if (phase === 'installing' && progress >= 85) {
+        const names = await caches.keys();
+        if (names.length > 0) {
+           console.log("[PWA] Force-ready fallback triggered.");
+           setForceReady(true);
+        }
+      }
+    }, 6000);
+
+    return () => {
+      clearInterval(animRef.current);
+      clearTimeout(fallbackTimer);
+    };
 
     if (phase === 'dismissed') return;
 

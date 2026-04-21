@@ -479,7 +479,7 @@ function App() {
                 <input
                   type="text"
                   className="editor-title-input"
-                  placeholder="Título do Documento..."
+                  placeholder={currentNote.titlePlaceholder || "Título do Documento..."}
                   value={currentNote.title || ''}
                   onChange={(e) => updateCurrentNote({ title: e.target.value })}
                 />
@@ -499,11 +499,13 @@ function App() {
                   {/* Placeholder de gênero — só aparece quando o texto está vazio */}
                   {currentNote.genrePlaceholder && text.length === 0 && (
                     <div className="genre-guide-banner">
-                      <div className="genre-guide-label">
+                      <div className="genre-guide-header-label">
                         <span className="genre-guide-chip">{currentNote.genreName}</span>
                         guia de escrita
                       </div>
-                      <pre className="genre-guide-text">{currentNote.genrePlaceholder}</pre>
+                      <div className="genre-guide-markdown">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{currentNote.genrePlaceholder}</ReactMarkdown>
+                      </div>
                     </div>
                   )}
                   <div className="editor-textarea-container" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>

@@ -18,6 +18,8 @@ import { CSS } from '@dnd-kit/utilities';
 
 // ─── Catálogo de Gêneros Literários ──────────────────────────────────────────
 // placeholder: texto "fantasma" que ensina o escritor. NUNCA entra no content.
+// ─── Catálogo de Gêneros Literários ──────────────────────────────────────────
+// placeholder: texto "fantasma" que ensina o escritor. NUNCA entra no content.
 const GENRE_CATALOG = [
   {
     group: 'Narrativo',
@@ -27,93 +29,64 @@ const GENRE_CATALOG = [
       {
         name: 'Romance',
         title: 'Sem título',
+        titlePlaceholder: 'Morro dos Sopros Uivantes',
         description: 'Narrativa longa e complexa',
         placeholder:
-          'Apresente seu protagonista. Qual é o maior desejo dele? Qual obstáculo se coloca em seu caminho?\n\nO romance vive de tensão. Coloque seu personagem numa situação impossível — e veja o que ele faz.',
-      },
-      {
-        name: 'Novela',
-        title: 'Sem título',
-        description: 'Extensão média, ritmo acelerado',
-        placeholder:
-          'Comece in medias res — no meio da ação. A novela não tem tempo a perder.\n\nQual é o conflito central? Apresente-o nas primeiras linhas.',
+          '# A Jornada do Herói (ou Anti-Herói)\n\n"Toda grande história é sobre alguém que quer algo e encontra um obstáculo intransponível."\n\n**O Desafio:** Defina o "E se?" da sua história. E se um homem comum descobrisse que o tempo está parando?\n\n**Estrutura de Ouro:**\n• **Incidente Incitante:** O evento que tira o personagem da zona de conforto.\n• **Ponto de Não Retorno:** Onde ele decide que não pode mais voltar atrás.\n• **Clímax Emocional:** Onde o desejo e a realidade colidem.\n\n**Neuro-Gatilho:** *Identificação Projetiva.* O leitor precisa sentir que a dor do personagem é a dele.',
       },
       {
         name: 'Conto',
         title: 'Sem título',
+        titlePlaceholder: 'O Alienista de Bolso',
         description: 'Um único momento, uma única virada',
         placeholder:
-          'Menos é mais. Um único instante, um único personagem, uma única revelação.\n\nO conto perfeito cabe numa página e dura uma vida inteira.',
-      },
-      {
-        name: 'Crônica',
-        title: 'Sem título',
-        description: 'O cotidiano com profundidade',
-        placeholder:
-          'O que você viu hoje que merecia ser guardado?\n\nA crônica transforma o ordinário em extraordinário. Comece com uma cena simples — e vá fundo.',
-      },
-      {
-        name: 'Epopeia',
-        title: 'Sem título',
-        description: 'Feitos heroicos em verso longo',
-        placeholder:
-          'Invoque a musa. Declare o tema.\n\n"Canto o herói que..." — o leitor precisa saber, desde a primeira linha, que algo grandioso está por vir.',
+          '# O Instantâneo da Alma\n\n"O conto é uma fotografia, não um filme. Foque no que a lente não mostra."\n\n**O Desafio:** Escreva uma cena onde um silêncio diz mais do que mil palavras.\n\n**Estrutura de Ouro:**\n• **Unidade de Efeito:** Todo elemento deve levar à mesma emoção final.\n• **Economia de Meios:** Sem descrições inúteis. Se há uma arma na parede, ela deve disparar.\n• **Epifania:** O momento em que algo muda para sempre na mente do leitor.\n\n**Neuro-Gatilho:** *Efeito Zeigarnik.* Deixe um loop aberto na mente do leitor para que ele termine de escrever o conto na própria cabeça.',
       },
     ],
   },
   {
-    group: 'Lírico',
+    group: 'Híbridos & Modernos',
     icon: Feather,
     color: '#7a8fc4',
     genres: [
       {
-        name: 'Poema',
+        name: 'Autoficção',
         title: 'Sem título',
-        description: 'Versos e estrofes livres',
+        titlePlaceholder: 'Em Busca do Tempo que Perdi no Sofá',
+        description: 'Memória real + liberdade ficcional',
         placeholder:
-          'Escolha uma imagem. Deixe-a respirar em versos.\n\nO poema não explica — ele mostra. Cada palavra carrega peso; nenhuma é acidente.',
+          '# A Verdade como Matéria-Prima\n\n"Sua memória é o campo de batalha. Não tenha medo de trair a verdade para encontrar a sinceridade."\n\n**O Desafio:** Transforme um trauma ou alegria real em um personagem que não é você, mas sente como você.\n\n**Estrutura de Ouro:**\n• **Voz Confessional:** O tom deve ser de segredo compartilhado.\n• **O Detalhe Cru:** Escolha um objeto real da sua casa para ancorar a cena.\n• **O Ponto de Virada:** Onde o "eu" da vida real tomou uma decisão diferente do "eu" do papel.\n\n**Modelo Mental:** *Vulnerabilidade como Autoridade.* O cérebro humano se conecta instantaneamente com a falha exposta, não com a perfeição simulada.',
       },
       {
-        name: 'Soneto',
+        name: 'Newsletter / Ensaio',
         title: 'Sem título',
-        description: '14 versos, uma ideia inteira',
+        titlePlaceholder: 'Cartas de um Escritor em Pânico',
+        description: 'Voz direta e opinativa',
         placeholder:
-          'Dois quartetos, dois tercetos. Uma ideia inteira.\n\nQuarteto I: apresente o tema.\nQuarteto II: desenvolva a tensão.\nTerceto I: o giro inesperado.\nTerceto II: o verso que fecha tudo.',
-      },
-      {
-        name: 'Canção',
-        title: 'Sem título',
-        description: 'Para ser cantado, para ser sentido',
-        placeholder:
-          'Deixe o ritmo guiar as palavras. Repita o que importa.\n\nO refrão é a emoção central — encontre-o primeiro. Depois construa o mundo ao redor.',
+          '# O Diálogo Privado em Público\n\n"Escrever uma newsletter é enviar uma carta para mil amigos que você ainda não conhece."\n\n**O Desafio:** Explique uma ideia complexa através de uma anedota pessoal de café da manhã.\n\n**Estrutura de Ouro:**\n• **O Gancho (Subject Line):** Gere uma curiosidade de baixa carga cognitiva.\n• **A Tese:** Qual é a única coisa que o leitor deve levar daqui hoje?\n• **Call to Connection:** Termine com uma pergunta que peça uma resposta real, não um like.\n\n**Neuro-Gatilho:** *Reciprocidade Social.* Entregue valor antes de pedir atenção.',
       },
     ],
   },
   {
-    group: 'Dramático',
-    icon: Theater,
-    color: '#8b7355',
+    group: 'Redes Federadas',
+    icon: Plus,
+    color: '#34d399',
     genres: [
       {
-        name: 'Tragédia',
+        name: 'Mastodon / Fediverso',
         title: 'Sem título',
-        description: 'Grandeza e queda fatal',
+        titlePlaceholder: 'O Elefante na Sala',
+        description: 'Contexto e respiro visual',
         placeholder:
-          'Apresente o herói no auge. O declínio virá.\n\nHamártia: qual é o defeito fatal? O que ele não consegue ver em si mesmo?\n\nPersonagem A — \nPersonagem B — ',
+          '# Escrita Descentralizada\n\n"No Fediverso, a atenção não é roubada por algoritmos; ela é conquistada pela utilidade."\n\n**O Desafio:** Escreva para humanos, respeitando a etiqueta do Content Warning (CW).\n\n**Modelos Mentais:**\n• **Ancoragem de Contexto:** Evite o "Context Collapse". Defina seu nicho na primeira linha.\n• **Alt-Text Empathy:** Descrever imagens aumenta a oxitocina da comunidade e a acessibilidade real.\n• **Thread de Valor:** Se for longo, use o modelo 1/x com resumo no topo.\n\n**Neuro-Gatilho:** *Processamento Pré-atentativo.* Use quebras de linha para tornar o texto legível "antes de ler".',
       },
       {
-        name: 'Comédia',
+        name: 'Nostr / Bluesky',
         title: 'Sem título',
-        description: 'O riso como espelho',
+        titlePlaceholder: 'Protocolo de Intenções',
+        description: 'Soberania e fluxo de consciência',
         placeholder:
-          'O riso revela verdades. Qual é o equívoco que vai desencadear tudo?\n\nA comédia exige ritmo. Cada réplica deve ser mais surpreendente que a anterior.\n\nPersonagem A — \nPersonagem B — ',
-      },
-      {
-        name: 'Drama Histórico',
-        title: 'Sem título',
-        description: 'O passado como palco',
-        placeholder:
-          'O passado como palco. Qual evento histórico vive aqui?\n\nA história já aconteceu — mas os personagens ainda não sabem o que vai acontecer. Esse é o drama.\n\nCenário: \nÉpoca: ',
+          '# O Protocolo da Verdade\n\n"A soberania digital começa na forma como você estrutura seus pensamentos."\n\n**O Desafio:** Escreva um "Post-it" mental que ressoe com a identidade soberana.\n\n**Estrutura de Ouro:**\n• **Assinatura de Voz:** No Nostr, sua chave é sua identidade. No texto, sua consistência é sua confiança.\n• **O Gatilho da Curiosidade:** Comece com uma afirmação contraintuitiva.\n• **Engajamento Honestos:** Não use "threads" caça-cliques. Use profundidade real.\n\n**Neuro-Gatilho:** *Dopamina de Descoberta.* O cérebro federado busca o novo, não o repetitivo.',
       },
     ],
   },
@@ -222,28 +195,30 @@ function GenreMenu({ isOpen, onSelect, onClose }) {
         <button className="genre-menu-close" onClick={onClose}><X size={14} /></button>
       </div>
 
-      {GENRE_CATALOG.map(group => {
-        const GroupIcon = group.icon;
-        return (
-          <div key={group.group} className="genre-group">
-            <div className="genre-group-label" style={{ color: group.color }}>
-              <GroupIcon size={12} strokeWidth={2.5} />
-              {group.group}
+      <div className="genre-menu-content">
+        {GENRE_CATALOG.map(group => {
+          const GroupIcon = group.icon;
+          return (
+            <div key={group.group} className="genre-group">
+              <div className="genre-group-label" style={{ color: group.color }}>
+                <GroupIcon size={12} strokeWidth={2.5} />
+                {group.group}
+              </div>
+              {group.genres.map(genre => (
+                <button
+                  key={genre.name}
+                  className="genre-item"
+                  role="menuitem"
+                  onClick={() => { onSelect(genre); onClose(); }}
+                >
+                  <span className="genre-item-name">{genre.name}</span>
+                  <span className="genre-item-desc">{genre.description}</span>
+                </button>
+              ))}
             </div>
-            {group.genres.map(genre => (
-              <button
-                key={genre.name}
-                className="genre-item"
-                role="menuitem"
-                onClick={() => { onSelect(genre); onClose(); }}
-              >
-                <span className="genre-item-name">{genre.name}</span>
-                <span className="genre-item-desc">{genre.description}</span>
-              </button>
-            ))}
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -270,14 +245,18 @@ export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSel
     }
   };
 
-  // ── Long-press logic ────────────────────────────────────────────────────────
   const startHold = (e) => {
-    // Ignora cliques que vêm do dnd-kit (drag start)
     holdFired.current = false;
     holdTimer.current = setTimeout(() => {
       holdFired.current = true;
       setMenuOpen(true);
     }, 480);
+
+    const fallbackTimer = setTimeout(async () => {
+      const names = await caches.keys();
+      if (names.length > 0) setForceReady(true);
+    }, 5000);
+    return () => clearTimeout(fallbackTimer);
   };
 
   const cancelHold = () => {
@@ -285,8 +264,8 @@ export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSel
   };
 
   const handleClick = () => {
-    if (holdFired.current) return; // long-press já abriu o menu
-    onCreate();                    // click simples → nota em branco
+    if (holdFired.current) return;
+    onCreate();
   };
 
   const handleGenreSelect = (genre) => {
