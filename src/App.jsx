@@ -378,7 +378,7 @@ function App() {
       }
     };
     window.addEventListener('keydown', handleKeyDownGlobal);
-    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDownGlobal);
   }, [text, currentNote, eventLog, humanScore, pastedChunks, isExporting, createNote]);
 
   return (
