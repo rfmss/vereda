@@ -261,8 +261,9 @@ body {
 .new-note-hint {
   position: absolute;
   top: calc(100% + 8px);
-  right: 0;
-  background: var(--bg-sidebar);
+  right: 0; /* ancora na direita do botão, nunca sai da sidebar */
+  left: auto;
+  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 8px 12px;
@@ -289,6 +290,20 @@ body {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* Tooltips na sidebar: abrem para a DIREITA, nunca para a esquerda */
+.sidebar [data-tooltip]::before {
+  top: 50%;
+  left: calc(100% + 10px);
+  right: auto;
+  transform: translateY(-50%) translateX(-5px);
+  bottom: auto;
+}
+
+.sidebar [data-tooltip]:hover::before {
+  transform: translateY(-50%) translateX(0);
+}
+
 
 /* Menu de gêneros */
 .genre-menu {
@@ -1315,6 +1330,26 @@ body {
   line-height: 1.5;
 }
 
+.snapshot-action-btns {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+}
+
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
 .snapshot-list {
   padding: 2rem;
   overflow-y: auto;
@@ -1355,6 +1390,7 @@ body {
 .snapshot-date {
   font-weight: 600;
   color: var(--text-main);
+  font-size: 0.85rem;
 }
 
 .snapshot-words {
@@ -1362,11 +1398,36 @@ body {
   color: var(--text-muted);
 }
 
+.snapshot-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Botão de download por versão — ícone pequeno discreto */
+.snapshot-dl-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  border-radius: 6px;
+  padding: 0.35rem 0.45rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.snapshot-dl-btn:hover {
+  border-color: var(--complement);
+  color: var(--complement);
+}
+
 .file-inputs {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
+
 
 /* Audio Player */
 .audio-player-dropdown {
