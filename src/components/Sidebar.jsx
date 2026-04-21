@@ -118,10 +118,10 @@ export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSel
       <div className="sidebar-header">
         <h2 className="logo">Vereda</h2>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button onClick={onCreateChapter} className="icon-btn" data-tooltip="Novo Divisor de Capítulo">
+          <button onClick={() => onCreateChapter()} className="icon-btn" data-tooltip="Novo Divisor de Capítulo">
             <FolderPlus size={18} strokeWidth={2} />
           </button>
-          <button onClick={onCreate} className="icon-btn" data-tooltip="Nova Anotação">
+          <button onClick={() => onCreate()} className="icon-btn" data-tooltip="Nova Anotação">
             <Plus size={20} strokeWidth={2} />
           </button>
         </div>
