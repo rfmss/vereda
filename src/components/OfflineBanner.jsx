@@ -201,11 +201,10 @@ export function OfflineBanner() {
         </div>
       )}
 
-      {/* Selo de prontidão (Bunker Mode) — aparece apenas quando pronto */}
+      {/* Selo de prontidão (Bunker Mode) — ponto verde pastel ultra-discreto */}
       {isReady && (
         <div className="sw-ready-seal" data-tooltip="Modo Bunker: Este app agora funciona 100% sem internet.">
-          <ShieldCheck size={18} />
-          <span className="sw-seal-dot"></span>
+          <span className="sw-status-dot-pastel"></span>
         </div>
       )}
 

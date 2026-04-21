@@ -1865,40 +1865,32 @@ body {
   opacity: 0.7;
 }
 
-/* Selo de Pronto (Bunker) */
+/* Selo de Pronto (Bunker) — Versão Discreta (Ponto Pastel) */
 .sw-ready-seal {
   position: fixed;
   top: 15px;
   right: 15px;
   z-index: 10000;
-  background: #2ea44f;
-  color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: 12px;
+  height: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(46, 164, 79, 0.3);
-  animation: swPillPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: help;
 }
 
-.sw-ready-seal:hover {
-  transform: scale(1.1);
-  background: #2c974b;
+.sw-status-dot-pastel {
+  width: 8px;
+  height: 8px;
+  background: #a8e6cf; /* Verde pastel suave */
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(168, 230, 207, 0.6);
+  animation: swDotPulse 2.5s infinite ease-in-out;
 }
 
-.sw-seal-dot {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 10px;
-  height: 10px;
-  background: #52c96a;
-  border: 2px solid white;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
+@keyframes swDotPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 12px rgba(168, 230, 207, 0.8); }
 }
 
 .sw-offline-warning {
@@ -2148,16 +2140,52 @@ body {
 }
 
 .editor-content-wrapper.paged-mode .editor-container-inner {
-  max-width: 820px; /* Largura próxima ao A4 com margens */
-  margin: 0 auto;
+  max-width: 820px;
+  margin: 2rem auto;
   background: white;
-  color: #333;
-  min-height: 297mm; /* Altura mínima de uma folha A4 */
-  padding: 30mm 25mm; /* Margens padrão de livro/documento */
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
-  border-radius: 2px;
+  color: #2c2c2c;
+  min-height: 297mm;
+  padding: 40mm 35mm; /* Margens clássicas de miolo de livro */
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 20px 50px rgba(0, 0, 0, 0.08);
+  border-radius: 1px;
   position: relative;
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  line-height: 1.8;
+}
+
+/* Placeholder de estrutura (Ghost Content) */
+.ghost-book-template {
+  position: absolute;
+  top: 40mm;
+  left: 35mm;
+  right: 35mm;
+  pointer-events: none;
+  opacity: 0.15;
+  color: #000;
+  font-family: 'Lora', 'Georgia', serif;
+  user-select: none;
+  z-index: 0;
+}
+
+.ghost-section {
+  margin-bottom: 50mm; /* Simula quebras de página */
+  border-top: 1px dashed #ccc;
+  padding-top: 2rem;
+}
+
+.ghost-section h2 {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.ghost-text-block {
+  height: 1rem;
+  background: #eee;
+  margin-bottom: 0.8rem;
+  border-radius: 2px;
 }
 
 /* No modo Dark ou Terminal, mantemos a folha branca por padrão para o livro */

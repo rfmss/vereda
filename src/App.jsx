@@ -481,6 +481,32 @@ function App() {
           )}
           {currentNote ? (
             <div className="editor-container-inner">
+              {/* Ghost Content: Miolo de Livro (Placeholder Estrutural) */}
+              {currentNote.genreName === 'Livro (Template Completo)' && text.length === 0 && (
+                <div className="ghost-book-template">
+                  <div className="ghost-section">
+                    <h2>Folha de Rosto</h2>
+                    <div className="ghost-text-block" style={{ width: '60%', margin: '0 auto' }}></div>
+                    <div className="ghost-text-block" style={{ width: '40%', margin: '0 auto' }}></div>
+                  </div>
+                  <div className="ghost-section">
+                    <h2>Dedicatória</h2>
+                    <div className="ghost-text-block" style={{ width: '30%', margin: '0 auto 0 0' }}></div>
+                  </div>
+                  <div className="ghost-section">
+                    <h2>Sumário</h2>
+                    <div className="ghost-text-block" style={{ width: '80%' }}></div>
+                    <div className="ghost-text-block" style={{ width: '75%' }}></div>
+                    <div className="ghost-text-block" style={{ width: '85%' }}></div>
+                  </div>
+                  <div className="ghost-section">
+                    <h2>Prefácio</h2>
+                    <div className="ghost-text-block"></div>
+                    <div className="ghost-text-block"></div>
+                    <div className="ghost-text-block" style={{ width: '90%' }}></div>
+                  </div>
+                </div>
+              )}
               {!isReaderMode && (
                 <input
                   type="text"
