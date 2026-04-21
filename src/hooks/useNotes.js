@@ -37,7 +37,6 @@ export function useNotes() {
       humanScore: 0,
       pastedChunks: 0,
       wordGoal: 0,
-      snapshots: [],
       lastModified: Date.now(),
       bgIndex: Math.floor(Math.random() * 5)
     };
@@ -90,30 +89,6 @@ export function useNotes() {
     });
   };
 
-  const createSnapshot = (noteId, content, title) => {
-    setNotes(prev => prev.map(note => {
-      if (note.id !== noteId) return note;
-      const finalContent = content !== undefined ? content : note.content;
-      const finalTitle = title !== undefined ? title : note.title;
-      const snapshot = {
-        id: Date.now().toString(),
-        timestamp: Date.now(),
-        content: finalContent,
-        title: finalTitle,
-        words: finalContent.trim().split(/\s+/).filter(w => w.length > 0).length
-      };
-      return { ...note, snapshots: [snapshot, ...(note.snapshots || [])] };
-    }));
-  };
-
-  const restoreSnapshot = (noteId, snapshotId) => {
-    setNotes(prev => prev.map(note => {
-      if (note.id !== noteId) return note;
-      const snapshot = (note.snapshots || []).find(s => s.id === snapshotId);
-      if (!snapshot) return note;
-      return { ...note, content: snapshot.content, title: snapshot.title, lastModified: Date.now() };
-    }));
-  };
 
   const importNotes = (importedNotes) => {
     setNotes(importedNotes);
@@ -133,8 +108,6 @@ export function useNotes() {
     updateNote,
     deleteNote,
     reorderNotes,
-    createSnapshot,
-    restoreSnapshot,
     importNotes,
   };
 }

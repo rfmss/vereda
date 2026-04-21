@@ -10,9 +10,8 @@ import { MarkdownToolbar } from './components/MarkdownToolbar';
 import { TextStatistics } from './components/TextStatistics';
 import { generateProofSignature } from './crypto';
 import { ReaderSettings } from './components/ReaderSettings';
-import { SnapshotModal } from './components/SnapshotModal';
 import { AudioPlayer } from './components/AudioPlayer';
-import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Settings, BookOpen, Keyboard, History, Headphones, Terminal, Columns } from 'lucide-react';
+import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Settings, BookOpen, Keyboard, Headphones, Terminal, Columns } from 'lucide-react';
 import getCaretCoordinates from 'textarea-caret';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -59,7 +58,7 @@ function App() {
   const { 
     notes, currentNote, currentNoteId, setCurrentNoteId, 
     createNote, createChapter, updateCurrentNote, updateNote, deleteNote, 
-    reorderNotes, createSnapshot, restoreSnapshot, importNotes
+    reorderNotes, importNotes
   } = useNotes();
   const [isDark, setIsDark] = useState(false);
   const [isTerminalMode, setIsTerminalMode] = useState(false);
@@ -73,7 +72,6 @@ function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isGrammarMode, setIsGrammarMode] = useState(false);
   const [showVerifier, setShowVerifier] = useState(false);
-  const [showSnapshotModal, setShowSnapshotModal] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
@@ -93,7 +91,6 @@ function App() {
 
   useEffect(() => {
     setGuideDismissed(false);
-    setShowSnapshotModal(false); // Fecha o modal de versões ao trocar de nota para evitar confusão
   }, [currentNoteId]);
 
   useEffect(() => {
@@ -141,7 +138,6 @@ function App() {
       if (e.key === 'Escape') {
         if (dialogState.isOpen) setDialogState({ ...dialogState, isOpen: false });
         else if (showVerifier) setShowVerifier(false);
-        else if (showSnapshotModal) setShowSnapshotModal(false);
         else if (isReaderMode || isFocusMode) {
           setIsReaderMode(false);
           setIsFocusMode(false);
@@ -445,9 +441,6 @@ function App() {
               <button className={`icon-btn ${isTypewriterMode ? 'active' : ''}`} onClick={() => setIsTypewriterMode(!isTypewriterMode)} data-tooltip="Modo Máquina de Escrever">
                 <Keyboard size={20} />
               </button>
-              <button className={`icon-btn ${showSnapshotModal ? 'active' : ''}`} onClick={() => setShowSnapshotModal(true)} data-tooltip="Histórico de Versões">
-                <History size={20} />
-              </button>
               <button className={`icon-btn ${isGrammarMode ? 'active' : ''}`} onClick={() => setIsGrammarMode(!isGrammarMode)} data-tooltip="Alternar Marcador Gramatical">
                 <Highlighter size={20} />
               </button>
@@ -591,15 +584,6 @@ function App() {
           </button>
         </main>
 
-        {showSnapshotModal && (
-          <SnapshotModal 
-            isOpen={showSnapshotModal} 
-            onClose={() => setShowSnapshotModal(false)}
-            currentNote={currentNote}
-            onCreateSnapshot={(id) => createSnapshot(id, text, currentNote.title)}
-            onRestoreSnapshot={restoreSnapshot}
-          />
-        )}
         {showVerifier && <VerifierModal onClose={() => setShowVerifier(false)} />}
         <CustomDialog {...dialogState} />
         <CustomCursor />
