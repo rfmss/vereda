@@ -1776,12 +1776,17 @@ body {
 }
 
 /* Tooltips que abrem para CIMA (em elementos no fundo da tela) */
+/* Tooltips que abrem para CIMA (em elementos no fundo da tela) */
 .text-statistics-wrapper [data-tooltip]::before,
 .dictionary-float [data-tooltip]::before {
   top: auto;
-.floating-exit-btn[data-tooltip]:hover::before,
-.text-statistics-wrapper [data-tooltip]:hover::before {
-  transform: translateX(-50%) translateY(-10px);
+  bottom: 130%;
+}
+
+.text-statistics-wrapper [data-tooltip]:hover::before,
+.dictionary-float [data-tooltip]:hover::before,
+.floating-exit-btn[data-tooltip]:hover::before {
+  transform: translateX(-50%) translateY(-5px);
 }
 
 /* Markdown Preview (Reader Mode) */
