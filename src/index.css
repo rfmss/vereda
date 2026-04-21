@@ -1895,18 +1895,32 @@ body {
 
 .sw-offline-warning {
   position: fixed;
-  top: 10px;
-  right: 15px;
-  background: var(--error);
-  color: white;
-  padding: 4px 12px;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 87, 34, 0.1);
+  color: #ff5722;
+  padding: 0.5rem 1rem;
   border-radius: 20px;
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: 0.75rem;
   display: flex;
   align-items: center;
-  gap: 6px;
-  z-index: 10000;
+  gap: 8px;
+  border: 1px solid rgba(255, 87, 34, 0.2);
+  z-index: 1000;
+}
+
+.verifier-intro {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  border-left: 3px solid var(--accent);
+  padding-left: 1rem;
+}
+
+.verifier-intro strong {
+  color: var(--text-main);
+  font-weight: 700;
 }
 
 @keyframes pulse {

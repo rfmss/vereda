@@ -41,7 +41,11 @@ export function VerifierModal({ onClose }) {
           <button className="icon-btn" onClick={onClose}>&times;</button>
         </div>
         <div className="modal-body">
-          <p>Faça o upload de um documento de texto gerado e sua respectiva prova criptográfica (.proof.json) para verificar a autoria e integridade do arquivo.</p>
+          <p className="verifier-intro">
+            Este verificador é de <strong>uso exclusivo</strong> para documentos criados originalmente aqui no Vereda. 
+            Validamos a prova criptográfica (.proof.json) que garante que seu texto nasceu do esforço humano, 
+            blindado contra inteligência artificial.
+          </p>
           
           <div className="file-inputs">
             <label className="file-label">
