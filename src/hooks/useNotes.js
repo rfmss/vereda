@@ -27,11 +27,12 @@ export function useNotes() {
     const newNote = {
       id: Date.now().toString(),
       title: title || (genre ? genre.title : ''),
-      content: '',
-      // O placeholder do gênero NUNCA vai para o content —
-      // ele é exibido como hint fantasma e não polui o PoHW.
+      // Se o gênero tiver initialContent (como o template de livro), usamos ele.
+      // Caso contrário, começa vazio.
+      content: genre && genre.initialContent ? genre.initialContent : '',
       genrePlaceholder: genre ? genre.placeholder : null,
       genreName: genre ? genre.name : null,
+      titlePlaceholder: genre ? genre.titlePlaceholder : null,
       eventLog: [],
       humanScore: 0,
       pastedChunks: 0,

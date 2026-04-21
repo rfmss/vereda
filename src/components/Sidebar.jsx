@@ -97,19 +97,21 @@ const GENRE_CATALOG = [
     genres: [
       {
         name: 'Reportagem / Jornalismo',
-        title: 'Sem título',
+        title: 'Fato em Foco',
         titlePlaceholder: 'Notícia de um Sequestro Literário',
         description: 'Fatos, lide e pirâmide invertida',
+        initialContent: '# Título da Reportagem\n\n**O LIDE (QUEM, O QUE, ONDE, QUANDO, POR QUE):**\nEscreva aqui o fato principal em uma frase de impacto.\n\n---\n\n**CORPO DO TEXTO:**\nDesenvolva os detalhes em ordem de importância...',
         placeholder:
-          '# O Fato em Primeiro Lugar\n\n"O jornalismo é a primeira versão da história. Seja preciso, seja rápido, seja honesto."\n\n**A Estrutura Clássica (Pirâmide Invertida):**\n\n1. **O Lide:** O que? Quem? Quando? Onde? Por que? Tudo no primeiro parágrafo.\n2. **O Corpo:** Detalhes em ordem decrescente de importância.\n3. **Contexto:** Por que isso importa agora?\n\n**Dica Globoplay:** Conte uma história humana por trás dos dados. As pessoas esquecem números, mas lembram de rostos.',
+          '# O Fato em Primeiro Lugar\n\n"O jornalismo é a primeira versão da história. Seja preciso, seja rápido, seja honesto."\n\n**A Estrutura Clássica (Pirâmide Invertida):**\n\n1. **O Lide:** Tudo no primeiro parágrafo.\n2. **O Corpo:** Detalhes em ordem decrescente.\n\n**Dica Globoplay:** Conte uma história humana por trás dos dados.',
       },
       {
         name: 'Livro (Template Completo)',
-        title: 'Sem título',
+        title: 'Título do meu Livro',
         titlePlaceholder: 'Dom Casmurro e o Sumário Perdido',
         description: 'Estrutura completa: da capa ao fim',
+        initialContent: '# Título do Livro\n\n## Folha de Rosto\nSubtítulo e Nome do Autor\n\n---\n\n## Dedicatória\nPara...\n\n---\n\n## Sumário\n1. Introdução\n2. Capítulo 1\n\n---\n\n## Prefácio\nEscreva aqui o motivo deste livro existir.\n\n---\n\n## Capítulo 1: O Chamado\nComece sua história aqui...',
         placeholder:
-          '# Guia de Estrutura: Seu Livro Começa Aqui\n\nEste é o esqueleto de uma obra profissional. Siga a ordem para garantir que seu livro tenha "cara de livro".\n\n---\n\n## 1. Elementos Pré-Textuais\n\n• **Folha de Rosto:** Título, Subtítulo e seu nome.\n• **Dedicatória:** Para quem você queima as pestanas?\n• **Epígrafe:** Uma citação que resuma a alma da obra.\n• **Sumário:** O mapa da jornada.\n• **Prefácio:** Por que este livro existe?\n\n---\n\n## 2. O Miolo (A Obra)\n\n### Capítulo 1: O Chamado\nComece aqui sua narrativa. Lembre-se: mostre, não apenas conte.\n\n---\n\n## 3. Elementos Pós-Textuais\n\n• **Agradecimentos:** Ninguém escreve sozinho.\n• **Sobre o Autor:** Quem é você no mundo das letras?\n\n**Dica de Ouro:** Ao imprimir ou exportar, cada "---" será o sinal para você dar uma quebra de página manual no seu editor final.',
+          '# Guia de Estrutura: Seu Livro Começa Aqui\n\nEste é o esqueleto de uma obra profissional. Siga a ordem para garantir que seu livro tenha "cara de livro".\n\n---\n\n**Dica de Ouro:** Cada "---" acima gera uma quebra de página real na impressão e no PDF. O Vereda já organizou o miolo básico para você.',
       },
     ],
   },
