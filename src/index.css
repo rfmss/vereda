@@ -1,10 +1,13 @@
 :root {
-  /* Premium Light Mode Color Palette (Anthropic style - Eye Safe) */
+  /* Official Palette: Luminous Blue & Muted Amber */
   --bg-color: #f5f5f0;
   --bg-sidebar: #efefea;
   --text-main: #3a3a3a;
   --text-muted: #7f7f7f;
-  --accent: #da7b5f;
+  
+  --accent: #2F4A8A; /* Luminous Blue 19-3952 TCX */
+  --complement: #B5834A; /* Muted Amber (Complementary) */
+  
   --border-color: rgba(0, 0, 0, 0.06);
   --error: #d73a49;
   
@@ -14,12 +17,14 @@
 }
 
 body.theme-dark {
-  /* Premium Dark Mode - Eye Safe Charcoal/Sepia */
-  --bg-color: #262625;
-  --bg-sidebar: #222221;
+  --bg-color: #1a1918;
+  --bg-sidebar: #161514;
   --text-main: #dcdccc;
   --text-muted: #8b8b8b;
-  --accent: #e59c85;
+  
+  --accent: #4a6bb8; /* Lighter Luminous Blue for Dark Mode */
+  --complement: #cc9c66; /* Lighter Muted Amber */
+  
   --border-color: rgba(255, 255, 255, 0.08);
   --error: #ff7b72;
 }
@@ -697,14 +702,21 @@ body {
   gap: 0.5rem;
   padding: 0.4rem 0.8rem;
   border-radius: 999px;
-  background-color: var(--bg-sidebar);
+  background-color: rgba(47, 74, 138, 0.08);
   font-size: 0.8rem;
   font-weight: 500;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(47, 74, 138, 0.15);
+  color: var(--accent);
 }
-.badge.verified { color: #28a745; border-color: rgba(40,167,69,0.3); background-color: rgba(40,167,69,0.1); }
+.badge.verified { color: var(--accent); border-color: rgba(47, 74, 138, 0.3); background-color: rgba(47, 74, 138, 0.1); }
 .badge.suspicious { color: var(--error); border-color: rgba(215,58,73,0.3); background-color: rgba(215,58,73,0.1); }
-.badge-dot { width: 6px; height: 6px; border-radius: 50%; background-color: currentColor; }
+.badge-dot { 
+  width: 6px; 
+  height: 6px; 
+  border-radius: 50%; 
+  background-color: var(--complement); /* Ponto sempre na cor complementar */
+  box-shadow: 0 0 5px var(--complement);
+}
 
 .btn {
   background-color: var(--text-main);
@@ -727,11 +739,12 @@ body {
 
 .outline-btn {
   background-color: transparent;
-  color: var(--text-main);
-  border: 1px solid var(--border-color);
+  color: var(--accent);
+  border: 1px solid var(--accent);
 }
 .outline-btn:hover {
-  background-color: var(--bg-sidebar);
+  background-color: var(--accent);
+  color: white;
 }
 
 .editor-content-wrapper {
@@ -845,8 +858,8 @@ body {
 
 /* Global Selection */
 ::selection {
-  background-color: var(--text-main);
-  color: var(--bg-color);
+  background-color: rgba(47, 74, 138, 0.2);
+  color: inherit;
 }
 
 /* Text Statistics & Gamification */
@@ -1895,15 +1908,15 @@ body {
 .sw-status-dot-pastel {
   width: 8px;
   height: 8px;
-  background: #a8e6cf; /* Verde pastel suave */
+  background: var(--complement); /* Usa a cor complementar (Âmbar) */
   border-radius: 50%;
-  box-shadow: 0 0 8px rgba(168, 230, 207, 0.6);
+  box-shadow: 0 0 8px rgba(181, 131, 74, 0.4);
   animation: swDotPulse 2.5s infinite ease-in-out;
 }
 
 @keyframes swDotPulse {
   0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 12px rgba(168, 230, 207, 0.8); }
+  50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 12px rgba(181, 131, 74, 0.6); }
 }
 
 .sw-offline-warning {
