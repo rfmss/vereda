@@ -59,7 +59,7 @@ function App() {
   const { 
     notes, currentNote, currentNoteId, setCurrentNoteId, 
     createNote, createChapter, updateCurrentNote, updateNote, deleteNote, 
-    reorderNotes, createSnapshot, restoreSnapshot 
+    reorderNotes, createSnapshot, restoreSnapshot, importNotes
   } = useNotes();
   const [isDark, setIsDark] = useState(false);
   const [isTerminalMode, setIsTerminalMode] = useState(false);
@@ -398,6 +398,7 @@ function App() {
           onSelect={setCurrentNoteId} 
           onReorder={reorderNotes}
           onUpdateTitle={(id, title) => updateNote(id, { title })}
+          onImportNotes={importNotes}
           onDeleteRequest={(id) => {
             setDialogState({
               isOpen: true,

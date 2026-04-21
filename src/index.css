@@ -604,6 +604,56 @@ body {
   position: relative;
 }
 
+/* Sidebar Footer: Backup & Restaurar */
+.sidebar-footer {
+  padding: 0.75rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(128, 128, 128, 0.04);
+  backdrop-filter: blur(4px);
+}
+
+.sidebar-footer-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 4px;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.sidebar-footer-btn:hover {
+  background: var(--bg-color);
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-footer-btn--import:hover {
+  border-color: var(--error);
+  color: var(--error);
+  box-shadow: 0 4px 12px rgba(215, 58, 73, 0.15);
+}
+
+.sidebar-footer-btn span {
+  opacity: 0.8;
+}
+
+
 .chapter-drag-handle {
   cursor: grab;
   color: var(--text-muted);

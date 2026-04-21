@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Plus, Trash2, GripVertical, FolderPlus, BookOpen, Feather, X, HardDrive } from 'lucide-react';
+import { Plus, Trash2, GripVertical, FolderPlus, BookOpen, Feather, X, HardDrive, Download, Upload } from 'lucide-react';
 import {
   DndContext,
   closestCenter,
@@ -245,7 +245,7 @@ function GenreMenu({ isOpen, onSelect, onClose }) {
 }
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
-export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSelect, onDeleteRequest, onReorder, onUpdateTitle }) {
+export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSelect, onDeleteRequest, onReorder, onUpdateTitle, onImportNotes }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hint, setHint] = useState(false);       // tooltip de dica
   const holdTimer = useRef(null);
@@ -285,6 +285,54 @@ export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSel
 
   const handleGenreSelect = (genre) => {
     onCreate(genre);
+  };
+
+  // ─── Export / Import ─────────────────────────────────────────────
+  const fileInputRef = useRef(null);
+
+  const handleExportAll = () => {
+    const pad = (n) => String(n).padStart(2, '0');
+    const d = new Date();
+    const time = `${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+    const date = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+    const filename = `vereda-backup-${time}-${date}.json`;
+    const payload = { vereda_backup: true, exported_at: d.toISOString(), notes };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImportClick = () => fileInputRef.current?.click();
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (!data.vereda_backup || !Array.isArray(data.notes)) {
+          alert('Arquivo inválido. Use um backup exportado pelo Vereda.');
+          return;
+        }
+        const confirmed = window.confirm(
+          `⚠️ ATENÇÃO: Importar este backup vai APAGAR todas as ${notes.length} anotações atuais e substituir pelos ${data.notes.length} do arquivo.\n\nEsta ação não pode ser desfeita.\n\nDeseja continuar?`
+        );
+        if (confirmed && onImportNotes) {
+          onImportNotes(data.notes);
+        }
+      } catch {
+        alert('Erro ao ler o arquivo. Certifique-se de que é um JSON válido.');
+      }
+      e.target.value = '';
+    };
+    reader.readAsText(file);
   };
 
   return (
@@ -358,6 +406,33 @@ export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSel
             ))}
           </SortableContext>
         </DndContext>
+      </div>
+
+      {/* Rodapé discreto: Backup & Restaurar */}
+      <div className="sidebar-footer">
+        <button
+          className="sidebar-footer-btn"
+          onClick={handleExportAll}
+          data-tooltip="Exportar Backup (.json)"
+        >
+          <Download size={14} strokeWidth={2.5} />
+          <span>Backup</span>
+        </button>
+        <button
+          className="sidebar-footer-btn sidebar-footer-btn--import"
+          onClick={handleImportClick}
+          data-tooltip="Restaurar Backup (Sobrescreve tudo!)"
+        >
+          <Upload size={14} strokeWidth={2.5} />
+          <span>Restaurar</span>
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".json"
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+        />
       </div>
     </div>
   );

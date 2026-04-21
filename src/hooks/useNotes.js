@@ -113,6 +113,11 @@ export function useNotes() {
     }));
   };
 
+  const importNotes = (importedNotes) => {
+    setNotes(importedNotes);
+    setCurrentNoteId(importedNotes[0]?.id || null);
+  };
+
   const currentNote = notes.find(n => n.id === currentNoteId) || null;
 
   return {
@@ -127,6 +132,7 @@ export function useNotes() {
     deleteNote,
     reorderNotes,
     createSnapshot,
-    restoreSnapshot
+    restoreSnapshot,
+    importNotes,
   };
 }
