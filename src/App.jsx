@@ -93,6 +93,7 @@ function App() {
 
   useEffect(() => {
     setGuideDismissed(false);
+    setShowSnapshotModal(false); // Fecha o modal de versões ao trocar de nota para evitar confusão
   }, [currentNoteId]);
 
   useEffect(() => {
@@ -595,7 +596,7 @@ function App() {
             isOpen={showSnapshotModal} 
             onClose={() => setShowSnapshotModal(false)}
             currentNote={currentNote}
-            onCreateSnapshot={createSnapshot}
+            onCreateSnapshot={(id) => createSnapshot(id, text, currentNote.title)}
             onRestoreSnapshot={restoreSnapshot}
           />
         )}

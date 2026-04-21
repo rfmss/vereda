@@ -90,15 +90,17 @@ export function useNotes() {
     });
   };
 
-  const createSnapshot = (noteId) => {
+  const createSnapshot = (noteId, content, title) => {
     setNotes(prev => prev.map(note => {
       if (note.id !== noteId) return note;
+      const finalContent = content !== undefined ? content : note.content;
+      const finalTitle = title !== undefined ? title : note.title;
       const snapshot = {
         id: Date.now().toString(),
         timestamp: Date.now(),
-        content: note.content,
-        title: note.title,
-        words: note.content.trim().split(/\\s+/).filter(w => w.length > 0).length
+        content: finalContent,
+        title: finalTitle,
+        words: finalContent.trim().split(/\s+/).filter(w => w.length > 0).length
       };
       return { ...note, snapshots: [snapshot, ...(note.snapshots || [])] };
     }));
