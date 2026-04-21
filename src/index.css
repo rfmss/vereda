@@ -6,6 +6,7 @@
   --text-muted: #7f7f7f;
   
   --accent: #2F4A8A; /* Luminous Blue 19-3952 TCX */
+  --accent-rgb: 47, 74, 138;
   --complement: #B5834A; /* Muted Amber (Complementary) */
   
   --border-color: rgba(0, 0, 0, 0.06);
@@ -23,6 +24,7 @@ body.theme-dark {
   --text-muted: #8b8b8b;
   
   --accent: #4a6bb8; /* Lighter Luminous Blue for Dark Mode */
+  --accent-rgb: 74, 107, 184;
   --complement: #cc9c66; /* Lighter Muted Amber */
   
   --border-color: rgba(255, 255, 255, 0.08);
@@ -647,6 +649,19 @@ body {
   border-color: var(--error);
   color: var(--error);
   box-shadow: 0 4px 12px rgba(215, 58, 73, 0.15);
+}
+
+/* Sidebar Footer: Backup & Restaurar — tooltips abrem para CIMA */
+.sidebar-footer [data-tooltip]::before {
+  top: auto;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%) translateY(5px);
+}
+
+.sidebar-footer [data-tooltip]:hover::before {
+  transform: translateX(-50%) translateY(-5px);
 }
 
 .sidebar-footer-btn span {
@@ -1382,17 +1397,19 @@ body {
 .audio-player-dropdown {
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0; /* ancora à direita do botão, nunca vaza para a esquerda */
+  left: auto;
   margin-top: 0.5rem;
   background: var(--bg-sidebar);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 12px;
   width: 220px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  z-index: 50;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  z-index: 500;
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  backdrop-filter: blur(8px);
 }
 
 .audio-player-header {
@@ -1783,7 +1800,6 @@ body {
   transform: translateX(-50%) translateY(5px);
 }
 
-/* Tooltips que abrem para CIMA (em elementos no fundo da tela) */
 /* Tooltips que abrem para CIMA (em elementos no fundo da tela) */
 .text-statistics-wrapper [data-tooltip]::before,
 .dictionary-float [data-tooltip]::before {
