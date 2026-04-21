@@ -1936,31 +1936,62 @@ body {
   font-weight: 700;
 }
 
-/* Botão de Colapso (O Pontinho) */
-.sidebar-collapse-dot {
+/* Botão de Alternar Sidebar (Toolbar) */
+.sidebar-toggle-btn {
+  transition: transform 0.5s var(--ease-out), color 0.3s ease;
+  margin-right: 0.5rem;
+}
+
+.sidebar-toggle-btn.collapsed {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+
+/* Gatilho de Borda (Hot Zone) */
+.sidebar-edge-trigger {
   position: fixed;
-  left: 290px; /* Alinhado com a borda da sidebar (300px) menos um pouco */
-  top: 50%;
-  transform: translateY(-50%);
-  width: 10px;
-  height: 10px;
-  background: var(--accent);
-  border-radius: 50%;
-  border: 2px solid white;
+  left: 0;
+  top: 70px; /* Abaixo da toolbar */
+  bottom: 0;
+  width: 16px;
+  z-index: 1002;
   cursor: pointer;
-  z-index: 1001;
-  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease, background 0.3s ease;
 }
 
-.sidebar-collapse-dot:hover {
-  transform: translateY(-50%) scale(1.3);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+.sidebar-edge-trigger:hover {
+  opacity: 1;
+  background: linear-gradient(to right, rgba(0,0,0,0.02), transparent);
 }
 
-.sidebar-collapsed .sidebar-collapse-dot {
-  left: 15px; /* Move para o canto quando recolhido */
-  background: var(--text-muted);
+.sidebar-edge-trigger::before {
+  content: '';
+  width: 2px;
+  height: 40px;
+  background: var(--accent);
+  border-radius: 4px;
+  opacity: 0.3;
+  transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+.sidebar-edge-trigger:hover::before {
+  height: 100px;
+  opacity: 0.8;
+}
+
+/* Esconder gatilho quando a barra está visível para não poluir */
+.app-layout:not(.sidebar-collapsed) .sidebar-edge-trigger {
+  left: 292px;
+  width: 16px;
+  opacity: 0;
+}
+
+.app-layout:not(.sidebar-collapsed) .sidebar-edge-trigger:hover {
+  opacity: 1;
 }
 
 @keyframes pulse {
