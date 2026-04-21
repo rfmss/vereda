@@ -12,13 +12,13 @@ function generateHash(str) {
   return Math.abs(hash).toString(36).toUpperCase().padStart(6, '0');
 }
 
-// Formata timestamp para nome de arquivo com segundos
+// Formata timestamp para nome de arquivo: hora primeiro, depois data
 function formatTimestamp(ts) {
   const d = new Date(ts);
   const pad = (n) => String(n).padStart(2, '0');
-  const date = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
   const time = `${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
-  return `${date}-${time}`;
+  const date = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+  return `${time}-${date}`;
 }
 
 function downloadSnapshot(snap, noteTitle) {
@@ -99,20 +99,10 @@ export function SnapshotModal({ isOpen, onClose, currentNote, onCreateSnapshot, 
         
         <div className="snapshot-actions">
           <p>Salve uma versão segura do seu texto antes de fazer grandes edições ou cortes.</p>
-          <div className="snapshot-action-btns">
-            <button className="btn" onClick={() => onCreateSnapshot(currentNote.id)}>
-              <Camera size={18} />
-              Capturar Versão Atual
-            </button>
-            <button
-              className="btn btn-outline"
-              onClick={() => downloadCurrentNote(currentNote)}
-              data-tooltip="Baixar nota atual como arquivo .json"
-            >
-              <Download size={18} />
-              Baixar Nota Atual
-            </button>
-          </div>
+          <button className="btn" onClick={() => onCreateSnapshot(currentNote.id)}>
+            <Camera size={18} />
+            Capturar Versão Atual
+          </button>
         </div>
 
         <div className="snapshot-list">
