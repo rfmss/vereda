@@ -30,7 +30,7 @@ export const ReaderSettings = ({ fontSize, setFontSize, theme, setTheme, isOpen,
               className={`theme-btn ${theme === t.id ? 'active' : ''}`}
               onClick={() => setTheme(t.id)}
               style={{ backgroundColor: t.bg, color: t.color }}
-              title={t.name}
+              data-tooltip={t.name}
             >
               {t.icon}
             </button>

@@ -261,8 +261,8 @@ body {
 .new-note-hint {
   position: absolute;
   top: calc(100% + 8px);
-  right: 0; /* ancora na direita do botão, nunca sai da sidebar */
-  left: auto;
+  left: 0; /* ancora na esquerda do botão, estende para dentro da sidebar */
+  right: auto;
   background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -1051,15 +1051,32 @@ body {
 }
 
 .goal-input {
-  width: 60px;
+  width: 70px;
   background: var(--bg-sidebar);
-  border: 1px solid var(--accent);
+  border: 1px solid var(--border-color);
   color: var(--text-main);
-  padding: 0.2rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: var(--font-ui);
   outline: none;
   text-align: center;
+  transition: all 0.3s ease;
+}
+
+.goal-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.2);
+}
+
+/* Esconde setas padrão do navegador em inputs numéricos */
+.goal-input::-webkit-outer-spin-button,
+.goal-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.goal-input[type=number] {
+  -moz-appearance: textfield;
 }
 
 /* Hide extra UI in reader/focus mode (update) */
@@ -2418,7 +2435,7 @@ body {
 .book-field-subtitle {
   font-size: 1.1rem;
   font-weight: 400;
-  color: rgba(0,0,0,0.5);
+  color: var(--text-muted);
   text-align: center;
   font-style: italic;
 }
@@ -2435,7 +2452,7 @@ body {
 .book-field-year {
   font-size: 0.8rem;
   text-align: center;
-  color: rgba(0,0,0,0.4);
+  color: var(--text-muted);
 }
 
 /* Dedicatória — texto cursivo, alinhado à direita */
@@ -2444,7 +2461,7 @@ body {
   font-size: 1.05rem;
   text-align: right;
   margin-top: 40mm;
-  color: #333;
+  color: var(--text-main);
   padding-right: 10mm;
 }
 
@@ -2455,13 +2472,13 @@ body {
   text-align: center;
   margin-top: 35mm;
   line-height: 1.8;
-  color: #2a2a2a;
+  color: var(--text-main);
 }
 
 .book-field-epigraph-attr {
   font-size: 0.85rem;
   text-align: center;
-  color: rgba(0,0,0,0.45);
+  color: var(--text-muted);
   margin-top: 1rem;
   letter-spacing: 0.05em;
 }
@@ -2472,6 +2489,7 @@ body {
   line-height: 2.2;
   letter-spacing: 0.02em;
   margin-top: 15mm;
+  color: var(--text-main);
 }
 
 /* Prefácio / corpo de texto */
@@ -2481,6 +2499,7 @@ body {
   text-align: justify;
   hyphens: auto;
   margin-top: 10mm;
+  color: var(--text-main);
 }
 
 /* Dica do corpo do livro */
@@ -2513,12 +2532,29 @@ body {
 }
 
 /* Modo Dark — papel ligeiramente off-white */
+/* Modo Dark — papel adapta ao tema */
 body.theme-dark .book-page {
-  background: #f8f7f5;
+  background: var(--bg-sidebar);
+  border-color: var(--border-color);
+  color: var(--text-main);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+body.theme-dark .book-page-label {
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+body.theme-dark .book-field {
+  color: var(--text-main) !important;
+}
+
+body.theme-dark .book-field::placeholder {
+  color: var(--text-muted);
 }
 
 body.theme-dark .editor-content-wrapper.paged-mode {
-  background: #111;
+  background: #0d0d0d;
 }
 
 /* Impressão — esconde labels e formatação da UI */

@@ -414,7 +414,7 @@ function App() {
         <div 
           className="sidebar-edge-trigger" 
           onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-          title={isSidebarCollapsed ? "Expandir Menu" : "Recolher Menu"}
+          data-tooltip={isSidebarCollapsed ? "Expandir Menu" : "Recolher Menu"}
         >
           <div className="trigger-chevron"></div>
         </div>
@@ -526,7 +526,7 @@ function App() {
                             else tiptapRef.current?.view.focus();
                           }, 10);
                         }}
-                        title="Clique para começar a escrever"
+                        data-tooltip="Clique para ocultar este guia"
                       >
                         <div className="genre-guide-header-label">
                           <span className="genre-guide-chip">{currentNote.genreName}</span>
