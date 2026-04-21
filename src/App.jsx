@@ -19,6 +19,7 @@ import remarkGfm from 'remark-gfm';
 import { RichTextEditor } from './components/RichTextEditor';
 import { DictionaryTooltip } from './components/DictionaryTooltip';
 import { OfflineBanner } from './components/OfflineBanner';
+import { BookTemplate } from './components/BookTemplate';
 
 const lightBgs = ['#fdfaf6', '#fcf8f2', '#f9f5f0', '#fdfbf7', '#faf6f0'];
 const darkBgs = ['#1a1918', '#1c1b1a', '#181818', '#1e1d1c', '#1b1b1b'];
@@ -490,32 +491,12 @@ function App() {
             
             {currentNote ? (
               <div className="editor-container-inner">
-                {/* Ghost Content: Miolo de Livro (Placeholder Estrutural) */}
-                {currentNote.genreName === 'Livro (Template Completo)' && text.length === 0 && (
-                  <div className="ghost-book-template">
-                    <div className="ghost-section" style={{ textAlign: 'center', marginTop: '40mm' }}>
-                      <h2 style={{ border: 'none' }}>FOLHA DE ROSTO</h2>
-                      <div className="ghost-text-block" style={{ width: '40%', margin: '2rem auto' }}></div>
-                      <div className="ghost-text-block" style={{ width: '20%', margin: '0 auto' }}></div>
-                    </div>
-                    <div className="ghost-section" style={{ marginTop: '100mm', textAlign: 'right' }}>
-                      <h2 style={{ border: 'none' }}>DEDICATÓRIA</h2>
-                      <div className="ghost-text-block" style={{ width: '40%', marginLeft: 'auto' }}></div>
-                      <div className="ghost-text-block" style={{ width: '30%', marginLeft: 'auto' }}></div>
-                    </div>
-                    <div className="ghost-section" style={{ marginTop: '60mm' }}>
-                      <h2>SUMÁRIO</h2>
-                      <div className="ghost-text-block" style={{ width: '90%' }}></div>
-                      <div className="ghost-text-block" style={{ width: '85%' }}></div>
-                      <div className="ghost-text-block" style={{ width: '88%' }}></div>
-                    </div>
-                    <div className="ghost-section" style={{ marginTop: '60mm' }}>
-                      <h2>PREFÁCIO</h2>
-                      <div className="ghost-text-block"></div>
-                      <div className="ghost-text-block"></div>
-                      <div className="ghost-text-block" style={{ width: '92%' }}></div>
-                    </div>
-                  </div>
+                {/* Book Template: Páginas reais editáveis para o gênero Livro */}
+                {currentNote.genreName === 'Livro (Template Completo)' && (
+                  <BookTemplate
+                    bookPages={currentNote.bookPages || {}}
+                    onUpdatePages={(pages) => updateCurrentNote({ bookPages: pages })}
+                  />
                 )}
                 
                 {!isReaderMode && (

@@ -501,6 +501,7 @@ body {
   border-radius: 6px;
   transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   opacity: 0.6;
+  position: relative; /* Necessário para ancorar tooltips corretamente */
 }
 
 .icon-btn:hover {
@@ -1749,20 +1750,20 @@ body {
   top: 130%; /* Abre para baixo por padrão */
   left: 50%;
   transform: translateX(-50%) translateY(-5px);
-  background: #1a1918;
-  color: #dcdccc;
-  padding: 6px 12px;
+  background: var(--text-main);
+  color: var(--bg-color);
+  padding: 5px 10px;
   border-radius: 6px;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-family: var(--font-ui);
   font-weight: 500;
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
   z-index: 10000;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
   letter-spacing: 0.02em;
 }
 
@@ -2304,48 +2305,245 @@ body {
   flex-direction: column;
 }
 
-/* Placeholder de estrutura (Ghost Content) */
-.ghost-book-template {
-  position: absolute;
-  top: 30mm;
-  left: 25mm;
-  right: 25mm;
-  pointer-events: none;
-  opacity: 0.1;
-  color: #000;
-  font-family: var(--font-editor);
-  user-select: none;
-  z-index: 0;
-  filter: grayscale(1);
+/* ═══════════════════════════════════════════════════════
+   BOOK TEMPLATE — Páginas reais editáveis
+   ═══════════════════════════════════════════════════════ */
+
+.book-template-wrapper {
+  width: 100%;
 }
 
-.ghost-section {
-  margin-bottom: 50mm; /* Simula quebras de página */
-  border-top: 1px dashed #ccc;
+/* Introdução do template */
+.book-template-intro {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(47, 74, 138, 0.05);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.book-template-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.book-template-intro p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Cada "página" do livro */
+.book-page {
+  background: white;
+  color: #1a1a1a;
+  min-height: 297mm;
+  padding: 30mm 30mm 40mm 30mm;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 20px 60px rgba(0,0,0,0.08);
+  border-radius: 2px;
+  margin-bottom: 3rem;
+  position: relative;
+  font-family: var(--font-editor);
+  page-break-after: always;
+  break-after: page;
+}
+
+/* Rótulo discreto da seção (não imprime) */
+.book-page-label {
+  position: absolute;
+  top: 12mm;
+  left: 30mm;
+  font-size: 0.6rem;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: rgba(47, 74, 138, 0.35);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* ── Campos editáveis ── */
+.book-field {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-editor);
+  color: #1a1a1a;
+  resize: none;
+  line-height: 1.7;
+  transition: border-color 0.2s ease;
+  border-bottom: 1px solid transparent;
+  padding: 0.25rem 0;
+}
+
+.book-field:focus {
+  border-bottom-color: rgba(47, 74, 138, 0.15);
+}
+
+.book-field.is-ghost {
+  color: rgba(0,0,0,0.18);
+}
+
+/* Folha de Rosto — layout centralizado e vertical */
+.book-page-title-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: calc(297mm - 70mm);
+  text-align: center;
+}
+
+.book-field-author {
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.book-field-main-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  text-align: center;
+  margin: 3rem 0 0.75rem;
+}
+
+.book-field-subtitle {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: rgba(0,0,0,0.5);
+  text-align: center;
+  font-style: italic;
+}
+
+.book-field-publisher {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: auto;
   padding-top: 2rem;
 }
 
-.ghost-section h2 {
-  font-size: 1.8rem;
-  font-weight: 400;
-  margin-bottom: 1.5rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-  display: inline-block;
-  padding-bottom: 0.5rem;
+.book-field-year {
+  font-size: 0.8rem;
+  text-align: center;
+  color: rgba(0,0,0,0.4);
 }
 
-.ghost-text-block {
-  height: 0.8rem;
-  background: rgba(0,0,0,0.1);
-  margin-bottom: 1rem;
-  border-radius: 2px;
+/* Dedicatória — texto cursivo, alinhado à direita */
+.book-page-simple .book-field-dedication {
+  font-style: italic;
+  font-size: 1.05rem;
+  text-align: right;
+  margin-top: 40mm;
+  color: #333;
+  padding-right: 10mm;
 }
 
-/* No modo Dark ou Terminal, mantemos a folha branca por padrão para o livro */
-body.theme-dark .editor-content-wrapper.paged-mode .editor-container-inner {
-  background: #fdfdfd;
+/* Epígrafe */
+.book-field-epigraph-quote {
+  font-style: italic;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: 35mm;
+  line-height: 1.8;
+  color: #2a2a2a;
+}
+
+.book-field-epigraph-attr {
+  font-size: 0.85rem;
+  text-align: center;
+  color: rgba(0,0,0,0.45);
+  margin-top: 1rem;
+  letter-spacing: 0.05em;
+}
+
+/* Sumário */
+.book-page-toc .book-field-toc {
+  font-size: 0.95rem;
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+  margin-top: 15mm;
+}
+
+/* Prefácio / corpo de texto */
+.book-field-body-text {
+  font-size: 1rem;
+  line-height: 1.9;
+  text-align: justify;
+  hyphens: auto;
+  margin-top: 10mm;
+}
+
+/* Dica do corpo do livro */
+.book-page-body {
+  min-height: auto;
+  padding: 2rem 3rem;
+  background: rgba(47, 74, 138, 0.02);
+  border: 2px dashed rgba(47, 74, 138, 0.15);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: none;
+}
+
+.book-body-hint {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.book-body-hint code {
+  background: rgba(47, 74, 138, 0.1);
+  color: var(--accent);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: monospace;
+}
+
+/* Modo Dark — papel ligeiramente off-white */
+body.theme-dark .book-page {
+  background: #f8f7f5;
+}
+
+body.theme-dark .editor-content-wrapper.paged-mode {
+  background: #111;
+}
+
+/* Impressão — esconde labels e formatação da UI */
+@media print {
+  .book-page-label,
+  .book-template-intro,
+  .book-page-body {
+    display: none !important;
+  }
+
+  .book-field {
+    border: none !important;
+    color: black !important;
+  }
+  
+  .book-field.is-ghost {
+    display: none !important;
+  }
 }
 
 .editor-content-wrapper.paged-mode .editor-textarea,
