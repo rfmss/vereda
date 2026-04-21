@@ -151,7 +151,7 @@ function App() {
 
     window.addEventListener('keydown', handleGlobalKeyDown);
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
-  }, [dialogState, showVerifier, showSnapshotModal, isReaderMode, isFocusMode]);
+  }, [dialogState, showVerifier, isReaderMode, isFocusMode]);
 
   const getStatus = () => {
     if (text.length === 0) return { label: 'Em espera', class: '' };
