@@ -452,7 +452,20 @@ body {
   flex-direction: column;
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   flex-shrink: 0;
-  overflow: visible; /* Permitir que menus flutuantes apareçam sobre o editor */
+  overflow: visible; 
+  position: relative;
+  z-index: 100;
+}
+
+/* Estado de Barra Lateral Recolhida */
+.sidebar-collapsed .sidebar {
+  width: 0;
+  min-width: 0;
+  border-right: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-20px);
+}
   z-index: 10; /* Garantir que fique sobre o editor se necessário */
 }
 
@@ -1921,6 +1934,33 @@ body {
 .verifier-intro strong {
   color: var(--text-main);
   font-weight: 700;
+}
+
+/* Botão de Colapso (O Pontinho) */
+.sidebar-collapse-dot {
+  position: fixed;
+  left: 290px; /* Alinhado com a borda da sidebar (300px) menos um pouco */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: 2px solid white;
+  cursor: pointer;
+  z-index: 1001;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-collapse-dot:hover {
+  transform: translateY(-50%) scale(1.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-collapsed .sidebar-collapse-dot {
+  left: 15px; /* Move para o canto quando recolhido */
+  background: var(--text-muted);
 }
 
 @keyframes pulse {

@@ -75,6 +75,7 @@ function App() {
   const [isGrammarMode, setIsGrammarMode] = useState(false);
   const [showVerifier, setShowVerifier] = useState(false);
   const [showSnapshotModal, setShowSnapshotModal] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [dialogState, setDialogState] = useState({ isOpen: false });
@@ -388,7 +389,7 @@ function App() {
   return (
     <>
     <OfflineBanner />
-    <div className={`app-layout ${isReaderMode ? `reader-mode theme-${readerTheme}` : ''} ${isFocusMode ? 'focus-mode' : ''} ${isTypewriterMode ? 'typewriter-mode' : ''}`}>
+    <div className={`app-layout ${isReaderMode ? `reader-mode theme-${readerTheme}` : ''} ${isFocusMode ? 'focus-mode' : ''} ${isTypewriterMode ? 'typewriter-mode' : ''} ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
       {(isReaderMode || isFocusMode) && (
         <div className="reader-progress-bar" style={{ width: `${scrollProgress}%` }} />
       )}
@@ -413,6 +414,12 @@ function App() {
             onCancel: () => setDialogState({ isOpen: false })
           });
         }} 
+      />
+
+      <button 
+        className="sidebar-collapse-dot" 
+        onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+        data-tooltip={isSidebarCollapsed ? "Expandir Menu" : "Recolher Menu"}
       />
       
       <main className="main-editor-area">
