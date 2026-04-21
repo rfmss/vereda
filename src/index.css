@@ -1387,6 +1387,65 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Dictionary Tooltip */
+.dictionary-float {
+  background: var(--bg-sidebar);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 0.8rem;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  width: max-content;
+  max-width: 280px;
+  font-family: var(--font-content);
+  font-size: 0.85rem;
+  pointer-events: auto;
+  animation: modalFadeIn 0.2s ease-out forwards;
+}
+
+.dictionary-float::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--border-color) transparent transparent transparent;
+}
+
+.dict-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.3rem;
+}
+
+.dict-header strong {
+  color: var(--text-main);
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.dict-body {
+  line-height: 1.4;
+  color: var(--text-main);
+}
+
+.dict-loading {
+  color: var(--text-muted);
+  font-style: italic;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
 /* Custom Tooltips */
 [data-tooltip] {
   position: relative;

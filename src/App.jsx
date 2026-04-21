@@ -17,6 +17,7 @@ import getCaretCoordinates from 'textarea-caret';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { RichTextEditor } from './components/RichTextEditor';
+import { DictionaryTooltip } from './components/DictionaryTooltip';
 
 const lightBgs = ['#fdfaf6', '#fcf8f2', '#f9f5f0', '#fdfbf7', '#faf6f0'];
 const darkBgs = ['#1a1918', '#1c1b1a', '#181818', '#1e1d1c', '#1b1b1b'];
@@ -405,6 +406,7 @@ function App() {
       />
       
       <main className="main-editor-area">
+        <DictionaryTooltip />
         <header className="top-toolbar">
           <div className="toolbar-left">
             <button className="icon-btn" onClick={() => setIsFocusMode(true)} data-tooltip="Modo Foco (Edição em tela cheia)">
