@@ -385,13 +385,21 @@ body {
   cursor: grabbing;
 }
 
-.chapter-title {
+.chapter-title-input {
   font-family: var(--font-editor);
   font-variant: small-caps;
   font-weight: 600;
   font-size: 1.1rem;
   flex: 1;
   letter-spacing: 1px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-main);
+  width: 100%;
+}
+.chapter-title-input:focus {
+  border-bottom: 1px dashed var(--border-color);
 }
 
 .chapter-delete {

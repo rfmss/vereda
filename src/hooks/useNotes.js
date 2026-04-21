@@ -57,6 +57,14 @@ export function useNotes() {
     }
   };
 
+  const updateNote = (id, updates) => {
+    setNotes(prev => prev.map(note => 
+      note.id === id 
+        ? { ...note, ...updates, lastModified: Date.now() } 
+        : note
+    ));
+  };
+
   const createChapter = (title = 'Novo Capítulo') => {
     const newChapter = {
       id: Date.now().toString(),
@@ -110,6 +118,7 @@ export function useNotes() {
     createNote,
     createChapter,
     updateCurrentNote,
+    updateNote,
     deleteNote,
     reorderNotes,
     createSnapshot,

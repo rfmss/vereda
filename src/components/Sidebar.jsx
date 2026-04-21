@@ -16,7 +16,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-function SortableNoteItem({ note, currentNoteId, onSelect, onDeleteRequest }) {
+function SortableNoteItem({ note, currentNoteId, onSelect, onDeleteRequest, onUpdateTitle }) {
   const {
     attributes,
     listeners,
@@ -40,7 +40,13 @@ function SortableNoteItem({ note, currentNoteId, onSelect, onDeleteRequest }) {
         <div className="chapter-drag-handle" {...listeners}>
           <GripVertical size={14} />
         </div>
-        <span className="chapter-title">{note.title}</span>
+        <input 
+          className="chapter-title-input" 
+          value={note.title}
+          onChange={(e) => onUpdateTitle && onUpdateTitle(note.id, e.target.value)}
+          spellCheck="false"
+          onClick={(e) => e.stopPropagation()}
+        />
         <button 
           className="delete-btn chapter-delete"
           onClick={(e) => { e.stopPropagation(); onDeleteRequest(note.id); }}
@@ -91,7 +97,7 @@ function SortableNoteItem({ note, currentNoteId, onSelect, onDeleteRequest }) {
   );
 }
 
-export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSelect, onDeleteRequest, onReorder }) {
+export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSelect, onDeleteRequest, onReorder, onUpdateTitle }) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -145,6 +151,7 @@ export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSel
                 currentNoteId={currentNoteId}
                 onSelect={onSelect}
                 onDeleteRequest={onDeleteRequest}
+                onUpdateTitle={onUpdateTitle}
               />
             ))}
           </SortableContext>

@@ -58,7 +58,7 @@ const cinematicScroll = (element, targetScroll) => {
 function App() {
   const { 
     notes, currentNote, currentNoteId, setCurrentNoteId, 
-    createNote, createChapter, updateCurrentNote, deleteNote, 
+    createNote, createChapter, updateCurrentNote, updateNote, deleteNote, 
     reorderNotes, createSnapshot, restoreSnapshot 
   } = useNotes();
   const [isDark, setIsDark] = useState(false);
@@ -390,6 +390,7 @@ function App() {
         onCreateChapter={createChapter}
         onSelect={setCurrentNoteId} 
         onReorder={reorderNotes}
+        onUpdateTitle={(id, title) => updateNote(id, { title })}
         onDeleteRequest={(id) => {
           setDialogState({
             isOpen: true,
