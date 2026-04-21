@@ -629,15 +629,24 @@ body {
   margin: 0 0.5rem;
 }
 
+/* Global Selection */
+::selection {
+  background-color: var(--text-main);
+  color: var(--bg-color);
+}
+
 /* Text Statistics & Gamification */
 .text-statistics-wrapper {
   position: fixed;
   bottom: 0;
   left: var(--sidebar-width);
-  width: calc(100% - var(--sidebar-width));
+  right: 0;
+  width: auto; /* calc(100vw - var(--sidebar-width)) can cause issues if scrollbars exist */
   z-index: 100;
   background-color: var(--bg-color);
   transition: all 0.3s ease;
+  margin: 0;
+  border-radius: 0;
 }
 
 .app-layout.focus-mode .text-statistics-wrapper,
@@ -1603,4 +1612,192 @@ body {
 
 .theme-terminal * {
   border-color: var(--border-color) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Offline Banner — Service Worker Progress Panel
+   ═══════════════════════════════════════════════════════════ */
+
+/* Fio de progresso colado no topo da viewport */
+.sw-progress-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 99990;
+  background: transparent;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sw-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent) 0%, #f0b48a 50%, var(--accent) 100%);
+  background-size: 200% 100%;
+  animation: swShimmer 2.2s linear infinite;
+  box-shadow: 0 0 8px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 35%, transparent);
+  transition: width 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: width;
+}
+
+.sw-progress-fill.ready {
+  background: linear-gradient(90deg, #2ea44f, #52c96a);
+  background-size: 100%;
+  animation: none;
+  box-shadow: 0 0 10px rgba(46, 164, 79, 0.8), 0 0 28px rgba(46, 164, 79, 0.3);
+  transition: width 0.4s ease, background 0.5s ease, box-shadow 0.5s ease;
+}
+
+@keyframes swShimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* ── Painel flutuante top-right ── */
+.sw-status-pill {
+  position: fixed;
+  top: 10px;
+  right: 14px;
+  z-index: 99991;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 14px 10px 12px;
+  min-width: 230px;
+  max-width: 300px;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  font-family: var(--font-ui);
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10), 0 1px 4px rgba(0, 0, 0, 0.06);
+  animation: swPillSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+  user-select: none;
+}
+
+.sw-status-pill.ready {
+  color: #2ea44f;
+  border-color: rgba(46, 164, 79, 0.3);
+  background: color-mix(in srgb, #2ea44f 6%, var(--bg-sidebar));
+  animation: swPillPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.sw-status-pill.offline-mode {
+  color: var(--error);
+  border-color: color-mix(in srgb, var(--error) 28%, transparent);
+  background: color-mix(in srgb, var(--error) 6%, var(--bg-sidebar));
+}
+
+/* Linha 1: ícone + label + MB */
+.sw-pill-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.sw-pill-label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sw-pill-size {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  opacity: 0.9;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sw-status-pill.ready .sw-pill-size {
+  color: #2ea44f;
+}
+
+.sw-status-pill.offline-mode .sw-pill-size {
+  display: none;
+}
+
+.sw-size-total {
+  font-weight: 400;
+  opacity: 0.55;
+}
+
+/* Linha 2: mensagem motivacional */
+.sw-pill-msg {
+  font-size: 0.70rem;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.sw-pill-msg.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sw-msg-ready {
+  font-style: normal;
+  font-weight: 500;
+  color: #2ea44f;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Mini barra de progresso interna */
+.sw-inner-track {
+  height: 2px;
+  background: var(--border-color);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.sw-inner-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #f0b48a);
+  border-radius: 99px;
+  transition: width 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Ícone spinner */
+.sw-spin {
+  animation: swSpinIcon 1.3s linear infinite;
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+
+@keyframes swSpinIcon {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes swPillSlideIn {
+  from { opacity: 0; transform: translateX(18px) scale(0.96); }
+  to   { opacity: 1; transform: translateX(0)   scale(1); }
+}
+
+@keyframes swPillPop {
+  from { transform: scale(0.90); opacity: 0.5; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+body.theme-dark .sw-status-pill {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), 0 1px 4px rgba(0, 0, 0, 0.2);
 }

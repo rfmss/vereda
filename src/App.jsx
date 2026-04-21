@@ -18,6 +18,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { RichTextEditor } from './components/RichTextEditor';
 import { DictionaryTooltip } from './components/DictionaryTooltip';
+import { OfflineBanner } from './components/OfflineBanner';
 
 const lightBgs = ['#fdfaf6', '#fcf8f2', '#f9f5f0', '#fdfbf7', '#faf6f0'];
 const darkBgs = ['#1a1918', '#1c1b1a', '#181818', '#1e1d1c', '#1b1b1b'];
@@ -379,6 +380,8 @@ function App() {
   }, [text, currentNote, eventLog, humanScore, pastedChunks, isExporting, createNote]);
 
   return (
+    <>
+    <OfflineBanner />
     <div className={`app-layout ${isReaderMode ? `reader-mode theme-${readerTheme}` : ''} ${isFocusMode ? 'focus-mode' : ''} ${isTypewriterMode ? 'typewriter-mode' : ''}`}>
       {(isReaderMode || isFocusMode) && (
         <div className="reader-progress-bar" style={{ width: `${scrollProgress}%` }} />
@@ -554,6 +557,7 @@ function App() {
       <CustomDialog {...dialogState} />
       <CustomCursor />
     </div>
+    </>
   );
 }
 
