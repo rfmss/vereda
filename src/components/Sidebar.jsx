@@ -111,6 +111,37 @@ const GENRE_CATALOG = [
       },
     ],
   },
+  {
+    group: 'Roteiros',
+    icon: Feather,
+    color: '#f59e0b',
+    genres: [
+      {
+        name: 'Roteiro de Novela',
+        title: 'Sem título',
+        titlePlaceholder: 'O Outro Lado do Paraíso',
+        description: 'Dramaturgia seriada, atos e cenas',
+        placeholder:
+          '# Estrutura de Roteiro de Novela\n\n> **Formato:** 1 capítulo por dia, 45–60 min. Cada cena tem slug, ação e diálogo.\n\n---\n\n## CAPÍTULO 1 — PRIMEIRO ATO\n\n**INT. SALA DE ESTAR — DIA**\n\nDescrição da cena. Cenário, personagens presentes, atmosfera.\n\n**PERSONAGEM**\n— Fala do personagem aqui.\n\n**OUTRO PERSONAGEM**\n— Resposta com conflito dramático.\n\n---\n\n**Dica:** Use travessão (—) para toda fala de personagem. Slugs em MAIÚSCULO. Ações em parágrafo normal.\n\n**Estrutura de ouro por capítulo:**\n• Gancho inicial (retomada do anterior)\n• Desenvolvimento de 3 tramas paralelas\n• Cliffhanger no final',
+      },
+      {
+        name: 'Roteiro de Minissérie',
+        title: 'Sem título',
+        titlePlaceholder: 'Impuros — O Começo',
+        description: 'Formato fechado, 4–8 episódios',
+        placeholder:
+          '# Estrutura de Minissérie\n\n> **Formato:** 4–8 episódios de 40–55 min. História fechada com começo, meio e fim.\n\n---\n\n## EPISÓDIO 1 — "TÍTULO DO EPISÓDIO"\n\n### TEASER\n\n**EXT. LOCAL — NOITE**\n\nCena de impacto para prender o espectador nos primeiros 3 minutos.\n\n**PERSONAGEM PRINCIPAL**\n— Diálogo revelador da premissa central.\n\n---\n\n### ATO 1\n\n**INT. AMBIENTE — DIA**\n\nPresentação do mundo ordinário. Evento perturbador.\n\n---\n\n**Dica de Estrutura:**\n• Ep. 1: Apresentação e ruptura\n• Ep. 2–3: Complicação e revelação\n• Ep. 4: Clímax e resolução (ou gancho para S2)',
+      },
+      {
+        name: 'Roteiro de Documentário',
+        title: 'Sem título',
+        titlePlaceholder: 'Sobre o Mar e Outros Silêncios',
+        description: 'Narração, entrevistas e imagens',
+        placeholder:
+          '# Estrutura de Documentário\n\n> **Formato:** Tratamento narrativo + escaleta de cenas. Nao é ficção, é curadoria da realidade.\n\n---\n\n## SINOPSE\n\nEm 2–3 parágrafos: o que é, quem são os personagens, qual é a tese central do doc.\n\n---\n\n## ESCALETA\n\n**SEQUÊNCIA 1 — ABERTURA**\n\n*Imagens de arquivo / B-roll:* Descrição das imagens.\n\n*ENTREVISTA — Nome do entrevistado, função:*\n— "Trecho da fala do entrevistado que ilustra a tese."\n\n*NARRAÇÃO (OFF):*\n— Texto de narração conectando imagem e entrevista.\n\n---\n\n**Dica:**\n• Ponto de virada no 1/3 do tempo total\n• Nunca termine sem uma chamada à reflexão\n• Personagem humano âncora: o doc precisa de um rosto',
+      },
+    ],
+  },
 ];
 
 // ─── SortableNoteItem ─────────────────────────────────────────────────────────

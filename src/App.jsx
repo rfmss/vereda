@@ -515,7 +515,7 @@ function App() {
                   </article>
                 ) : (
                   <>
-                    {!isTerminalMode && <MarkdownToolbar onInsert={handleInsertMarkdown} />}
+                    {!isTerminalMode && <MarkdownToolbar editor={tiptapRef.current} onInsert={handleInsertMarkdown} />}
                     {currentNote.genrePlaceholder && text.length === 0 && !guideDismissed && (
                       <div 
                         className="genre-guide-banner"
