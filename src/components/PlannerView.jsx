@@ -67,6 +67,7 @@ export function PlannerView({ noteContent, onUpdateContent }) {
   const [draftNote, setDraftNote] = useState({ text: '', color: 'yellow' });
   const [showGoalInput, setShowGoalInput] = useState(false);
   const [newGoalText, setNewGoalText] = useState('');
+  const [showMiniCalendar, setShowMiniCalendar] = useState(false);
 
   const holidays = useMemo(() => getBrazilianHolidays(currentYear), [currentYear]);
 
@@ -236,12 +237,43 @@ export function PlannerView({ noteContent, onUpdateContent }) {
     return plannerData.monthlyGoals?.[`${currentYear}-${currentMonthIndex}`] || [];
   }, [plannerData.monthlyGoals, currentMonthIndex, currentYear]);
 
+  const scrollToDay = (dayNum) => {
+    const id = `day-${currentYear}-${currentMonthIndex}-${dayNum}`;
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setShowMiniCalendar(false);
+      // Destaque visual temporário
+      setActiveDate(`${currentYear}-${String(currentMonthIndex + 1).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`);
+    }
+  };
+
   return (
     <div className="planner-container">
       {/* Header */}
       <div className="planner-header">
         <div className="planner-title">
-          <CalendarIcon size={22} strokeWidth={1.5} />
+          <div className="calendar-icon-btn-wrapper" onClick={() => setShowMiniCalendar(!showMiniCalendar)}>
+            <CalendarIcon size={22} strokeWidth={1.5} className="calendar-trigger-icon" />
+            
+            {showMiniCalendar && (
+              <div className="mini-calendar-popover" onClick={e => e.stopPropagation()}>
+                <div className="mini-calendar-grid">
+                  {['D','S','T','Q','Q','S','S'].map(d => <div key={d} className="mini-weekday">{d}</div>)}
+                  {calendarDays.map((cell, i) => (
+                    <div 
+                      key={i} 
+                      className={`mini-day-cell ${!cell.isCurrentMonth ? 'inactive' : ''} ${cell.dateStr === todayStr ? 'today' : ''}`}
+                      onClick={() => cell.isCurrentMonth && scrollToDay(cell.day)}
+                    >
+                      {cell.day}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          
           <div className="planner-year-selector">
             <button onClick={() => setCurrentYear(y => y - 1)} disabled={currentYear <= 2026} className="year-btn">
               <ChevronLeft size={14} />
@@ -305,6 +337,7 @@ export function PlannerView({ noteContent, onUpdateContent }) {
               return (
                 <div
                   key={index}
+                  id={`day-${currentYear}-${currentMonthIndex}-${cell.day}`}
                   className={`timeline-day ${isToday ? 'today' : ''} ${cell.holiday ? 'holiday' : ''} ${isActive ? 'active' : ''}`}
                   onClick={(e) => { e.stopPropagation(); handleDayClick(cell); }}
                 >
