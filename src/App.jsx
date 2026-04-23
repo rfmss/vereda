@@ -12,7 +12,7 @@ import { TextStatistics } from './components/TextStatistics';
 import { generateProofSignature } from './crypto';
 import { ReaderSettings } from './components/ReaderSettings';
 import { AudioPlayer } from './components/AudioPlayer';
-import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Settings, BookOpen, Headphones, Terminal, Columns, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Settings, BookOpen, Headphones, Terminal, Columns, ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react';
 import getCaretCoordinates from 'textarea-caret';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
