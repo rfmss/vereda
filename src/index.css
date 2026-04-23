@@ -4514,3 +4514,25 @@ textarea.char-field {
   color: var(--accent);
   font-weight: 700;
 }
+
+/* ── Ajuste de Opacidade Mini-Calendário ── */
+.mini-calendar-popover {
+  background: white !important; /* Fundo sólido para legibilidade total */
+  backdrop-filter: none !important;
+  border: 1px solid var(--text-color) !important; /* Borda forte estilo japonês */
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2) !important;
+}
+
+/* No modo escuro (se houver), usamos a cor do card mas 100% opaca */
+.dark-mode .mini-calendar-popover {
+  background: var(--bg-card) !important;
+}
+
+.mini-day-cell {
+  color: var(--text-color) !important;
+  font-weight: 600 !important;
+}
+
+.mini-day-cell.inactive {
+  opacity: 0.1 !important;
+}
