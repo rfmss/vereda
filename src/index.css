@@ -3906,3 +3906,43 @@ textarea.char-field {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* ── Fix de Sobreposição (Anti-Encavalamento) ── */
+.planner-main-content {
+  display: grid !important;
+  grid-template-columns: 1fr 280px; /* Divide o espaço rigidamente */
+  gap: 2rem;
+  width: 100%;
+  align-items: start;
+}
+
+.planner-calendar-section {
+  width: 100%;
+  overflow: hidden; /* Garante que o grid interno não vaze */
+}
+
+.planner-grid {
+  grid-template-columns: repeat(7, minmax(0, 1fr)) !important; /* Força colunas iguais e encolhíveis */
+}
+
+.planner-goals-sidebar {
+  background: var(--bg-card); /* Fundo sólido para não ver o que está atrás */
+  border-left: 1px solid var(--border-color);
+  padding-left: 1.5rem;
+  position: sticky;
+  top: 0;
+}
+
+/* Em telas muito estreitas, empilha em uma coluna só para não apertar */
+@media (max-width: 1150px) {
+  .planner-main-content {
+    grid-template-columns: 1fr !important;
+  }
+  .planner-goals-sidebar {
+    border-left: none;
+    border-top: 1px solid var(--border-color);
+    padding-left: 0;
+    padding-top: 1.5rem;
+    position: static;
+  }
+}
