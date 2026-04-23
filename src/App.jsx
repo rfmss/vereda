@@ -12,7 +12,7 @@ import { TextStatistics } from './components/TextStatistics';
 import { generateProofSignature } from './crypto';
 import { ReaderSettings } from './components/ReaderSettings';
 import { AudioPlayer } from './components/AudioPlayer';
-import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Settings, BookOpen, Keyboard, Headphones, Terminal, Columns, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Settings, BookOpen, Headphones, Terminal, Columns, ChevronLeft, ChevronRight } from 'lucide-react';
 import getCaretCoordinates from 'textarea-caret';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -96,7 +96,6 @@ function App() {
     isFocusMode, setIsFocusMode, toggleFocus,
     isReaderMode, setIsReaderMode, toggleReader,
     isTerminalMode, setIsTerminalMode, toggleTerminal,
-    isTypewriterMode, setIsTypewriterMode, toggleTypewriter,
     isGrammarMode, setIsGrammarMode, toggleGrammar,
     exitSpecialModes
   } = useEditorModes();
@@ -414,7 +413,7 @@ function App() {
   return (
     <>
       <OfflineBanner />
-      <div className={`app-layout ${isReaderMode ? `reader-mode theme-${readerTheme}` : ''} ${isFocusMode ? 'focus-mode' : ''} ${isTypewriterMode ? 'typewriter-mode' : ''} ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+      <div className={`app-layout ${isReaderMode ? `reader-mode theme-${readerTheme}` : ''} ${isFocusMode ? 'focus-mode' : ''} ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
         {(isReaderMode || isFocusMode) && (
           <div className="reader-progress-bar" style={{ width: `${scrollProgress}%` }} />
         )}
@@ -489,8 +488,15 @@ function App() {
                 </button>
                 <AudioPlayer isOpen={showAudioPlayer} onClose={() => setShowAudioPlayer(false)} />
               </div>
-              <button className={`icon-btn ${isTypewriterMode ? 'active' : ''}`} onClick={toggleTypewriter} data-tooltip="Modo Máquina de Escrever">
-                <Keyboard size={20} />
+              <button 
+                className="icon-btn" 
+                onClick={() => {
+                  const plannerNote = notes.find(n => n.genreName === 'Organize-se');
+                  if (plannerNote) setCurrentNoteId(plannerNote.id);
+                }} 
+                data-tooltip="Ir para Organize-se"
+              >
+                <CalendarIcon size={20} />
               </button>
               <button className={`icon-btn ${isGrammarMode ? 'active' : ''}`} onClick={toggleGrammar} data-tooltip="Alternar Marcador Gramatical">
                 <Highlighter size={20} />
