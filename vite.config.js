@@ -89,8 +89,8 @@ export default defineConfig({
 
       // ── Manifesto PWA ──────────────────────────────────────────
       manifest: {
-        name: 'Vereda — Editor Literário',
-        short_name: 'Vereda',
+        name: '"enverede-se" — Vereda',
+        short_name: '"enverede-se"',
         description: 'Editor literário offline com verificação de autoria humana (PoHW).',
         theme_color: '#fdfaf6',
         background_color: '#fdfaf6',

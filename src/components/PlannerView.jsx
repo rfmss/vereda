@@ -246,7 +246,7 @@ export function PlannerView({ noteContent, onUpdateContent }) {
             <button onClick={() => setCurrentYear(y => y - 1)} disabled={currentYear <= 2026} className="year-btn">
               <ChevronLeft size={14} />
             </button>
-            <h1>Organize-se {currentYear}</h1>
+            <h1>Organize-se em {currentYear}</h1>
             <button onClick={() => setCurrentYear(y => y + 1)} disabled={currentYear >= 2030} className="year-btn">
               <ChevronRight size={14} />
             </button>
