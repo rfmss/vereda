@@ -293,17 +293,11 @@ export function PlannerView({ noteContent, onUpdateContent }) {
       </div>
 
       <div className="planner-main-content">
-        <div className="planner-calendar-section">
-          {/* Weekday headers */}
-          <div className="planner-weekdays">
-            {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map(d => (
-              <div key={d}>{d}</div>
-            ))}
-          </div>
-
-          {/* Calendar grid */}
-          <div className="planner-grid" onClick={() => { setActiveDate(null); setEditingNoteId(null); }}>
-            {calendarDays.map((cell, index) => {
+        <div className="planner-timeline-container">
+          <div className="planner-timeline-spine" />
+          
+          <div className="planner-timeline-list">
+            {calendarDays.filter(cell => cell.isCurrentMonth).map((cell, index) => {
               const isToday = cell.dateStr === todayStr;
               const notes = cell.dateStr ? (plannerData.notes[cell.dateStr] || []) : [];
               const isActive = activeDate === cell.dateStr;
@@ -311,103 +305,99 @@ export function PlannerView({ noteContent, onUpdateContent }) {
               return (
                 <div
                   key={index}
-                  className={[
-                    'planner-day',
-                    !cell.isCurrentMonth ? 'planner-day-empty' : '',
-                    isToday ? 'planner-day-today' : '',
-                    isActive ? 'planner-day-active' : '',
-                    cell.holiday ? 'planner-day-holiday' : ''
-                  ].join(' ')}
+                  className={`timeline-day ${isToday ? 'today' : ''} ${cell.holiday ? 'holiday' : ''} ${isActive ? 'active' : ''}`}
                   onClick={(e) => { e.stopPropagation(); handleDayClick(cell); }}
                 >
-                  {cell.isCurrentMonth && (
-                    <>
-                      <div className="planner-day-header">
-                        <span className="planner-day-number">{cell.day}</span>
-                        <button
-                          className="planner-day-add"
-                          onClick={(e) => { e.stopPropagation(); setActiveDate(cell.dateStr); setDraftNote({ text: '', color: 'yellow' }); setEditingNoteId(null); }}
-                          title="Adicionar anotação"
-                        >
-                          <Plus size={13} />
-                        </button>
-                      </div>
+                  {/* Ponto na Linha */}
+                  <div className="timeline-marker">
+                    <div className="timeline-dot">
+                      {cell.day}
+                    </div>
+                    {isToday && <div className="timeline-dot-pulse" />}
+                  </div>
 
+                  {/* Conteúdo do Dia */}
+                  <div className="timeline-content">
+                    <div className="timeline-day-info">
+                      <span className="timeline-weekday">
+                        {new Date(currentYear, currentMonthIndex, cell.day).toLocaleDateString('pt-BR', { weekday: 'long' })}
+                      </span>
                       {cell.holiday && (
-                        <div className="planner-holiday-label" title={cell.holiday}>
-                          {cell.holiday}
-                        </div>
+                        <span className="timeline-holiday-tag">{cell.holiday}</span>
                       )}
+                      <button
+                        className="timeline-add-btn"
+                        onClick={(e) => { e.stopPropagation(); setActiveDate(cell.dateStr); setDraftNote({ text: '', color: 'yellow' }); setEditingNoteId(null); }}
+                      >
+                        <Plus size={14} />
+                      </button>
+                    </div>
 
-                      <div className="planner-day-events">
-                        {notes.map(note => (
-                          <div 
-                            key={note.id} 
-                            className={`event-pill event-pill-${note.color}`} 
-                            onClick={(e) => handleEditNote(e, cell.dateStr, note)}
+                    <div className="timeline-events-list">
+                      {notes.length === 0 && !isActive && (
+                        <div className="timeline-empty-hint">Nenhuma anotação...</div>
+                      )}
+                      {notes.map(note => (
+                        <div 
+                          key={note.id} 
+                          className={`timeline-event-pill color-${note.color}`}
+                          onClick={(e) => handleEditNote(e, cell.dateStr, note)}
+                        >
+                          <span className="event-text">{note.text}</span>
+                          <button
+                            className="event-delete-btn"
+                            onClick={(e) => handleDeleteNote(e, cell.dateStr, note.id)}
                           >
-                            <span className="event-pill-text">{note.text}</span>
-                            <button
-                              className="event-pill-delete"
-                              onClick={(e) => handleDeleteNote(e, cell.dateStr, note.id)}
-                            >
-                              <X size={10} />
-                            </button>
-                          </div>
-                        ))}
-                      </div>
+                            <X size={12} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
 
-                      {/* Popover */}
-                      {isActive && (
-                        <div className="planner-popover" onClick={e => e.stopPropagation()}>
-                          <div className="planner-popover-header">
-                            <h3>
-                              {editingNoteId ? 'Editar Anotação' : `${cell.day} de ${MONTHS[currentMonthIndex]}`}
-                            </h3>
-                            <button className="icon-btn" onClick={() => { setActiveDate(null); setEditingNoteId(null); }}>
-                              <X size={15} />
-                            </button>
+                    {/* Popover de Edição (Inline na Timeline) */}
+                    {isActive && (
+                      <div className="timeline-inline-editor" onClick={e => e.stopPropagation()}>
+                        <textarea
+                          autoFocus
+                          placeholder="O que acontece hoje? (ideia, meta, compromisso...)"
+                          value={draftNote.text}
+                          onChange={e => setDraftNote(d => ({ ...d, text: e.target.value }))}
+                          onKeyDown={e => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                              e.preventDefault();
+                              handleAddNote();
+                            }
+                            if (e.key === 'Escape') { setActiveDate(null); setEditingNoteId(null); }
+                          }}
+                        />
+                        <div className="editor-footer">
+                          <div className="color-options">
+                            {COLORS.map(c => (
+                              <button
+                                key={c.id}
+                                className={`color-dot ${draftNote.color === c.id ? 'active' : ''}`}
+                                style={{ backgroundColor: c.hex }}
+                                onClick={() => setDraftNote(d => ({ ...d, color: c.id }))}
+                              />
+                            ))}
                           </div>
-                          <textarea
-                            autoFocus
-                            placeholder="Meta, compromisso ou ideia…"
-                            value={draftNote.text}
-                            onChange={e => setDraftNote(d => ({ ...d, text: e.target.value }))}
-                            onKeyDown={e => {
-                              if (e.key === 'Enter' && !e.shiftKey) {
-                                e.preventDefault();
-                                handleAddNote();
-                              }
-                              if (e.key === 'Escape') { setActiveDate(null); setEditingNoteId(null); }
-                            }}
-                          />
-                          <div className="planner-popover-footer">
-                            <div className="planner-color-picker">
-                              {COLORS.map(c => (
-                                <button
-                                  key={c.id}
-                                  className={`color-swatch ${draftNote.color === c.id ? 'active' : ''}`}
-                                  style={{ backgroundColor: c.hex }}
-                                  onClick={() => setDraftNote(d => ({ ...d, color: c.id }))}
-                                  title={c.label}
-                                />
-                              ))}
-                            </div>
-                            <button className="primary-btn" onClick={handleAddNote}>
+                          <div className="editor-actions">
+                            <button className="cancel-btn" onClick={() => { setActiveDate(null); setEditingNoteId(null); }}>Cancelar</button>
+                            <button className="save-btn" onClick={handleAddNote}>
                               {editingNoteId ? 'Atualizar' : 'Salvar'}
                             </button>
                           </div>
                         </div>
-                      )}
-                    </>
-                  )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               );
             })}
           </div>
         </div>
 
-        {/* Monthly Goals Sidebar */}
+        {/* Barra de Metas se mantém à direita para equilíbrio visual */}
         <div className="planner-goals-sidebar">
           <div className="goals-header">
             <h3>Metas de {MONTHS[currentMonthIndex]}</h3>
