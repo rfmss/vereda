@@ -4637,3 +4637,57 @@ textarea.char-field {
 .sidebar-edge-trigger::before, .sidebar-edge-trigger::after {
   display: none !important;
 }
+
+/* ── Nova Arquitetura de Sidebar (Física de Movimento) ── */
+.sidebar-wrapper {
+  position: relative;
+  width: 280px;
+  height: 100vh;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.sidebar-collapsed .sidebar-wrapper {
+  width: 0;
+  margin-left: -280px; /* Desliza para fora */
+}
+
+.sidebar-edge-trigger {
+  position: absolute;
+  right: -12px; /* Metade para fora */
+  top: 150px; /* Afastado do topo e do botão de deletar */
+  width: 24px;
+  height: 48px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  opacity: 0.2;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #6b7280;
+}
+
+.sidebar-collapsed .sidebar-edge-trigger {
+  right: -32px; /* Ajuste para ficar visível na borda da tela quando recolhido */
+  opacity: 0.4;
+}
+
+.sidebar-edge-trigger:hover {
+  opacity: 1 !important;
+  background: var(--accent);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(var(--accent-rgb), 0.3);
+}
+
+.main-editor-area {
+  flex-grow: 1;
+  width: 100%;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}

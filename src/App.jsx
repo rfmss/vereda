@@ -351,55 +351,56 @@ function App() {
           <div className="reader-progress-bar" style={{ width: `${scrollProgress}%` }} />
         )}
         
-        <Sidebar 
-          notes={notes} 
-          currentNoteId={currentNoteId} 
-          onCreate={(genre) => createNote('', genre || null)}
-          onCreateChapter={createChapter}
-          onSelect={setCurrentNoteId} 
-          onReorder={reorderNotes}
-          onUpdateTitle={(id, title) => updateNote(id, { title })}
-          onImportNotes={importNotes}
-          onAlertRequest={(msg) => setDialogState({
-            isOpen: true,
-            type: 'alert',
-            message: msg,
-            onConfirm: () => setDialogState({ isOpen: false })
-          })}
-          onImportRequest={(importedNotes) => {
-            setDialogState({
+        <div className="sidebar-wrapper">
+          <Sidebar 
+            notes={notes} 
+            currentNoteId={currentNoteId} 
+            onCreate={(genre) => createNote('', genre || null)}
+            onCreateChapter={createChapter}
+            onSelect={setCurrentNoteId} 
+            onReorder={reorderNotes}
+            onUpdateTitle={(id, title) => updateNote(id, { title })}
+            onImportNotes={importNotes}
+            onAlertRequest={(msg) => setDialogState({
               isOpen: true,
-              type: 'confirm',
-              title: 'Restaurar Backup',
-              message: `⚠️ ATENÇÃO: Importar este backup vai APAGAR todas as ${notes.length} anotações atuais e substituir pelas ${importedNotes.length} do arquivo. Esta ação não pode ser desfeita. Deseja continuar?`,
-              onConfirm: () => {
-                importNotes(importedNotes);
-                setDialogState({ isOpen: false });
-              },
-              onCancel: () => setDialogState({ isOpen: false })
-            });
-          }}
-          onDeleteRequest={(id) => {
-            setDialogState({
-              isOpen: true,
-              type: 'confirm',
-              title: 'Deletar anotação',
-              message: 'Tem certeza que deseja deletar esta anotação permanentemente?',
-              onConfirm: () => {
-                deleteNote(id);
-                setDialogState({ isOpen: false });
-              },
-              onCancel: () => setDialogState({ isOpen: false })
-            });
-          }} 
-        />
-
-        <div 
-          className="sidebar-edge-trigger" 
-          onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-          data-tooltip={isSidebarCollapsed ? "Expandir Menu" : "Recolher Menu"}
-        >
-          {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+              type: 'alert',
+              message: msg,
+              onConfirm: () => setDialogState({ isOpen: false })
+            })}
+            onImportRequest={(importedNotes) => {
+              setDialogState({
+                isOpen: true,
+                type: 'confirm',
+                title: 'Restaurar Backup',
+                message: `⚠️ ATENÇÃO: Importar este backup vai APAGAR todas as ${notes.length} anotações atuais e substituir pelas ${importedNotes.length} do arquivo. Esta ação não pode ser desfeita. Deseja continuar?`,
+                onConfirm: () => {
+                  importNotes(importedNotes);
+                  setDialogState({ isOpen: false });
+                },
+                onCancel: () => setDialogState({ isOpen: false })
+              });
+            }}
+            onDeleteRequest={(id) => {
+              setDialogState({
+                isOpen: true,
+                type: 'confirm',
+                title: 'Deletar anotação',
+                message: 'Tem certeza que deseja deletar esta anotação permanentemente?',
+                onConfirm: () => {
+                  deleteNote(id);
+                  setDialogState({ isOpen: false });
+                },
+                onCancel: () => setDialogState({ isOpen: false })
+              });
+            }} 
+          />
+          <div 
+            className="sidebar-edge-trigger" 
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            data-tooltip={isSidebarCollapsed ? "Expandir Menu" : "Recolher Menu"}
+          >
+            {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+          </div>
         </div>
         
         <main className="main-editor-area">
