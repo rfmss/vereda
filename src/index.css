@@ -4691,3 +4691,36 @@ textarea.char-field {
   width: 100%;
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* ── Cursor de Vanguarda: Variante Pause ── */
+.custom-cursor.cursor-pause {
+  width: 14px;
+  height: 18px;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  mix-blend-mode: difference; /* Inverte a cor conforme o fundo para máxima visibilidade */
+}
+
+.custom-cursor.cursor-pause::before,
+.custom-cursor.cursor-pause::after {
+  content: '';
+  width: 4px;
+  height: 100%;
+  background: white;
+  border-radius: 2px;
+}
+
+/* ── Efeito Magnético: Puxador Sidebar ── */
+.sidebar-edge-trigger.magnetic-active {
+  opacity: 1 !important;
+  background: var(--accent) !important;
+  color: white !important;
+  transform: translate(-50%, -50%) scaleX(1.3) !important; /* "Puxa" para fora */
+  box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.4) !important;
+}
+
+.sidebar-collapsed .sidebar-edge-trigger.magnetic-active {
+  transform: translate(50%, -50%) scaleX(1.3) !important;
+}

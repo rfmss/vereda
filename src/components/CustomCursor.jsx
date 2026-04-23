@@ -7,36 +7,53 @@ export function CustomCursor() {
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (cursorRef.current) {
-        // Atualiza a posição via ref para não causar re-renders e garantir zero lag
         cursorRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+      }
+
+      // Detecção de Proximidade Magnética (Sidebar Handle)
+      const handle = document.querySelector('.sidebar-edge-trigger');
+      if (handle) {
+        const rect = handle.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const distance = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+
+        if (distance < 60) {
+          setVariant('pause');
+          // Adiciona uma classe de magnetismo ao handle para efeito visual no CSS
+          handle.classList.add('magnetic-active');
+        } else {
+          handle.classList.remove('magnetic-active');
+          // Se não estiver perto do handle, segue a lógica normal de mouseover
+          checkVariant(e.target);
+        }
       }
     };
 
-    const handleMouseOver = (e) => {
-      const target = e.target;
+    const checkVariant = (target) => {
+      if (!target) return;
       
-      // Checa se está sobre um botão, link ou algo clicável
       const isPointer = 
-        target.tagName.toLowerCase() === 'button' ||
+        target.tagName?.toLowerCase() === 'button' ||
         target.closest('button') ||
-        target.tagName.toLowerCase() === 'a' ||
+        target.tagName?.toLowerCase() === 'a' ||
         target.closest('a') ||
         target.classList.contains('note-item') ||
-        target.classList.contains('grammar-token'); // Palavras clicáveis
+        target.classList.contains('grammar-token');
         
-      // Checa se está sobre entrada de texto
       const isText = 
-        target.tagName.toLowerCase() === 'textarea' ||
-        target.tagName.toLowerCase() === 'input' ||
+        target.tagName?.toLowerCase() === 'textarea' ||
+        target.tagName?.toLowerCase() === 'input' ||
         target.isContentEditable;
 
-      if (isText) {
-        setVariant('text');
-      } else if (isPointer) {
-        setVariant('pointer');
-      } else {
-        setVariant('default');
-      }
+      if (isText) setVariant('text');
+      else if (isPointer) setVariant('pointer');
+      else setVariant('default');
+    };
+
+    const handleMouseOver = (e) => {
+      // A lógica de variante agora é centralizada no checkVariant
+      // exceto quando a proximidade do pause tem prioridade
     };
 
     window.addEventListener('mousemove', handleMouseMove);
