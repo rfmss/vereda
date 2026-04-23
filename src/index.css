@@ -4548,3 +4548,87 @@ textarea.char-field {
   border-bottom: 1px solid var(--border-color);
   color: var(--text-color);
 }
+
+/* ── Navegação do Mini-Calendário (Setas) ── */
+.mini-calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mini-nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.mini-nav-btn:hover {
+  background: rgba(var(--accent-rgb), 0.1);
+  color: var(--accent);
+}
+
+.mini-title {
+  font-family: 'Lora', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* ── Puxador Estilo Canva (Sidebar Collapse) ── */
+.planner-goals-sidebar {
+  position: relative;
+  transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), padding 0.4s;
+  min-height: 500px;
+}
+
+.planner-goals-sidebar.collapsed {
+  width: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
+.sidebar-collapse-handle {
+  position: absolute;
+  left: -12px; /* Flutua na borda */
+  top: 100px; /* Altura do puxador */
+  width: 24px;
+  height: 48px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: var(--text-muted);
+}
+
+.sidebar-collapse-handle:hover {
+  background: var(--accent);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: var(--shadow-md);
+}
+
+.planner-goals-sidebar.collapsed .sidebar-collapse-handle {
+  left: -24px; /* Move um pouco mais para fora quando colapsado */
+}
+
+.sidebar-content-wrapper {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: translateX(0); }
+}

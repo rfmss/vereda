@@ -68,6 +68,7 @@ export function PlannerView({ noteContent, onUpdateContent }) {
   const [showGoalInput, setShowGoalInput] = useState(false);
   const [newGoalText, setNewGoalText] = useState('');
   const [showMiniCalendar, setShowMiniCalendar] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const holidays = useMemo(() => getBrazilianHolidays(currentYear), [currentYear]);
 
@@ -259,7 +260,15 @@ export function PlannerView({ noteContent, onUpdateContent }) {
             {showMiniCalendar && (
               <div className="mini-calendar-popover" onClick={e => e.stopPropagation()}>
                 <div className="mini-calendar-header">
-                  {MONTHS[currentMonthIndex]} {currentYear}
+                  <button className="mini-nav-btn" onClick={() => changeMonth(-1)}>
+                    <ChevronLeft size={14} />
+                  </button>
+                  <span className="mini-title">
+                    {MONTHS[currentMonthIndex]} {currentYear}
+                  </span>
+                  <button className="mini-nav-btn" onClick={() => changeMonth(1)}>
+                    <ChevronRight size={14} />
+                  </button>
                 </div>
                 <div className="mini-calendar-grid">
                   {['D','S','T','Q','Q','S','S'].map(d => <div key={d} className="mini-weekday">{d}</div>)}
@@ -433,53 +442,66 @@ export function PlannerView({ noteContent, onUpdateContent }) {
           </div>
         </div>
 
-        {/* Barra de Metas se mantém à direita para equilíbrio visual */}
-        <div className="planner-goals-sidebar">
-          <div className="goals-header">
-            <h3>Metas de {MONTHS[currentMonthIndex]}</h3>
-            <button className="icon-btn" onClick={() => setShowGoalInput(true)}>
-              <Plus size={16} />
-            </button>
-          </div>
-          
-          <div className="goals-list">
-            {showGoalInput && (
-              <div className="goal-input-wrapper">
-                <input
-                  autoFocus
-                  placeholder="Nova meta mensal..."
-                  value={newGoalText}
-                  onChange={e => setNewGoalText(e.target.value)}
-                  onKeyDown={e => {
-                    if (e.key === 'Enter') handleAddGoal();
-                    if (e.key === 'Escape') setShowGoalInput(false);
-                  }}
-                />
-                <div className="goal-input-actions">
-                  <button className="goal-cancel" onClick={() => setShowGoalInput(false)}>Cancelar</button>
-                  <button className="goal-save" onClick={handleAddGoal}>OK</button>
-                </div>
+        {/* Barra de Metas com Puxador Estilo Canva */}
+        <div className={`planner-goals-sidebar ${isSidebarCollapsed ? 'collapsed' : ''}`}>
+          {/* Puxador (Handle) */}
+          <button 
+            className="sidebar-collapse-handle" 
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            title={isSidebarCollapsed ? "Mostrar Metas" : "Recolher Metas"}
+          >
+            {isSidebarCollapsed ? <ChevronLeft size={12} /> : <ChevronRight size={12} />}
+          </button>
+
+          {!isSidebarCollapsed && (
+            <div className="sidebar-content-wrapper">
+              <div className="goals-header">
+                <h3>Metas de {MONTHS[currentMonthIndex]}</h3>
+                <button className="icon-btn" onClick={() => setShowGoalInput(true)}>
+                  <Plus size={16} />
+                </button>
               </div>
-            )}
-            
-            {currentMonthGoals.length === 0 && !showGoalInput ? (
-              <p className="goals-empty">Nenhuma meta definida para este mês.</p>
-            ) : (
-              currentMonthGoals.map(goal => (
-                <div key={goal.id} className={`goal-item ${goal.completed ? 'completed' : ''}`}>
-                  <input
-                    type="checkbox"
-                    checked={goal.completed}
-                    onChange={() => toggleGoal(goal.id)}
-                  />
-                  <span>{goal.text}</span>
-                  <button onClick={() => deleteGoal(goal.id)} className="goal-delete">
-                    <X size={12} />
-                  </button>
-                </div>
-              ))
-            )}
-          </div>
+              
+              <div className="goals-list">
+                {showGoalInput && (
+                  <div className="goal-input-wrapper">
+                    <input
+                      autoFocus
+                      placeholder="Nova meta mensal..."
+                      value={newGoalText}
+                      onChange={e => setNewGoalText(e.target.value)}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter') handleAddGoal();
+                        if (e.key === 'Escape') setShowGoalInput(false);
+                      }}
+                    />
+                    <div className="goal-input-actions">
+                      <button className="goal-cancel" onClick={() => setShowGoalInput(false)}>Cancelar</button>
+                      <button className="goal-save" onClick={handleAddGoal}>OK</button>
+                    </div>
+                  </div>
+                )}
+                
+                {currentMonthGoals.length === 0 && !showGoalInput ? (
+                  <p className="goals-empty">Nenhuma meta definida para este mês.</p>
+                ) : (
+                  currentMonthGoals.map(goal => (
+                    <div key={goal.id} className={`goal-item ${goal.completed ? 'completed' : ''}`}>
+                      <input
+                        type="checkbox"
+                        checked={goal.completed}
+                        onChange={() => toggleGoal(goal.id)}
+                      />
+                      <span>{goal.text}</span>
+                      <button onClick={() => deleteGoal(goal.id)} className="goal-delete">
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
