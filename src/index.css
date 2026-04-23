@@ -4286,3 +4286,26 @@ textarea.char-field {
   backdrop-filter: blur(10px);
   box-shadow: 0 20px 40px rgba(0,0,0,0.08);
 }
+
+/* ── Ajustes Finais de Contraste e Espaço ── */
+.editor-actions {
+  gap: 16px !important; /* Mais espaço entre os botões */
+}
+
+.planner-timeline-spine {
+  opacity: 0.5 !important; /* Linha mais visível */
+  width: 2px;
+  background: var(--accent) !important; /* Usando a cor de destaque da marca para a linha ser autoritária */
+  opacity: 0.15 !important; /* Mantendo sutil mas presente com a cor da marca */
+}
+
+/* Deixando a linha com a cor do tema para ser mais elegante */
+.planner-timeline-spine {
+  background: var(--text-muted) !important;
+  opacity: 0.4 !important;
+}
+
+/* Ajuste de Margem nos Botões */
+.save-btn {
+  margin-left: 4px;
+}
