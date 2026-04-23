@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Plus, Trash2, GripVertical, FolderPlus, BookOpen, Feather, X, HardDrive, Download, Upload } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { Plus, Trash2, GripVertical, FolderPlus, BookOpen, Feather, X, HardDrive, Download, Upload, Search, Calendar } from 'lucide-react';
 import {
   DndContext,
   closestCenter,
@@ -30,7 +30,7 @@ const GENRE_CATALOG = [
         titlePlaceholder: 'Morro dos Sopros Uivantes',
         description: 'Narrativa longa e complexa',
         placeholder:
-          '# A Jornada do Herói (ou Anti-Herói)\n\n"Toda grande história é sobre alguém que quer algo e encontra um obstáculo intransponível."\n\n**O Desafio:** Defina o "E se?" da sua história. E se um homem comum descobrisse que o tempo está parando?\n\n**Estrutura de Ouro:**\n• **Incidente Incitante:** O evento que tira o personagem da zona de conforto.\n• **Ponto de Não Retorno:** Onde ele decide que não pode mais voltar atrás.\n• **Clímax Emocional:** Onde o desejo e a realidade colidem.\n\n**Neuro-Gatilho:** *Identificação Projetiva.* O leitor precisa sentir que a dor do personagem é a dele.',
+          'Comece pelo momento em que tudo muda.\n\nNão pela infância. Não pela cidade. Pelo instante exato em que o personagem percebe que não pode mais voltar ao que era antes.\n\n**Esse é o seu ponto zero.**\n\nA pergunta do romance não é *o que acontece* — é *em quem ele se transforma* ao longo do caminho. Construa esse arco. O resto vem sozinho.',
       },
       {
         name: 'Conto',
@@ -38,7 +38,15 @@ const GENRE_CATALOG = [
         titlePlaceholder: 'O Alienista de Bolso',
         description: 'Um único momento, uma única virada',
         placeholder:
-          '# O Instantâneo da Alma\n\n"O conto é uma fotografia, não um filme. Foque no que a lente não mostra."\n\n**O Desafio:** Escreva uma cena onde um silêncio diz mais do que mil palavras.\n\n**Estrutura de Ouro:**\n• **Unidade de Efeito:** Todo elemento deve levar à mesma emoção final.\n• **Economia de Meios:** Sem descrições inúteis. Se há uma arma na parede, ela deve disparar.\n• **Epifania:** O momento em que algo muda para sempre na mente do leitor.\n\n**Neuro-Gatilho:** *Efeito Zeigarnik.* Deixe um loop aberto na mente do leitor para que ele termine de escrever o conto na própria cabeça.',
+          'Um flash fotográfico no escuro: você não vê tudo — só o que importa.\n\nO conto não explica. Ele ilumina.\n\n**Uma única cena. Um único conflito.** Uma virada que o leitor não vê vir — mas que, ao olhar para trás, percebe que sempre esteve ali.\n\nQual é a cena que te assombra? Escreva só ela.',
+      },
+      {
+        name: 'Crônica',
+        title: 'Sem título',
+        titlePlaceholder: 'Segunda-Feira às Três da Tarde',
+        description: 'O cotidiano como matéria literária',
+        placeholder:
+          'O ordinário, encarado de frente, sempre revela o extraordinário.\n\nA crônica começa onde todo mundo está — no ônibus, na fila, no silêncio de uma cozinha — e termina onde ninguém esperava chegar.\n\n**Seu olhar é o instrumento.** Pegue um momento banal desta semana e empurre-o até que ele revele algo sobre o que significa estar vivo agora, aqui, neste país.',
       },
     ],
   },
@@ -53,7 +61,7 @@ const GENRE_CATALOG = [
         titlePlaceholder: 'Em Busca do Tempo que Perdi no Sofá',
         description: 'Memória real + liberdade ficcional',
         placeholder:
-          '# A Verdade como Matéria-Prima\n\n"Sua memória é o campo de batalha. Não tenha medo de trair a verdade para encontrar a sinceridade."\n\n**O Desafio:** Transforme um trauma ou alegria real em um personagem que não é você, mas sente como você.\n\n**Estrutura de Ouro:**\n• **Voz Confessional:** O tom deve ser de segredo compartilhado.\n• **O Detalhe Cru:** Escolha um objeto real da sua casa para ancorar a cena.\n• **O Ponto de Virada:** Onde o "eu" da vida real tomou uma decisão diferente do "eu" do papel.\n\n**Modelo Mental:** *Vulnerabilidade como Autoridade.* O cérebro humano se conecta instantaneamente com a falha exposta, não com a perfeição simulada.',
+          'Sua memória é matéria-prima, não prisão.\n\nAutoficção não é confissão — é *traição estratégica* da verdade para encontrar uma verdade maior.\n\nComece com um detalhe físico real: uma xícara quebrada, o cheiro de um apartamento, o som da voz de alguém que você amou.\n\n**Traia os fatos. Honre o sentimento.**',
       },
       {
         name: 'Newsletter / Ensaio',
@@ -61,53 +69,15 @@ const GENRE_CATALOG = [
         titlePlaceholder: 'Cartas de um Escritor em Pânico',
         description: 'Voz direta e opinativa',
         placeholder:
-          '# O Diálogo Privado em Público\n\n"Escrever uma newsletter é enviar uma carta para mil amigos que você ainda não conhece."\n\n**O Desafio:** Explique uma ideia complexa através de uma anedota pessoal de café da manhã.\n\n**Estrutura de Ouro:**\n• **O Gancho (Subject Line):** Gere uma curiosidade de baixa carga cognitiva.\n• **A Tese:** Qual é a única coisa que o leitor deve levar daqui hoje?\n• **Call to Connection:** Termine com uma pergunta que peça uma resposta real, não um like.\n\n**Neuro-Gatilho:** *Reciprocidade Social.* Entregue valor antes de pedir atenção.',
+          'Você tem uma ideia que não para de voltar. Escreva para essa pessoa específica: aquela com quem você gostaria de sentar e explicar o que descobriu.\n\n**Não informe — conecte.**\n\nGancho pessoal → Tese clara → Uma história que a ilustra → Pergunta que convida à resposta. Uma ideia por texto. Sem exceções.',
       },
-    ],
-  },
-  {
-    group: 'Redes Federadas',
-    icon: Plus,
-    color: '#34d399',
-    genres: [
       {
-        name: 'Mastodon / Fediverso',
+        name: 'Poesia',
         title: 'Sem título',
-        titlePlaceholder: 'O Elefante na Sala',
-        description: 'Contexto e respiro visual',
+        titlePlaceholder: 'Onze Formas de Dizer Adeus',
+        description: 'Linguagem no limite da linguagem',
         placeholder:
-          '# Sua voz no comando\n\nNo Fediverso, não existe algoritmo te vigiando. Você escreve para pessoas reais que escolheram te ouvir. \n\n**O jeito certo de brilhar:**\n\n• **Use o "Aviso de Conteúdo" (CW):** É como uma capa de livro. Se o assunto for sensível ou muito longo, dê um título e deixe a pessoa escolher se quer ler. É educação digital.\n\n• **Imagens precisam de "Alt-Text":** Descrever o que está na foto não é só acessibilidade, é mostrar que você se importa com todos os leitores.\n\n• **Seja útil, não barulhento:** Uma boa thread (fio) aqui vale mais do que mil posts vazios. Tente o modelo "Resumo no início" para prender a atenção.\n\n**Dica de Mestre:** O cérebro humano descansa em textos com parágrafos curtos. Use o espaço a seu favor.',
-      },
-      {
-        name: 'Nostr / Bluesky',
-        title: 'Sem título',
-        titlePlaceholder: 'Protocolo de Intenções',
-        description: 'Soberania e fluxo de consciência',
-        placeholder:
-          '# Liberdade com Responsabilidade\n\nSua identidade é sua chave. Sua palavra é sua marca.\n\n**Como se destacar:**\n\n• **Autenticidade Direta:** Sem algoritmos, a única coisa que te mantém relevante é a verdade no que você escreve.\n\n• **Fluxo e Pausa:** No Bluesky, o ritmo é rápido. No Nostr, é perene. Escreva pensando no que vai durar mais de 24 horas.\n\n**Dica de Mestre:** Comece com uma pergunta que você mesmo não sabe a resposta. O engajamento aqui é conversa, não curtida.',
-      },
-    ],
-  },
-  {
-    group: 'Profissional & Estrutura',
-    icon: HardDrive,
-    color: '#a78bfa',
-    genres: [
-      {
-        name: 'Reportagem / Jornalismo',
-        title: 'Fato em Foco',
-        titlePlaceholder: 'Notícia de um Sequestro Literário',
-        description: 'Fatos, lide e pirâmide invertida',
-        placeholder:
-          '# O Fato em Primeiro Lugar\n\n"O jornalismo é a primeira versão da história. Seja preciso, seja rápido, seja honesto."\n\n**A Estrutura Clássica (Pirâmide Invertida):**\n\n1. **O Lide:** Tudo no primeiro parágrafo.\n2. **O Corpo:** Detalhes em ordem decrescente.\n\n**Dica Globoplay:** Conte uma história humana por trás dos dados.',
-      },
-      {
-        name: 'Livro (Template Completo)',
-        title: 'Título do meu Livro',
-        titlePlaceholder: 'Dom Casmurro e o Sumário Perdido',
-        description: 'Estrutura completa: da capa ao fim',
-        placeholder:
-          '# Guia de Estrutura: Seu Livro Começa Aqui\n\nEste é o esqueleto de uma obra profissional. Siga a ordem para garantir que seu livro tenha "cara de livro".\n\n---\n\n**Dica de Ouro:** Cada "---" acima gera uma quebra de página real na impressão e no PDF. O Vereda já organizou o miolo básico para você.',
+          'O poema não diz — ele *mostra*.\n\nEsqueça as rimas forçadas. Pense em ritmo, em imagem, em silêncio. Pense no que uma palavra faz quando está sozinha numa linha.\n\n**Escreva a coisa mais difícil de dizer.** Depois tire metade das palavras. O que sobrar é o poema.',
       },
     ],
   },
@@ -122,7 +92,7 @@ const GENRE_CATALOG = [
         titlePlaceholder: 'O Outro Lado do Paraíso',
         description: 'Dramaturgia seriada, atos e cenas',
         placeholder:
-          '# Estrutura de Roteiro de Novela\n\n> **Formato:** 1 capítulo por dia, 45–60 min. Cada cena tem slug, ação e diálogo.\n\n---\n\n## CAPÍTULO 1 — PRIMEIRO ATO\n\n**INT. SALA DE ESTAR — DIA**\n\nDescrição da cena. Cenário, personagens presentes, atmosfera.\n\n**PERSONAGEM**\n— Fala do personagem aqui.\n\n**OUTRO PERSONAGEM**\n— Resposta com conflito dramático.\n\n---\n\n**Dica:** Use travessão (—) para toda fala de personagem. Slugs em MAIÚSCULO. Ações em parágrafo normal.\n\n**Estrutura de ouro por capítulo:**\n• Gancho inicial (retomada do anterior)\n• Desenvolvimento de 3 tramas paralelas\n• Cliffhanger no final',
+          '<center>**CAPÍTULO 1**</center>\n\n**INT. SALA DE ESTAR — DIA**\n\nA primeira cena é um contrato de alma. Ela diz ao espectador exatamente o que ele vai sentir nos próximos meses.\n\n<center>**PERSONAGEM**</center>\n<center>— Não pode ser verdade.</center>\n\n<center>**OUTRO PERSONAGEM**</center>\n<center>— E no entanto é.</center>\n\n---\n\n**Formato:** Slug em MAIÚSCULO. Ação em parágrafo normal. Nome do personagem e fala centralizados (estilo dramaturgia brasileira).',
       },
       {
         name: 'Roteiro de Minissérie',
@@ -130,7 +100,7 @@ const GENRE_CATALOG = [
         titlePlaceholder: 'Impuros — O Começo',
         description: 'Formato fechado, 4–8 episódios',
         placeholder:
-          '# Estrutura de Minissérie\n\n> **Formato:** 4–8 episódios de 40–55 min. História fechada com começo, meio e fim.\n\n---\n\n## EPISÓDIO 1 — "TÍTULO DO EPISÓDIO"\n\n### TEASER\n\n**EXT. LOCAL — NOITE**\n\nCena de impacto para prender o espectador nos primeiros 3 minutos.\n\n**PERSONAGEM PRINCIPAL**\n— Diálogo revelador da premissa central.\n\n---\n\n### ATO 1\n\n**INT. AMBIENTE — DIA**\n\nPresentação do mundo ordinário. Evento perturbador.\n\n---\n\n**Dica de Estrutura:**\n• Ep. 1: Apresentação e ruptura\n• Ep. 2–3: Complicação e revelação\n• Ep. 4: Clímax e resolução (ou gancho para S2)',
+          '**EXT. CIDADE — NOITE — TEASER**\n\nUma imagem. Um som. Uma pergunta sem resposta. O teaser é o anzol que prende o espectador antes mesmo dos créditos.\n\n<center>**VOZ DO PERSONAGEM (V.O.)**</center>\n<center>— Tem coisas que a gente só entende quando é tarde demais.</center>\n\n---\n\n**Estrutura:** Ep. 1 (A Ruptura) → Eps. 2-4 (A Escalada) → Ep. Final (O Abismo ou a Redenção). Cada episódio é um filme em miniatura.',
       },
       {
         name: 'Roteiro de Documentário',
@@ -138,7 +108,73 @@ const GENRE_CATALOG = [
         titlePlaceholder: 'Sobre o Mar e Outros Silêncios',
         description: 'Narração, entrevistas e imagens',
         placeholder:
-          '# Estrutura de Documentário\n\n> **Formato:** Tratamento narrativo + escaleta de cenas. Nao é ficção, é curadoria da realidade.\n\n---\n\n## SINOPSE\n\nEm 2–3 parágrafos: o que é, quem são os personagens, qual é a tese central do doc.\n\n---\n\n## ESCALETA\n\n**SEQUÊNCIA 1 — ABERTURA**\n\n*Imagens de arquivo / B-roll:* Descrição das imagens.\n\n*ENTREVISTA — Nome do entrevistado, função:*\n— "Trecho da fala do entrevistado que ilustra a tese."\n\n*NARRAÇÃO (OFF):*\n— Texto de narração conectando imagem e entrevista.\n\n---\n\n**Dica:**\n• Ponto de virada no 1/3 do tempo total\n• Nunca termine sem uma chamada à reflexão\n• Personagem humano âncora: o doc precisa de um rosto',
+          'B-ROLL: Imagem que ancora o tema no mundo concreto.\n\nNARRADOR (OFF)\n— A primeira frase que contextualiza e já provoca.\n\nENTREVISTADO — função ou relação com o tema:\n*"A fala que nenhum roteirista poderia ter inventado."*\n\n---\n\n**Escaleta:** Sinopse → Personagem âncora humano → Virada no primeiro terço → Chamada à reflexão no final.\n\nDocumentário não é sobre o tema — é sobre as pessoas que vivem dentro dele.',
+      },
+    ],
+  },
+  {
+    group: 'Redes & Voz',
+    icon: Plus,
+    color: '#34d399',
+    genres: [
+      {
+        name: 'Mastodon / Fediverso',
+        title: 'Sem título',
+        titlePlaceholder: 'O Elefante na Sala',
+        description: 'Contexto e respiro visual',
+        placeholder:
+          'Aqui não existe algoritmo te vigiando. Escreva para pessoas reais que *escolheram* te ouvir — e trate essa escolha como o privilégio que ela é.\n\n**Três regras:** Use Aviso de Conteúdo (CW) para tópicos sensíveis. Descreva imagens com Alt-Text — é cuidado, não burocracia. Uma boa thread vale mais que dez posts vazios.',
+      },
+      {
+        name: 'Nostr / Bluesky',
+        title: 'Sem título',
+        titlePlaceholder: 'Protocolo de Intenções',
+        description: 'Soberania e fluxo de consciência',
+        placeholder:
+          'Sua identidade é sua chave. Sua palavra é sua marca.\n\nSem algoritmo de distribuição, o que te mantém relevante é a qualidade e a consistência com que você aparece.\n\n**Comece com uma pergunta que você mesmo não sabe responder.** O engajamento aqui é conversa — não curtida.',
+      },
+    ],
+  },
+  {
+    group: 'Profissional & Estrutura',
+    icon: HardDrive,
+    color: '#a78bfa',
+    genres: [
+      {
+        name: 'Reportagem / Jornalismo',
+        title: 'Fato em Foco',
+        titlePlaceholder: 'A Cidade que Ninguém Viu',
+        description: 'Fatos, lide e pirâmide invertida',
+        placeholder:
+          'O fato em primeiro lugar. Sempre.\n\n**Pirâmide invertida:** Quem, o quê, quando, onde, como e por quê — no primeiro parágrafo. Contexto e detalhes em ordem decrescente de importância.\n\nA história humana por trás dos dados é o que transforma uma notícia em memória. Encontre o rosto por trás do número.',
+      },
+      {
+        name: 'Ficha de Personagem',
+        title: 'Ficha de Personagem',
+        titlePlaceholder: 'Nome do Personagem',
+        description: 'Construção completa de personagem',
+        placeholder: null,
+      },
+      {
+        name: 'Livro (Template Completo)',
+        title: 'Título do meu Livro',
+        titlePlaceholder: 'Dom Casmurro e o Sumário Perdido',
+        description: 'Estrutura completa: da capa ao fim',
+        placeholder: null,
+      },
+    ],
+  },
+  {
+    group: 'Organização & Vida',
+    icon: Calendar,
+    color: '#ec4899',
+    genres: [
+      {
+        name: 'Planner 2026',
+        title: 'Meu Planejamento 2026',
+        titlePlaceholder: 'Metas e Sonhos 2026',
+        description: 'Calendário anual com notas adesivas',
+        placeholder: null,
       },
     ],
   },
@@ -276,12 +312,41 @@ function GenreMenu({ isOpen, onSelect, onClose }) {
 }
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
-export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSelect, onDeleteRequest, onReorder, onUpdateTitle, onImportNotes }) {
+export function Sidebar({ 
+  notes, currentNoteId, onCreate, onCreateChapter, onSelect, 
+  onDeleteRequest, onReorder, onUpdateTitle, onImportNotes,
+  onImportRequest, onAlertRequest 
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hint, setHint] = useState(false);       // tooltip de dica
   const holdTimer = useRef(null);
   const holdFired = useRef(false);               // evita click após long-press
   const btnRef = useRef(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const searchInputRef = useRef(null);
+
+  // ─── Filtragem de notas ───────────────────────────────────────
+  const filteredNotes = useCallback(() => {
+    if (!searchQuery.trim()) return notes;
+    const query = searchQuery.trim().toLowerCase();
+    const isHashtag = query.startsWith('#');
+    const term = isHashtag ? query.slice(1) : query;
+    return notes.filter(note => {
+      // Capítulos sempre aparecem para manter contexto visual
+      if (note.isChapter) return true;
+      // Busca em tags
+      if (note.tags && note.tags.some(t => t.toLowerCase().includes(term))) return true;
+      // Busca em título
+      if (String(note.title || '').toLowerCase().includes(term)) return true;
+      // Busca em nome do gênero
+      if (String(note.genreName || '').toLowerCase().includes(term)) return true;
+      return false;
+    });
+  }, [notes, searchQuery]);
+
+  const visibleNotes = filteredNotes();
+  const isFiltering = searchQuery.trim().length > 0;
+  const matchCount = isFiltering ? visibleNotes.filter(n => !n.isChapter).length : null;
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -349,17 +414,15 @@ export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSel
       try {
         const data = JSON.parse(ev.target.result);
         if (!data.vereda_backup || !Array.isArray(data.notes)) {
-          alert('Arquivo inválido. Use um backup exportado pelo Vereda.');
+          if (onAlertRequest) onAlertRequest('Arquivo inválido. Use um backup exportado pelo Vereda.');
           return;
         }
-        const confirmed = window.confirm(
-          `⚠️ ATENÇÃO: Importar este backup vai APAGAR todas as ${notes.length} anotações atuais e substituir pelos ${data.notes.length} do arquivo.\n\nEsta ação não pode ser desfeita.\n\nDeseja continuar?`
-        );
-        if (confirmed && onImportNotes) {
-          onImportNotes(data.notes);
+        
+        if (onImportRequest) {
+          onImportRequest(data.notes);
         }
       } catch {
-        alert('Erro ao ler o arquivo. Certifique-se de que é um JSON válido.');
+        if (onAlertRequest) onAlertRequest('Erro ao ler o arquivo. Certifique-se de que é um JSON válido.');
       }
       e.target.value = '';
     };
@@ -369,7 +432,10 @@ export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSel
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        <h2 className="logo">Vereda</h2>
+        <h2 className="logo">
+          Vereda
+          <span className="logo-sub">Para Escritores Brasileiros</span>
+        </h2>
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', position: 'relative' }}>
           <button
             onClick={() => onCreateChapter()}
@@ -417,6 +483,40 @@ export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSel
         </div>
       </div>
 
+      {/* ─── Barra de Busca ─────────────────────────────────── */}
+      <div className={`sidebar-search ${isFiltering ? 'sidebar-search--active' : ''}`}>
+        <Search size={13} className="sidebar-search-icon" />
+        <input
+          ref={searchInputRef}
+          type="text"
+          className="sidebar-search-input"
+          placeholder="Buscar por título ou #tag…"
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          spellCheck="false"
+          aria-label="Filtrar anotações"
+        />
+        {isFiltering && (
+          <button
+            className="sidebar-search-clear"
+            onClick={() => { setSearchQuery(''); searchInputRef.current?.focus(); }}
+            aria-label="Limpar busca"
+          >
+            <X size={13} />
+          </button>
+        )}
+      </div>
+
+      {/* Contador de resultados */}
+      {isFiltering && (
+        <div className="sidebar-search-results">
+          {matchCount === 0
+            ? 'Nenhuma anotação encontrada'
+            : `${matchCount} anotaç${matchCount === 1 ? 'ão' : 'ões'} encontrada${matchCount === 1 ? '' : 's'}`
+          }
+        </div>
+      )}
+
       <div className="note-list">
         {notes.length === 0 && <p className="empty-msg">Nenhuma anotação.</p>}
         <DndContext
@@ -424,8 +524,8 @@ export function Sidebar({ notes, currentNoteId, onCreate, onCreateChapter, onSel
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
         >
-          <SortableContext items={notes.map(n => n.id)} strategy={verticalListSortingStrategy}>
-            {notes.map(note => (
+          <SortableContext items={visibleNotes.map(n => n.id)} strategy={verticalListSortingStrategy}>
+            {visibleNotes.map(note => (
               <SortableNoteItem
                 key={note.id}
                 note={note}

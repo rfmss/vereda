@@ -208,7 +208,7 @@ export function GrammarViewer({ text }) {
           <span 
             key={i} 
             style={{ color: t.isWord ? classColors[t.tag] : 'inherit' }}
-            data-title={t.isWord ? classLabels[t.tag] || t.tag : ''}
+            data-tooltip={t.isWord ? classLabels[t.tag] || t.tag : ''}
             className={`grammar-token ${t.isWord ? 'is-word' : ''}`}
           >
             {t.text}

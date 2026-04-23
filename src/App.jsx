@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNotes } from './hooks/useNotes';
+import { useEditorModes } from './hooks/useEditorModes';
 import { useKeystrokeTracker } from './useKeystrokeTracker';
 import { Sidebar } from './components/Sidebar';
 import { GrammarViewer } from './components/GrammarViewer';
@@ -15,10 +16,13 @@ import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Se
 import getCaretCoordinates from 'textarea-caret';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 import { RichTextEditor } from './components/RichTextEditor';
 import { DictionaryTooltip } from './components/DictionaryTooltip';
 import { OfflineBanner } from './components/OfflineBanner';
 import { BookTemplate } from './components/BookTemplate';
+import { CharacterSheet } from './components/CharacterSheet';
+import { PlannerView } from './components/PlannerView';
 
 const lightBgs = ['#fdfaf6', '#fcf8f2', '#f9f5f0', '#fdfbf7', '#faf6f0'];
 const darkBgs = ['#1a1918', '#1c1b1a', '#181818', '#1e1d1c', '#1b1b1b'];
@@ -54,6 +58,33 @@ const cinematicScroll = (element, targetScroll) => {
   cinematicScrollId = requestAnimationFrame(animate);
 };
 
+const LITERARY_QUOTES = [
+  { text: "Tudo é ousadia para quem nada teme.", author: "Machado de Assis" },
+  { text: "Liberdade é pouco. O que eu desejo ainda não tem nome.", author: "Clarice Lispector" },
+  { text: "Viver é muito perigoso... Porque aprender a viver é que é o viver mesmo.", author: "Guimarães Rosa" },
+  { text: "A vida é o que fazemos dela. As viagens são os viajantes. O que vemos não é o que vemos, senão o que somos.", author: "Fernando Pessoa" },
+  { text: "O que não tem solução, solucionado está.", author: "Ariano Suassuna" },
+  { text: "A palavra é o meu domínio sobre o mundo.", author: "Clarice Lispector" },
+  { text: "Não sou nada. Nunca serei nada. Não posso querer ser nada. À parte isso, tenho em mim todos os sonhos do mundo.", author: "Fernando Pessoa" },
+  { text: "Escrever é esquecer. A literatura é a maneira mais agradável de ignorar a vida.", author: "Fernando Pessoa" }
+];
+
+function EmptyState() {
+  const quote = React.useMemo(() => LITERARY_QUOTES[Math.floor(Math.random() * LITERARY_QUOTES.length)], []);
+  
+  return (
+    <div className="empty-state-inspirador">
+      <div className="quote-container">
+        <p className="quote-text">"{quote.text}"</p>
+        <p className="quote-author">— {quote.author}</p>
+      </div>
+      <div className="empty-state-hint">
+        Selecione uma obra na lateral ou comece uma nova jornada.
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const { 
     notes, currentNote, currentNoteId, setCurrentNoteId, 
@@ -61,16 +92,19 @@ function App() {
     reorderNotes, importNotes
   } = useNotes();
   const [isDark, setIsDark] = useState(false);
-  const [isTerminalMode, setIsTerminalMode] = useState(false);
+  const {
+    isFocusMode, setIsFocusMode, toggleFocus,
+    isReaderMode, setIsReaderMode, toggleReader,
+    isTerminalMode, setIsTerminalMode, toggleTerminal,
+    isTypewriterMode, setIsTypewriterMode, toggleTypewriter,
+    isGrammarMode, setIsGrammarMode, toggleGrammar,
+    exitSpecialModes
+  } = useEditorModes();
 
-  const [isFocusMode, setIsFocusMode] = useState(false);
-  const [isTypewriterMode, setIsTypewriterMode] = useState(false);
-  const [isReaderMode, setIsReaderMode] = useState(false);
   const [readerFontSize, setReaderFontSize] = useState(20);
   const [readerTheme, setReaderTheme] = useState('paper');
   const [showReaderSettings, setShowReaderSettings] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isGrammarMode, setIsGrammarMode] = useState(false);
   const [showVerifier, setShowVerifier] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
@@ -139,8 +173,7 @@ function App() {
         if (dialogState.isOpen) setDialogState({ ...dialogState, isOpen: false });
         else if (showVerifier) setShowVerifier(false);
         else if (isReaderMode || isFocusMode) {
-          setIsReaderMode(false);
-          setIsFocusMode(false);
+          exitSpecialModes();
         }
       }
       
@@ -362,8 +395,7 @@ function App() {
   useEffect(() => {
     const handleKeyDownGlobal = (e) => {
       if (e.key === 'Escape') {
-        setIsReaderMode(false);
-        setIsFocusMode(false);
+        exitSpecialModes();
         setShowVerifier(false);
       }
       if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'n') {
@@ -396,6 +428,25 @@ function App() {
           onReorder={reorderNotes}
           onUpdateTitle={(id, title) => updateNote(id, { title })}
           onImportNotes={importNotes}
+          onAlertRequest={(msg) => setDialogState({
+            isOpen: true,
+            type: 'alert',
+            message: msg,
+            onConfirm: () => setDialogState({ isOpen: false })
+          })}
+          onImportRequest={(importedNotes) => {
+            setDialogState({
+              isOpen: true,
+              type: 'confirm',
+              title: 'Restaurar Backup',
+              message: `⚠️ ATENÇÃO: Importar este backup vai APAGAR todas as ${notes.length} anotações atuais e substituir pelas ${importedNotes.length} do arquivo. Esta ação não pode ser desfeita. Deseja continuar?`,
+              onConfirm: () => {
+                importNotes(importedNotes);
+                setDialogState({ isOpen: false });
+              },
+              onCancel: () => setDialogState({ isOpen: false })
+            });
+          }}
           onDeleteRequest={(id) => {
             setDialogState({
               isOpen: true,
@@ -426,10 +477,10 @@ function App() {
               <button className={`icon-btn sidebar-toggle-btn ${isSidebarCollapsed ? 'collapsed' : ''}`} onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)} data-tooltip="Alternar Menu Lateral">
                 <Columns size={20} />
               </button>
-              <button className="icon-btn" onClick={() => setIsFocusMode(true)} data-tooltip="Modo Foco (Edição em tela cheia)">
+              <button className="icon-btn" onClick={toggleFocus} data-tooltip="Modo Foco (Edição em tela cheia)">
                 <Maximize2 size={20} />
               </button>
-              <button className="icon-btn" onClick={() => setIsReaderMode(true)} data-tooltip="Modo Leitor (Apenas leitura)">
+              <button className="icon-btn" onClick={toggleReader} data-tooltip="Modo Leitor (Apenas leitura)">
                 <BookOpen size={20} />
               </button>
               <div style={{ position: 'relative' }}>
@@ -438,10 +489,10 @@ function App() {
                 </button>
                 <AudioPlayer isOpen={showAudioPlayer} onClose={() => setShowAudioPlayer(false)} />
               </div>
-              <button className={`icon-btn ${isTypewriterMode ? 'active' : ''}`} onClick={() => setIsTypewriterMode(!isTypewriterMode)} data-tooltip="Modo Máquina de Escrever">
+              <button className={`icon-btn ${isTypewriterMode ? 'active' : ''}`} onClick={toggleTypewriter} data-tooltip="Modo Máquina de Escrever">
                 <Keyboard size={20} />
               </button>
-              <button className={`icon-btn ${isGrammarMode ? 'active' : ''}`} onClick={() => setIsGrammarMode(!isGrammarMode)} data-tooltip="Alternar Marcador Gramatical">
+              <button className={`icon-btn ${isGrammarMode ? 'active' : ''}`} onClick={toggleGrammar} data-tooltip="Alternar Marcador Gramatical">
                 <Highlighter size={20} />
               </button>
               <button className="icon-btn" onClick={() => setShowVerifier(true)} data-tooltip="Verificar Autoria">
@@ -453,7 +504,7 @@ function App() {
                 <span className="badge-dot"></span>
                 {status.label}
               </div>
-              <button className={`icon-btn ${isTerminalMode ? 'active' : ''}`} onClick={() => setIsTerminalMode(!isTerminalMode)} data-tooltip="Modo Terminal">
+              <button className={`icon-btn ${isTerminalMode ? 'active' : ''}`} onClick={toggleTerminal} data-tooltip="Modo Terminal">
                 <Terminal size={20} />
               </button>
               <button className="icon-btn" onClick={() => setIsDark(!isDark)} data-tooltip="Alternar Tema">
@@ -493,8 +544,22 @@ function App() {
                     onUpdatePages={(pages) => updateCurrentNote({ bookPages: pages })}
                   />
                 )}
+
+                {currentNote.genreName === 'Ficha de Personagem' && (
+                  <CharacterSheet
+                    characterData={currentNote.characterData || {}}
+                    onUpdateCharacter={(data) => updateCurrentNote({ characterData: data })}
+                  />
+                )}
+
+                {currentNote.genreName === 'Planner 2026' && (
+                  <PlannerView
+                    noteContent={currentNote.content || ''}
+                    onUpdateContent={(json) => updateCurrentNote({ content: json })}
+                  />
+                )}
                 
-                {!isReaderMode && (
+                {!isReaderMode && currentNote.genreName !== 'Ficha de Personagem' && currentNote.genreName !== 'Planner 2026' && (
                   <input
                     type="text"
                     className="editor-title-input"
@@ -510,10 +575,10 @@ function App() {
                   <article className="reader-article" style={{ fontSize: `${readerFontSize}px` }}>
                     <h1 className="reader-title">{currentNote.title || 'Sem Título'}</h1>
                     <div className="reader-body markdown-preview">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
+                      <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{text}</ReactMarkdown>
                     </div>
                   </article>
-                ) : (
+                ) : (currentNote.genreName === 'Ficha de Personagem' || currentNote.genreName === 'Planner 2026') ? null : (
                   <>
                     {!isTerminalMode && <MarkdownToolbar editor={tiptapRef.current} onInsert={handleInsertMarkdown} />}
                     {currentNote.genrePlaceholder && text.length === 0 && !guideDismissed && (
@@ -533,7 +598,7 @@ function App() {
                           guia de escrita • clique para ocultar
                         </div>
                         <div className="genre-guide-markdown">
-                          <ReactMarkdown remarkPlugins={[remarkGfm]}>{currentNote.genrePlaceholder}</ReactMarkdown>
+                          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{currentNote.genrePlaceholder}</ReactMarkdown>
                         </div>
                       </div>
                     )}
@@ -569,15 +634,14 @@ function App() {
                     />
                   </>
                 )}
-              </div>
             ) : (
-              <div className="empty-state">Selecione ou crie uma anotação.</div>
+              <EmptyState />
             )}
           </div>
           
           <button 
             className={`floating-exit-btn ${(isReaderMode || isFocusMode) ? 'visible' : ''}`}
-            onClick={() => { setIsReaderMode(false); setIsFocusMode(false); }}
+            onClick={exitSpecialModes}
             data-tooltip="Sair do Modo Expandido (Esc)"
           >
             <Minimize2 size={24} />

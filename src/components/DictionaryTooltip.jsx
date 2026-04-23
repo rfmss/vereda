@@ -37,9 +37,19 @@ export function DictionaryTooltip() {
             left = window.innerWidth - (tooltipWidth / 2) - margin;
           }
 
+          // Top boundary checking
+          let top = rect.top - 10;
+          let transform = 'translate(-50%, -100%)';
+          
+          if (top < 150) { // If too close to top, show below
+            top = rect.bottom + 10;
+            transform = 'translate(-50%, 0)';
+          }
+
           setPosition({
-            top: rect.top - 10,
-            left: left
+            top: top,
+            left: left,
+            transform: transform
           });
           setWord(selectedText);
           setVisible(true);
@@ -85,7 +95,7 @@ export function DictionaryTooltip() {
         position: 'fixed',
         top: position.top,
         left: position.left,
-        transform: 'translate(-50%, -100%)',
+        transform: position.transform,
         zIndex: 99999
       }}
     >
