@@ -4902,3 +4902,20 @@ textarea.char-field {
   gap: 4px;
   transform: scale(0.9);
 }
+
+/* ── Ajuste do Status Dot (Verde Pastel) ── */
+.status-dot.online {
+  background: #10b981 !important; /* Verde Esmeralda */
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+.status-dot.offline {
+  background: #a7f3d0 !important; /* Verde Pastel Suave */
+  box-shadow: 0 0 8px rgba(167, 243, 208, 0.3);
+}
+
+.status-badge {
+  background: #f0fdf4 !important; /* Fundo esverdeado bem suave */
+  border: 1px solid #dcfce7 !important;
+  color: #166534 !important;
+}
