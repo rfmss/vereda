@@ -323,10 +323,7 @@ export function PlannerView({ noteContent, onUpdateContent }) {
                   {cell.isCurrentMonth && (
                     <>
                       <div className="planner-day-header">
-                        <div className="planner-day-num-box">
-                          <span className="planner-day-number">{cell.day}</span>
-                          {cell.holiday && <span className="holiday-dot" title={cell.holiday} />}
-                        </div>
+                        <span className="planner-day-number">{cell.day}</span>
                         <button
                           className="planner-day-add"
                           onClick={(e) => { e.stopPropagation(); setActiveDate(cell.dateStr); setDraftNote({ text: '', color: 'yellow' }); setEditingNoteId(null); }}
@@ -336,22 +333,25 @@ export function PlannerView({ noteContent, onUpdateContent }) {
                         </button>
                       </div>
 
-                      <div className="planner-day-notes">
+                      {cell.holiday && (
+                        <div className="planner-holiday-label" title={cell.holiday}>
+                          {cell.holiday}
+                        </div>
+                      )}
+
+                      <div className="planner-day-events">
                         {notes.map(note => (
                           <div 
                             key={note.id} 
-                            className={`post-it post-it-${note.color}`} 
-                            title={note.text}
+                            className={`event-pill event-pill-${note.color}`} 
                             onClick={(e) => handleEditNote(e, cell.dateStr, note)}
                           >
-                            <div className="post-it-pin" />
-                            <p>{note.text}</p>
+                            <span className="event-pill-text">{note.text}</span>
                             <button
-                              className="post-it-delete"
+                              className="event-pill-delete"
                               onClick={(e) => handleDeleteNote(e, cell.dateStr, note.id)}
-                              title="Remover"
                             >
-                              <X size={11} />
+                              <X size={10} />
                             </button>
                           </div>
                         ))}
