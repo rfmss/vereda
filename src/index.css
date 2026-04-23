@@ -4724,3 +4724,37 @@ textarea.char-field {
 .sidebar-collapsed .sidebar-edge-trigger.magnetic-active {
   transform: translate(50%, -50%) scaleX(1.3) !important;
 }
+
+/* ── Refinamento Final: Puxador Colado na Sidebar ── */
+.app-layout {
+  display: flex !important;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.sidebar-wrapper {
+  position: relative;
+  z-index: 2000;
+  display: flex;
+  flex-shrink: 0;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sidebar-edge-trigger {
+  position: absolute !important;
+  right: -12px !important; /* Exatamente na borda */
+  left: auto !important;
+  top: 150px !important;
+  z-index: 3000 !important; /* Acima de tudo */
+}
+
+.sidebar-collapsed .sidebar-wrapper {
+  width: 0 !important;
+  margin-left: -280px !important;
+}
+
+.sidebar-collapsed .sidebar-edge-trigger {
+  right: -32px !important; /* Aparece um pouco quando recolhido */
+}

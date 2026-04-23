@@ -429,8 +429,14 @@ function App() {
                   if (plannerNote) {
                     setCurrentNoteId(plannerNote.id);
                   } else {
-                    // Cria uma nova nota do tipo Organize-se e já seleciona
-                    createNote('', 'Organize-se');
+                    // Define o objeto de gênero para o Organize-se
+                    const organizeGenre = {
+                      name: 'Organize-se',
+                      title: 'Minha Organização',
+                      placeholder: 'Prepare o espaço para as suas palavras...',
+                      titlePlaceholder: 'Título da Organização...'
+                    };
+                    createNote('Minha Organização', organizeGenre);
                   }
                 }} 
                 data-tooltip="Ir para Organize-se"
