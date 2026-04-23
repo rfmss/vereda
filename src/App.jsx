@@ -208,76 +208,9 @@ function App() {
     return () => wrapper.removeEventListener('scroll', handleScroll);
   }, [isReaderMode, isFocusMode]);
 
-  useEffect(() => {
-    if (!isTypewriterMode || !textareaRef.current || !editorWrapperRef.current) return;
-    
-    const syncCaret = () => {
-      try {
-        const wrapper = editorWrapperRef.current;
-        if (!wrapper) return;
-        const wrapperRect = wrapper.getBoundingClientRect();
-        let absoluteCaretY;
-
-        if (isTerminalMode && textareaRef.current) {
-          const caret = getCaretCoordinates(textareaRef.current, textareaRef.current.selectionStart);
-          const textareaRect = textareaRef.current.getBoundingClientRect();
-          const absoluteTextareaTop = (textareaRect.top - wrapperRect.top) + wrapper.scrollTop;
-          absoluteCaretY = absoluteTextareaTop + caret.top;
-        } else if (!isTerminalMode && tiptapRef.current) {
-          const view = tiptapRef.current.view;
-          if (!view || !view.state) return;
-          const { head } = view.state.selection;
-          const coords = view.coordsAtPos(head);
-          absoluteCaretY = (coords.top - wrapperRect.top) + wrapper.scrollTop;
-        } else {
-          return;
-        }
-        
-        const targetScroll = absoluteCaretY - (wrapper.clientHeight / 2);
-        cinematicScroll(wrapper, targetScroll);
-      } catch (e) {
-        console.error("Caret sync failed", e);
-      }
-    };
-    
-    syncCaret();
-    
-    const el = textareaRef.current;
-    
-    let syncTimeout;
-    const debouncedSync = () => {
-      clearTimeout(syncTimeout);
-      syncTimeout = setTimeout(syncCaret, 50);
-    };
-
-    if (el) {
-      el.addEventListener('keyup', debouncedSync);
-      el.addEventListener('click', debouncedSync);
-    }
-    
-    return () => {
-      clearTimeout(syncTimeout);
-      if (el) {
-        el.removeEventListener('keyup', debouncedSync);
-        el.removeEventListener('click', debouncedSync);
-      }
-    };
-  }, [text, isTypewriterMode, isTerminalMode]);
 
   const handleTiptapKeydown = () => {
-    if (isTypewriterMode) {
-      const wrapper = editorWrapperRef.current;
-      if (!wrapper) return;
-      const wrapperRect = wrapper.getBoundingClientRect();
-      const view = tiptapRef.current?.view;
-      if (view) {
-          const { head } = view.state.selection;
-          const coords = view.coordsAtPos(head);
-          const absoluteCaretY = (coords.top - wrapperRect.top) + wrapper.scrollTop;
-          const targetScroll = absoluteCaretY - (wrapper.clientHeight / 2);
-          cinematicScroll(wrapper, targetScroll);
-      }
-    }
+    // Modo Máquina de Escrever removido
   };
 
   useEffect(() => {
