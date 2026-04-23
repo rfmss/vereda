@@ -19,17 +19,56 @@ const COLORS = [
   { id: 'purple', hex: '#e9d5ff', label: 'Lilás' },
 ];
 
-const CURRENT_YEAR = 2026;
 const TODAY = new Date();
-const INITIAL_MONTH = TODAY.getFullYear() === CURRENT_YEAR ? TODAY.getMonth() : 0;
+
+// Feriados Nacionais Brasileiros (Fixos)
+const FIXED_HOLIDAYS = {
+  '01-01': 'Confraternização Universal',
+  '21-04': 'Tiradentes',
+  '01-05': 'Dia do Trabalhador',
+  '07-09': 'Independência do Brasil',
+  '12-10': 'Nossa Senhora Aparecida',
+  '02-11': 'Finados',
+  '15-11': 'Proclamação da República',
+  '20-11': 'Dia da Consciência Negra',
+  '25-12': 'Natal'
+};
+
+function getEaster(year) {
+  const a = year % 19, b = Math.floor(year / 100), c = year % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31), day = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(year, month - 1, day);
+}
+
+function getBrazilianHolidays(year) {
+  const holidays = { ...FIXED_HOLIDAYS };
+  const easter = getEaster(year);
+  
+  const addMoveable = (days, name) => {
+    const d = new Date(easter);
+    d.setDate(d.getDate() + days);
+    const key = `${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    holidays[key] = name;
+  };
+
+  addMoveable(-47, 'Carnaval');
+  addMoveable(-2, 'Sexta-feira Santa');
+  addMoveable(60, 'Corpus Christi');
+  
+  return holidays;
+}
 
 export function PlannerView({ noteContent, onUpdateContent }) {
-  const [currentMonthIndex, setCurrentMonthIndex] = useState(INITIAL_MONTH);
+  const [currentYear, setCurrentYear] = useState(TODAY.getFullYear());
+  const [currentMonthIndex, setCurrentMonthIndex] = useState(TODAY.getMonth());
   const [plannerData, setPlannerData] = useState({ notes: {}, monthlyGoals: {} });
   const [activeDate, setActiveDate] = useState(null);
+  const [editingNoteId, setEditingNoteId] = useState(null);
   const [draftNote, setDraftNote] = useState({ text: '', color: 'yellow' });
   const [showGoalInput, setShowGoalInput] = useState(false);
   const [newGoalText, setNewGoalText] = useState('');
+
+  const holidays = useMemo(() => getBrazilianHolidays(currentYear), [currentYear]);
 
   // Parse data from note content
   useEffect(() => {
@@ -58,8 +97,8 @@ export function PlannerView({ noteContent, onUpdateContent }) {
   // Generate calendar grid
   const calendarDays = useMemo(() => {
     const days = [];
-    const firstDay = new Date(CURRENT_YEAR, currentMonthIndex, 1).getDay();
-    const daysInMonth = new Date(CURRENT_YEAR, currentMonthIndex + 1, 0).getDate();
+    const firstDay = new Date(currentYear, currentMonthIndex, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonthIndex + 1, 0).getDate();
 
     for (let i = 0; i < firstDay; i++) {
       days.push({ day: null, isCurrentMonth: false, dateStr: null });
@@ -71,7 +110,8 @@ export function PlannerView({ noteContent, onUpdateContent }) {
       days.push({
         day: i,
         isCurrentMonth: true,
-        dateStr: `${CURRENT_YEAR}-${padMonth}-${padDay}`
+        dateStr: `${currentYear}-${padMonth}-${padDay}`,
+        holiday: holidays[`${padMonth}-${padDay}`]
       });
     }
 
@@ -83,31 +123,35 @@ export function PlannerView({ noteContent, onUpdateContent }) {
     }
 
     return days;
-  }, [currentMonthIndex]);
+  }, [currentMonthIndex, currentYear, holidays]);
 
   const todayStr = TODAY.toISOString().split('T')[0];
 
   const handleAddNote = useCallback(() => {
     if (!draftNote.text.trim() || !activeDate) return;
 
-    const newNote = {
-      id: Date.now().toString(),
-      text: draftNote.text.trim(),
-      color: draftNote.color
-    };
+    const newData = { ...plannerData, notes: { ...plannerData.notes } };
+    const dayNotes = [...(newData.notes[activeDate] || [])];
 
-    const newData = {
-      ...plannerData,
-      notes: {
-        ...plannerData.notes,
-        [activeDate]: [...(plannerData.notes[activeDate] || []), newNote]
+    if (editingNoteId) {
+      const idx = dayNotes.findIndex(n => n.id === editingNoteId);
+      if (idx > -1) {
+        dayNotes[idx] = { ...dayNotes[idx], text: draftNote.text, color: draftNote.color };
       }
-    };
+    } else {
+      dayNotes.push({
+        id: Date.now().toString(),
+        text: draftNote.text.trim(),
+        color: draftNote.color
+      });
+    }
 
+    newData.notes[activeDate] = dayNotes;
     savePlannerData(newData);
     setDraftNote({ text: '', color: 'yellow' });
     setActiveDate(null);
-  }, [draftNote, activeDate, plannerData, savePlannerData]);
+    setEditingNoteId(null);
+  }, [draftNote, activeDate, editingNoteId, plannerData, savePlannerData]);
 
   const handleDeleteNote = useCallback((e, dateStr, noteId) => {
     e.stopPropagation();
@@ -123,7 +167,7 @@ export function PlannerView({ noteContent, onUpdateContent }) {
 
   const handleAddGoal = useCallback(() => {
     if (!newGoalText.trim()) return;
-    const monthKey = `${CURRENT_YEAR}-${currentMonthIndex}`;
+    const monthKey = `${currentYear}-${currentMonthIndex}`;
     const newGoal = { id: Date.now().toString(), text: newGoalText.trim(), completed: false };
     
     const newData = {
@@ -137,10 +181,10 @@ export function PlannerView({ noteContent, onUpdateContent }) {
     savePlannerData(newData);
     setNewGoalText('');
     setShowGoalInput(false);
-  }, [newGoalText, currentMonthIndex, plannerData, savePlannerData]);
+  }, [newGoalText, currentMonthIndex, currentYear, plannerData, savePlannerData]);
 
   const toggleGoal = useCallback((goalId) => {
-    const monthKey = `${CURRENT_YEAR}-${currentMonthIndex}`;
+    const monthKey = `${currentYear}-${currentMonthIndex}`;
     const updatedGoals = (plannerData.monthlyGoals[monthKey] || []).map(g => 
       g.id === goalId ? { ...g, completed: !g.completed } : g
     );
@@ -149,22 +193,30 @@ export function PlannerView({ noteContent, onUpdateContent }) {
       ...plannerData,
       monthlyGoals: { ...plannerData.monthlyGoals, [monthKey]: updatedGoals }
     });
-  }, [currentMonthIndex, plannerData, savePlannerData]);
+  }, [currentMonthIndex, currentYear, plannerData, savePlannerData]);
 
   const deleteGoal = useCallback((goalId) => {
-    const monthKey = `${CURRENT_YEAR}-${currentMonthIndex}`;
+    const monthKey = `${currentYear}-${currentMonthIndex}`;
     const updatedGoals = (plannerData.monthlyGoals[monthKey] || []).filter(g => g.id !== goalId);
     
     savePlannerData({
       ...plannerData,
       monthlyGoals: { ...plannerData.monthlyGoals, [monthKey]: updatedGoals }
     });
-  }, [currentMonthIndex, plannerData, savePlannerData]);
+  }, [currentMonthIndex, currentYear, plannerData, savePlannerData]);
 
   const handleDayClick = useCallback((cell) => {
     if (!cell.isCurrentMonth) return;
     setActiveDate(prev => prev === cell.dateStr ? null : cell.dateStr);
     setDraftNote({ text: '', color: 'yellow' });
+    setEditingNoteId(null);
+  }, []);
+
+  const handleEditNote = useCallback((e, dateStr, note) => {
+    e.stopPropagation();
+    setActiveDate(dateStr);
+    setEditingNoteId(note.id);
+    setDraftNote({ text: note.text, color: note.color });
   }, []);
 
   // Count notes in a month for the strip
@@ -172,17 +224,17 @@ export function PlannerView({ noteContent, onUpdateContent }) {
     const counts = Array(12).fill(0);
     Object.keys(plannerData.notes || {}).forEach(dateStr => {
       const parts = dateStr.split('-');
-      if (parts.length === 3) {
+      if (parts.length === 3 && parseInt(parts[0], 10) === currentYear) {
         const month = parseInt(parts[1], 10) - 1;
         counts[month] += (plannerData.notes[dateStr] || []).length;
       }
     });
     return counts;
-  }, [plannerData.notes]);
+  }, [plannerData.notes, currentYear]);
 
   const currentMonthGoals = useMemo(() => {
-    return plannerData.monthlyGoals?.[`${CURRENT_YEAR}-${currentMonthIndex}`] || [];
-  }, [plannerData.monthlyGoals, currentMonthIndex]);
+    return plannerData.monthlyGoals?.[`${currentYear}-${currentMonthIndex}`] || [];
+  }, [plannerData.monthlyGoals, currentMonthIndex, currentYear]);
 
   return (
     <div className="planner-container">
@@ -190,7 +242,15 @@ export function PlannerView({ noteContent, onUpdateContent }) {
       <div className="planner-header">
         <div className="planner-title">
           <CalendarIcon size={22} strokeWidth={1.5} />
-          <h1>Planner {CURRENT_YEAR}</h1>
+          <div className="planner-year-selector">
+            <button onClick={() => setCurrentYear(y => y - 1)} disabled={currentYear <= 2026} className="year-btn">
+              <ChevronLeft size={14} />
+            </button>
+            <h1>Planner {currentYear}</h1>
+            <button onClick={() => setCurrentYear(y => y + 1)} disabled={currentYear >= 2030} className="year-btn">
+              <ChevronRight size={14} />
+            </button>
+          </div>
         </div>
         <div className="planner-month-selector">
           <button
@@ -242,7 +302,7 @@ export function PlannerView({ noteContent, onUpdateContent }) {
           </div>
 
           {/* Calendar grid */}
-          <div className="planner-grid" onClick={() => setActiveDate(null)}>
+          <div className="planner-grid" onClick={() => { setActiveDate(null); setEditingNoteId(null); }}>
             {calendarDays.map((cell, index) => {
               const isToday = cell.dateStr === todayStr;
               const notes = cell.dateStr ? (plannerData.notes[cell.dateStr] || []) : [];
@@ -256,16 +316,20 @@ export function PlannerView({ noteContent, onUpdateContent }) {
                     !cell.isCurrentMonth ? 'planner-day-empty' : '',
                     isToday ? 'planner-day-today' : '',
                     isActive ? 'planner-day-active' : '',
+                    cell.holiday ? 'planner-day-holiday' : ''
                   ].join(' ')}
                   onClick={(e) => { e.stopPropagation(); handleDayClick(cell); }}
                 >
                   {cell.isCurrentMonth && (
                     <>
                       <div className="planner-day-header">
-                        <span className="planner-day-number">{cell.day}</span>
+                        <div className="planner-day-num-box">
+                          <span className="planner-day-number">{cell.day}</span>
+                          {cell.holiday && <span className="holiday-dot" title={cell.holiday} />}
+                        </div>
                         <button
                           className="planner-day-add"
-                          onClick={(e) => { e.stopPropagation(); setActiveDate(cell.dateStr); setDraftNote({ text: '', color: 'yellow' }); }}
+                          onClick={(e) => { e.stopPropagation(); setActiveDate(cell.dateStr); setDraftNote({ text: '', color: 'yellow' }); setEditingNoteId(null); }}
                           title="Adicionar anotação"
                         >
                           <Plus size={13} />
@@ -274,7 +338,12 @@ export function PlannerView({ noteContent, onUpdateContent }) {
 
                       <div className="planner-day-notes">
                         {notes.map(note => (
-                          <div key={note.id} className={`post-it post-it-${note.color}`} title={note.text}>
+                          <div 
+                            key={note.id} 
+                            className={`post-it post-it-${note.color}`} 
+                            title={note.text}
+                            onClick={(e) => handleEditNote(e, cell.dateStr, note)}
+                          >
                             <div className="post-it-pin" />
                             <p>{note.text}</p>
                             <button
@@ -293,9 +362,9 @@ export function PlannerView({ noteContent, onUpdateContent }) {
                         <div className="planner-popover" onClick={e => e.stopPropagation()}>
                           <div className="planner-popover-header">
                             <h3>
-                              {cell.day} de {MONTHS[currentMonthIndex]}
+                              {editingNoteId ? 'Editar Anotação' : `${cell.day} de ${MONTHS[currentMonthIndex]}`}
                             </h3>
-                            <button className="icon-btn" onClick={() => setActiveDate(null)}>
+                            <button className="icon-btn" onClick={() => { setActiveDate(null); setEditingNoteId(null); }}>
                               <X size={15} />
                             </button>
                           </div>
@@ -309,7 +378,7 @@ export function PlannerView({ noteContent, onUpdateContent }) {
                                 e.preventDefault();
                                 handleAddNote();
                               }
-                              if (e.key === 'Escape') setActiveDate(null);
+                              if (e.key === 'Escape') { setActiveDate(null); setEditingNoteId(null); }
                             }}
                           />
                           <div className="planner-popover-footer">
@@ -325,7 +394,7 @@ export function PlannerView({ noteContent, onUpdateContent }) {
                               ))}
                             </div>
                             <button className="primary-btn" onClick={handleAddNote}>
-                              Salvar
+                              {editingNoteId ? 'Atualizar' : 'Salvar'}
                             </button>
                           </div>
                         </div>
