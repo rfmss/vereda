@@ -44,19 +44,19 @@ export function TextStatistics({ text, goal = 0, onSetGoal }) {
   };
 
   return (
-    <div className="text-statistics-wrapper">
-      {goal > 0 && (
-        <div className="goal-progress-container">
-          <div className="goal-progress-bar" style={{ width: `${progress}%`, backgroundColor: isGoalReached ? '#28a745' : 'var(--accent)' }} />
-        </div>
-      )}
-      <div className="text-statistics-bar">
-        <span>{stats.words} palavras</span>
-        <span>•</span>
-        <span>{stats.chars} caracteres</span>
-        <span>•</span>
-        <span>~{stats.readTime} min de leitura</span>
-        
+    <div className="editor-stats">
+      <div className="stats-group">
+        <span className="stat-item"><b>{stats.words}</b> palavras</span>
+        <span className="stat-item"><b>{stats.chars}</b> caracteres</span>
+        <span className="stat-item"><b>{stats.readTime}</b> min de leitura</span>
+      </div>
+      
+      <div className="stats-meta">
+        {goal > 0 && (
+          <div className="goal-progress-mini">
+            <div className="goal-progress-bar" style={{ width: `${progress}%`, backgroundColor: isGoalReached ? '#10b981' : 'var(--accent)' }} />
+          </div>
+        )}
         <div className="goal-section">
           {isEditingGoal ? (
             <form onSubmit={handleGoalSubmit} className="goal-form">
@@ -72,15 +72,15 @@ export function TextStatistics({ text, goal = 0, onSetGoal }) {
           ) : (
             <button className={`goal-btn ${isGoalReached ? 'reached' : ''}`} onClick={() => setIsEditingGoal(true)} data-tooltip="Definir meta diária">
               {goal > 0 ? (
-                <>
-                  {isGoalReached ? <CheckCircle2 size={14} /> : <Target size={14} />}
-                  <span>{stats.words} / {goal}</span>
-                </>
+                <div className="human-score-pill">
+                  {isGoalReached ? <CheckCircle2 size={12} /> : <Target size={12} />}
+                  <span>{stats.words} / {goal} meta</span>
+                </div>
               ) : (
-                <>
-                  <Target size={14} />
-                  <span>Meta</span>
-                </>
+                <div className="human-score-pill">
+                  <Target size={12} />
+                  <span>Definir Meta</span>
+                </div>
               )}
             </button>
           )}

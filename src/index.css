@@ -4919,3 +4919,22 @@ textarea.char-field {
   border: 1px solid #dcfce7 !important;
   color: #166534 !important;
 }
+
+/* ── Unificando todos os pontos de status para Verde Pastel ── */
+.badge-dot, .status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  background: #a7f3d0 !important; /* Verde Pastel Suave */
+  box-shadow: 0 0 8px rgba(167, 243, 208, 0.4);
+}
+
+.verified .badge-dot, .online .status-dot {
+  background: #10b981 !important; /* Verde Esmeralda (Ativo) */
+}
+
+.suspicious .badge-dot {
+  background: #fca5a5 !important; /* Vermelho Pastel (Aviso) */
+}
