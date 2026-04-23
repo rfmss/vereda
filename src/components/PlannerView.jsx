@@ -258,6 +258,9 @@ export function PlannerView({ noteContent, onUpdateContent }) {
             
             {showMiniCalendar && (
               <div className="mini-calendar-popover" onClick={e => e.stopPropagation()}>
+                <div className="mini-calendar-header">
+                  {MONTHS[currentMonthIndex]} {currentYear}
+                </div>
                 <div className="mini-calendar-grid">
                   {['D','S','T','Q','Q','S','S'].map(d => <div key={d} className="mini-weekday">{d}</div>)}
                   {calendarDays.map((cell, i) => (
