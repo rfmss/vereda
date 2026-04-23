@@ -467,7 +467,7 @@ function App() {
           onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
           data-tooltip={isSidebarCollapsed ? "Expandir Menu" : "Recolher Menu"}
         >
-          <div className="trigger-chevron"></div>
+          {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
         </div>
         
         <main className="main-editor-area">

@@ -4710,3 +4710,37 @@ textarea.char-field {
   letter-spacing: 0.05em;
   margin-top: -2px;
 }
+
+/* ── Refinamento Canva: Puxador Flutuante ── */
+.sidebar-edge-trigger {
+  left: 280px !important; /* largura padrão da sidebar */
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  width: 20px !important;
+  height: 40px !important;
+  border-radius: 100px !important; /* Pílula perfeita */
+  transform: translate(-50%, -50%) !important; /* Centraliza na linha divisória */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000 !important;
+}
+
+.sidebar-collapsed .sidebar-edge-trigger {
+  left: 0 !important;
+  transform: translate(50%, -50%) !important;
+}
+
+.sidebar-edge-trigger:hover {
+  background: var(--accent) !important;
+  color: white !important;
+  width: 24px !important; /* Aumenta levemente no hover */
+}
+
+/* Escondendo a borda padrão do trigger antigo se houver */
+.trigger-chevron::before {
+  display: none !important;
+}
+
+/* Adicionando a setinha Lucide via CSS se necessário, mas já temos no JSX */
