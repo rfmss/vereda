@@ -238,6 +238,20 @@ export function PlannerView({ noteContent, onUpdateContent }) {
     return plannerData.monthlyGoals?.[`${currentYear}-${currentMonthIndex}`] || [];
   }, [plannerData.monthlyGoals, currentMonthIndex, currentYear]);
 
+  const changeMonth = (delta) => {
+    let newMonth = currentMonthIndex + delta;
+    let newYear = currentYear;
+    if (newMonth < 0) {
+      newMonth = 11;
+      newYear--;
+    } else if (newMonth > 11) {
+      newMonth = 0;
+      newYear++;
+    }
+    setCurrentMonthIndex(newMonth);
+    setCurrentYear(newYear);
+  };
+
   const scrollToDay = (dayNum) => {
     const id = `day-${currentYear}-${currentMonthIndex}-${dayNum}`;
     const element = document.getElementById(id);
