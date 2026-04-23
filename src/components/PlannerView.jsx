@@ -260,14 +260,15 @@ export function PlannerView({ noteContent, onUpdateContent }) {
             {showMiniCalendar && (
               <div className="mini-calendar-popover" onClick={e => e.stopPropagation()}>
                 <div className="mini-calendar-header">
-                  <button className="mini-nav-btn" onClick={() => changeMonth(-1)}>
-                    <ChevronLeft size={14} />
+                  <button className="mini-nav-btn" onClick={(e) => { e.stopPropagation(); changeMonth(-1); }}>
+                    <ChevronLeft size={16} />
                   </button>
-                  <span className="mini-title">
-                    {MONTHS[currentMonthIndex]} {currentYear}
-                  </span>
-                  <button className="mini-nav-btn" onClick={() => changeMonth(1)}>
-                    <ChevronRight size={14} />
+                  <div className="mini-title-group" onClick={(e) => { e.stopPropagation(); setCurrentYear(y => y >= 2030 ? 2026 : y + 1); }}>
+                    <span className="mini-month-name">{MONTHS[currentMonthIndex]}</span>
+                    <span className="mini-year-display">{currentYear}</span>
+                  </div>
+                  <button className="mini-nav-btn" onClick={(e) => { e.stopPropagation(); changeMonth(1); }}>
+                    <ChevronRight size={16} />
                   </button>
                 </div>
                 <div className="mini-calendar-grid">
