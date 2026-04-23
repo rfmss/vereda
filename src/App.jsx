@@ -425,7 +425,12 @@ function App() {
                 className="icon-btn" 
                 onClick={() => {
                   const plannerNote = notes.find(n => n.genreName === 'Organize-se');
-                  if (plannerNote) setCurrentNoteId(plannerNote.id);
+                  if (plannerNote) {
+                    setCurrentNoteId(plannerNote.id);
+                  } else {
+                    // Cria uma nova nota do tipo Organize-se e já seleciona
+                    createNote('', 'Organize-se');
+                  }
                 }} 
                 data-tooltip="Ir para Organize-se"
               >
