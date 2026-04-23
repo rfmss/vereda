@@ -552,14 +552,14 @@ function App() {
                   />
                 )}
 
-                {currentNote.genreName === 'Planner 2026' && (
+                {currentNote.genreName === 'Organize-se' && (
                   <PlannerView
                     noteContent={currentNote.content || ''}
                     onUpdateContent={(json) => updateCurrentNote({ content: json })}
                   />
                 )}
                 
-                {!isReaderMode && currentNote.genreName !== 'Ficha de Personagem' && currentNote.genreName !== 'Planner 2026' && (
+                {!isReaderMode && currentNote.genreName !== 'Ficha de Personagem' && currentNote.genreName !== 'Organize-se' && (
                   <input
                     type="text"
                     className="editor-title-input"
@@ -578,7 +578,7 @@ function App() {
                       <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{text}</ReactMarkdown>
                     </div>
                   </article>
-                ) : (currentNote.genreName === 'Ficha de Personagem' || currentNote.genreName === 'Planner 2026') ? null : (
+                ) : (currentNote.genreName === 'Ficha de Personagem' || currentNote.genreName === 'Organize-se') ? null : (
                   <>
                     {!isTerminalMode && <MarkdownToolbar editor={tiptapRef.current} onInsert={handleInsertMarkdown} />}
                     {currentNote.genrePlaceholder && text.length === 0 && !guideDismissed && (

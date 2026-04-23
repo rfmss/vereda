@@ -170,10 +170,10 @@ const GENRE_CATALOG = [
     color: '#ec4899',
     genres: [
       {
-        name: 'Planner 2026',
-        title: 'Meu Planejamento 2026',
-        titlePlaceholder: 'Metas e Sonhos 2026',
-        description: 'Calendário anual com notas adesivas',
+        name: 'Organize-se',
+        title: 'Minha Organização',
+        titlePlaceholder: 'Metas e Sonhos',
+        description: 'Calendário anual com notas e metas',
         placeholder: null,
       },
     ],
