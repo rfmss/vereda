@@ -14,7 +14,8 @@
     - Expansão do calendário até 2030 com cálculo dinâmico de feriados nacionais brasileiros (fixos e móveis como Carnaval/Pscoa).
 - **Empty State Literário**: Substituição da tela vazia por um sistema inspirador de citações aleatórias (Machado de Assis, Clarice Lispector, etc.) com design minimalista.
 - **Fim dos Alerts Nativos**: Integração do `CustomDialog` em todo o fluxo da Sidebar (importação/deleção), eliminando diálogos cinzas do navegador.
-- **Branding**: Alteração do título da aba do navegador para `"enverede-se"`, reforçando o conceito de trilhar caminhos literários.
+- **Branding**: Alteração do título da aba do navegador para `"enverede-se"` (forçado via JS e Manifesto PWA), reforçando o conceito de trilhar caminhos literários.
+- **Módulo "Organize-se em..."**: Ajuste de nomenclatura para garantir fluidez gramatical no cabeçalho do calendário.
 
 ### 🛠️ Engenharia & Refatoração
 - **Hook `useEditorModes`**: Extração da lógica de estados (Foco, Leitor, Terminal) para um hook customizado, limpando o `App.jsx`.
