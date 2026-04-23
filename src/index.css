@@ -3845,3 +3845,64 @@ textarea.char-field {
   justify-content: center;
   border-radius: 50%;
 }
+
+/* ── Antidoto contra Scroll Horizontal ── */
+.editor-main {
+  overflow-x: hidden !important;
+  max-width: 100%;
+}
+
+.planner-container {
+  max-width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.planner-main-content {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  width: 100%;
+  min-width: 0; /* Importante para flex-shrink funcionar */
+}
+
+.planner-calendar-section {
+  flex: 1;
+  min-width: 0; /* Evita que o grid empurre a largura */
+}
+
+.planner-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+  gap: 1px; /* Linhas finas */
+}
+
+.planner-goals-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  max-width: 30%; /* Não deixa a meta engolir o calendário em telas menores */
+}
+
+/* Ajuste para telas menores: empilhar metas abaixo do calendário se necessário */
+@media (max-width: 1100px) {
+  .planner-main-content {
+    flex-direction: column;
+  }
+  .planner-goals-sidebar {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.event-pill {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.event-pill-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
