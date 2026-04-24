@@ -240,7 +240,7 @@ function SortableNoteItem({ note, currentNoteId, onSelect, onDeleteRequest, onUp
           <div className="note-genre-badge">{note.genreName}</div>
         )}
         <div className="note-item-meta">
-          <span>{new Date(note.lastModified).toLocaleDateString()}</span>
+          <span>{new Date(note.lastModified).toLocaleDateString()} • {new Date(note.lastModified).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
           <button
             className="delete-btn"
             onClick={(e) => { e.stopPropagation(); onDeleteRequest(note.id); }}
@@ -332,8 +332,8 @@ export function Sidebar({
     const isHashtag = query.startsWith('#');
     const term = isHashtag ? query.slice(1) : query;
     return notes.filter(note => {
-      // Capítulos sempre aparecem para manter contexto visual
-      if (note.isChapter) return true;
+      // Capítulos ficam OCULTOS durante busca ativa (são estruturais)
+      if (note.isChapter) return false;
       // Busca em tags
       if (note.tags && note.tags.some(t => t.toLowerCase().includes(term))) return true;
       // Busca em título
@@ -432,53 +432,55 @@ export function Sidebar({
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        <h2 className="logo">
-          Vereda
-          <span className="logo-sub">Para Escritores Brasileiros</span>
-        </h2>
-        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', position: 'relative' }}>
-          <button
-            onClick={() => onCreateChapter()}
-            className="icon-btn"
-            data-tooltip="Novo Divisor de Capítulo"
-          >
-            <FolderPlus size={18} strokeWidth={2} />
-          </button>
-
-          {/* Botão + com long-press */}
-          <div className="new-note-btn-wrapper">
+        <div className="sidebar-header-top">
+          <h2 className="logo">
+            Vereda
+            <span className="logo-sub">Para Escritores Brasileiros</span>
+          </h2>
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', position: 'relative' }}>
             <button
-              ref={btnRef}
-              className={`icon-btn new-note-btn ${menuOpen ? 'active' : ''}`}
-              onMouseDown={startHold}
-              onMouseUp={cancelHold}
-              onMouseLeave={cancelHold}
-              onTouchStart={startHold}
-              onTouchEnd={cancelHold}
-              onClick={handleClick}
-              onMouseEnter={() => setHint(true)}
-              onMouseLeave={() => { setHint(false); cancelHold(); }}
-              data-tooltip=""
-              aria-haspopup="menu"
-              aria-expanded={menuOpen}
+              onClick={() => onCreateChapter()}
+              className="icon-btn"
+              data-tooltip="Novo Divisor de Capítulo"
             >
-              <Plus size={20} strokeWidth={2} />
+              <FolderPlus size={18} strokeWidth={2} />
             </button>
 
-            {/* Hint de dica */}
-            {hint && !menuOpen && (
-              <div className="new-note-hint">
-                Nova anotação
-                <span className="hint-hold">Segure para mais opções</span>
-              </div>
-            )}
+            {/* Botão + com long-press */}
+            <div className="new-note-btn-wrapper">
+              <button
+                ref={btnRef}
+                className={`icon-btn new-note-btn ${menuOpen ? 'active' : ''}`}
+                onMouseDown={startHold}
+                onMouseUp={cancelHold}
+                onMouseLeave={cancelHold}
+                onTouchStart={startHold}
+                onTouchEnd={cancelHold}
+                onClick={handleClick}
+                onMouseEnter={() => setHint(true)}
+                onMouseLeave={() => { setHint(false); cancelHold(); }}
+                data-tooltip=""
+                aria-haspopup="menu"
+                aria-expanded={menuOpen}
+              >
+                <Plus size={20} strokeWidth={2} />
+              </button>
 
-            {/* Menu de gêneros */}
-            <GenreMenu
-              isOpen={menuOpen}
-              onSelect={handleGenreSelect}
-              onClose={() => setMenuOpen(false)}
-            />
+              {/* Hint de dica */}
+              {hint && !menuOpen && (
+                <div className="new-note-hint">
+                  Nova anotação
+                  <span className="hint-hold">Segure para mais opções</span>
+                </div>
+              )}
+
+              {/* Menu de gêneros */}
+              <GenreMenu
+                isOpen={menuOpen}
+                onSelect={handleGenreSelect}
+                onClose={() => setMenuOpen(false)}
+              />
+            </div>
           </div>
         </div>
       </div>

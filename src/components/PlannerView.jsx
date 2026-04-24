@@ -151,9 +151,10 @@ export function PlannerView({ noteContent, onUpdateContent }) {
     newData.notes[activeDate] = dayNotes;
     savePlannerData(newData);
     setDraftNote({ text: '', color: 'yellow' });
-    setActiveDate(null);
+    // Mantém o activeDate para permitir adicionar múltiplas notas
     setEditingNoteId(null);
   }, [draftNote, activeDate, editingNoteId, plannerData, savePlannerData]);
+
 
   const handleDeleteNote = useCallback((e, dateStr, noteId) => {
     e.stopPropagation();
@@ -277,9 +278,25 @@ export function PlannerView({ noteContent, onUpdateContent }) {
                   <button className="mini-nav-btn" onClick={(e) => { e.stopPropagation(); changeMonth(-1); }}>
                     <ChevronLeft size={16} />
                   </button>
-                  <div className="mini-title-group" onClick={(e) => { e.stopPropagation(); setCurrentYear(y => y >= 2030 ? 2026 : y + 1); }}>
+                  <div className="mini-title-group">
                     <span className="mini-month-name">{MONTHS[currentMonthIndex]}</span>
-                    <span className="mini-year-display">{currentYear}</span>
+                    <div className="mini-year-nav-small">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setCurrentYear(y => Math.max(2026, y - 1)); }} 
+                        disabled={currentYear <= 2026}
+                        title="Ano Anterior"
+                      >
+                        <ChevronLeft size={12} />
+                      </button>
+                      <span className="mini-year-display">{currentYear}</span>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setCurrentYear(y => Math.min(2030, y + 1)); }} 
+                        disabled={currentYear >= 2030}
+                        title="Próximo Ano"
+                      >
+                        <ChevronRight size={12} />
+                      </button>
+                    </div>
                   </div>
                   <button className="mini-nav-btn" onClick={(e) => { e.stopPropagation(); changeMonth(1); }}>
                     <ChevronRight size={16} />

@@ -110,6 +110,8 @@ function App() {
   const [isExporting, setIsExporting] = useState(false);
   const [dialogState, setDialogState] = useState({ isOpen: false });
   const [guideDismissed, setGuideDismissed] = useState(false); 
+  const [isWriting, setIsWriting] = useState(false);
+  const writingTimerRef = useRef(null);
   const textareaRef = useRef(null);
   const tiptapRef = useRef(null);
   const editorWrapperRef = useRef(null);
@@ -128,6 +130,12 @@ function App() {
 
   useEffect(() => {
     if (!currentNoteId) return;
+    
+    // Detecção de escrita para modo invisível
+    setIsWriting(true);
+    if (writingTimerRef.current) clearTimeout(writingTimerRef.current);
+    writingTimerRef.current = setTimeout(() => setIsWriting(false), 3000);
+
     const timer = setTimeout(() => {
       const tagsMatch = text.match(/#[\wÀ-ú]+/g) || [];
       const tags = [...new Set(tagsMatch.map(t => t.toLowerCase()))];
@@ -141,8 +149,11 @@ function App() {
         tags
       });
     }, 1000);
-    return () => clearTimeout(timer);
-  }, [text, humanScore, pastedChunks, organicKeys, currentNoteId]);
+    return () => {
+      clearTimeout(timer);
+      if (writingTimerRef.current) clearTimeout(writingTimerRef.current);
+    };
+  }, [text, currentNoteId]);
 
   useEffect(() => {
     if (!currentNoteId && notes.length > 0) {
@@ -346,7 +357,15 @@ function App() {
   return (
     <>
       <OfflineBanner />
-      <div className={`app-layout ${isReaderMode ? `reader-mode theme-${readerTheme}` : ''} ${isFocusMode ? 'focus-mode' : ''} ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+      <div 
+        className={`app-layout ${isReaderMode ? `reader-mode theme-${readerTheme}` : ''} ${isFocusMode ? 'focus-mode' : ''} ${isSidebarCollapsed ? 'sidebar-collapsed' : ''} ${isWriting ? 'ui-recede' : ''}`}
+        onMouseMove={() => {
+          if (isWriting) {
+            setIsWriting(false);
+            if (writingTimerRef.current) clearTimeout(writingTimerRef.current);
+          }
+        }}
+      >
         {(isReaderMode || isFocusMode) && (
           <div className="reader-progress-bar" style={{ width: `${scrollProgress}%` }} />
         )}
@@ -434,9 +453,11 @@ function App() {
                       name: 'Organize-se',
                       title: 'Minha Organização',
                       placeholder: 'Prepare o espaço para as suas palavras...',
-                      titlePlaceholder: 'Título da Organização...'
+                      titlePlaceholder: 'Título da Organização...',
+                      initialContent: JSON.stringify({ notes: {}, monthlyGoals: {} })
                     };
                     createNote('Minha Organização', organizeGenre);
+
                   }
                 }} 
                 data-tooltip="Ir para Organize-se"

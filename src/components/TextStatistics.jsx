@@ -47,7 +47,9 @@ export function TextStatistics({ text, goal = 0, onSetGoal }) {
     <div className="editor-stats">
       <div className="stats-group">
         <span className="stat-item"><b>{stats.words}</b> palavras</span>
+        <span className="stat-sep">·</span>
         <span className="stat-item"><b>{stats.chars}</b> caracteres</span>
+        <span className="stat-sep">·</span>
         <span className="stat-item"><b>{stats.readTime}</b> min de leitura</span>
       </div>
       
