@@ -3,65 +3,63 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Vereda - Interface Principal</title>
+    <title>Vereda - Editor e Análise</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Newsreader:wght@400;600;700&display=swap" rel="stylesheet" />
     <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
         theme: {
           extend: {
             colors: {
-              "surface-variant": "#e4e2e1",
-              "on-surface-variant": "#414845",
-              "on-primary-fixed-variant": "#2e4d43",
               "secondary-fixed-dim": "#ffb59e",
-              "on-error-container": "#93000a",
-              secondary: "#99462a",
-              "tertiary-fixed-dim": "#edbbb3",
-              "inverse-primary": "#accec1",
-              "surface-container-high": "#eae7e7",
-              "primary-container": "#2e4d43",
-              "on-secondary": "#ffffff",
-              "inverse-on-surface": "#f3f0f0",
-              "tertiary-container": "#623e39",
-              error: "#ba1a1a",
-              tertiary: "#482824",
-              "on-tertiary": "#ffffff",
-              "tertiary-fixed": "#ffdad5",
-              "primary-fixed-dim": "#accec1",
-              "outline-variant": "#c1c8c4",
-              "on-tertiary-fixed-variant": "#613d38",
-              "on-error": "#ffffff",
-              "on-primary-fixed": "#002018",
-              "on-secondary-container": "#762c12",
               primary: "#17362d",
-              "on-secondary-fixed-variant": "#7a2f15",
-              "on-surface": "#1b1c1c",
-              "on-primary": "#ffffff",
-              "secondary-fixed": "#ffdbd0",
-              "surface-dim": "#dcd9d9",
-              "surface-container-lowest": "#ffffff",
-              "surface-tint": "#45655a",
-              "on-tertiary-container": "#dbaaa3",
+              "primary-container": "#2e4d43",
               background: "#fcf9f8",
+              error: "#ba1a1a",
               surface: "#fcf9f8",
-              "on-secondary-fixed": "#390b00",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#ffdbd0",
+              "outline-variant": "#c1c8c4",
+              "on-tertiary-fixed": "#2f1310",
+              "on-surface-variant": "#414845",
               "surface-container-low": "#f6f3f2",
-              "surface-bright": "#fcf9f8",
               outline: "#727975",
-              "inverse-surface": "#303030",
-              "primary-fixed": "#c7eadc",
-              "secondary-container": "#fe9572",
-              "error-container": "#ffdad6",
+              "on-primary-fixed": "#002018",
+              "on-tertiary-fixed-variant": "#613d38",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#623e39",
               "surface-container-highest": "#e4e2e1",
-              "surface-container": "#f0eded",
-              "on-background": "#1b1c1c",
               "on-primary-container": "#9bbdb0",
-              "on-tertiary-fixed": "#2f1310"
+              "surface-dim": "#dcd9d9",
+              "on-tertiary-container": "#dbaaa3",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#e4e2e1",
+              "tertiary-fixed": "#ffdad5",
+              "on-background": "#1b1c1c",
+              tertiary: "#482824",
+              "inverse-surface": "#303030",
+              "surface-container": "#f0eded",
+              "inverse-primary": "#accec1",
+              "primary-fixed": "#c7eadc",
+              "primary-fixed-dim": "#accec1",
+              "secondary-container": "#fe9572",
+              "on-primary-fixed-variant": "#2e4d43",
+              "error-container": "#ffdad6",
+              "on-secondary-fixed-variant": "#7a2f15",
+              "surface-bright": "#fcf9f8",
+              secondary: "#99462a",
+              "on-secondary-container": "#762c12",
+              "inverse-on-surface": "#f3f0f0",
+              "surface-container-lowest": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-primary": "#ffffff",
+              "surface-container-high": "#eae7e7",
+              "tertiary-fixed-dim": "#edbbb3",
+              "surface-tint": "#45655a",
+              "on-surface": "#1b1c1c",
+              "on-secondary-fixed": "#390b00"
             },
             borderRadius: {
               DEFAULT: "0.125rem",
@@ -70,29 +68,29 @@
               full: "0.75rem"
             },
             spacing: {
-              "container-max-width": "720px",
-              "sidebar-width": "280px",
               gutter: "24px",
               unit: "8px",
-              "margin-focus": "64px"
+              "sidebar-width": "280px",
+              "margin-focus": "64px",
+              "container-max-width": "720px"
             },
             fontFamily: {
-              "helper-text": ["Manrope"],
-              "display-lg": ["Newsreader"],
-              "label-caps": ["Manrope"],
-              h1: ["Manrope"],
+              h2: ["Manrope"],
               "body-ui": ["Manrope"],
               "body-reading": ["Newsreader"],
-              h2: ["Manrope"]
+              "helper-text": ["Manrope"],
+              h1: ["Manrope"],
+              "label-caps": ["Manrope"],
+              "display-lg": ["Newsreader"]
             },
             fontSize: {
-              "helper-text": ["14px", { lineHeight: "20px", fontWeight: "400" }],
-              "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "600" }],
-              "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "700" }],
-              h1: ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }],
+              h2: ["24px", { lineHeight: "32px", fontWeight: "600" }],
               "body-ui": ["16px", { lineHeight: "24px", fontWeight: "400" }],
               "body-reading": ["20px", { lineHeight: "34px", fontWeight: "400" }],
-              h2: ["24px", { lineHeight: "32px", fontWeight: "600" }]
+              "helper-text": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              h1: ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }],
+              "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "700" }],
+              "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "600" }]
             }
           }
         }
@@ -100,13 +98,31 @@
     </script>
     <style>
       body {
-        background-color: #fcf9f8;
-        color: #1b1c1c;
+        background-color: #f2efe9;
+      }
+
+      .bg-paper {
+        background-color: #f2efe9;
+      }
+
+      .bg-paper-dark {
+        background-color: #e8e5df;
+      }
+
+      .text-forest {
+        color: #2e4d43;
+      }
+
+      .border-forest {
+        border-color: #2e4d43;
+      }
+
+      .bg-forest {
+        background-color: #2e4d43;
       }
 
       ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
+        width: 6px;
       }
 
       ::-webkit-scrollbar-track {
@@ -114,176 +130,185 @@
       }
 
       ::-webkit-scrollbar-thumb {
-        background: #c1c8c4;
+        background: #dcd9d9;
         border-radius: 4px;
       }
 
       ::-webkit-scrollbar-thumb:hover {
-        background: #727975;
+        background: #c1c8c4;
       }
     </style>
   </head>
-  <body class="flex flex-col h-screen overflow-hidden font-body-ui text-body-ui antialiased">
-    <header class="flex justify-between items-center px-8 h-16 w-full docked full-width top-0 bg-[#F2EFE9] border-b border-[#2E4D43]/10 z-50">
-      <div class="flex items-center gap-4">
-        <span class="text-2xl font-serif italic text-[#2E4D43]">Vereda</span>
-        <span class="text-outline-variant">|</span>
-        <span class="font-h2 text-h2 text-on-surface">Veredas do Sertão</span>
+  <body class="bg-paper text-on-surface h-screen flex flex-col overflow-hidden font-body-ui text-body-ui">
+    <header class="bg-[#F2EFE9] dark:bg-stone-900 text-[#2E4D43] dark:text-emerald-400 font-serif text-sm tracking-wide docked full-width top-0 border-b border-stone-200 dark:border-stone-800 flat no shadows flex justify-between items-center w-full px-6 h-16 shrink-0 z-10 relative">
+      <div class="flex items-center space-x-6">
+        <h1 class="text-2xl font-serif italic font-bold text-[#2E4D43] dark:text-emerald-500 mr-8">Vereda</h1>
+        <nav class="hidden md:flex space-x-6">
+          <a class="text-[#2E4D43] dark:text-emerald-400 border-b-2 border-[#2E4D43] pb-1 font-semibold hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors opacity-80 transition-opacity" href="/vereda/">Escrever</a>
+          <a class="text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors" href="/vereda/reader.html">Revisar</a>
+        </nav>
       </div>
-
-      <nav class="hidden md:flex items-center gap-8 h-full">
-        <a class="h-full flex items-center text-[#2E4D43] border-b-2 border-[#2E4D43] pb-1 font-body-ui text-body-ui transition-all duration-300 ease-in-out hover:bg-[#EAE7E0]" href="/vereda/">Escrever</a>
-        <a class="h-full flex items-center text-stone-500 font-body-ui text-body-ui transition-all duration-300 ease-in-out hover:bg-[#EAE7E0]" href="/vereda/reader.html">Revisar</a>
-      </nav>
-
-      <div class="flex items-center gap-4">
-        <span class="font-helper-text text-helper-text text-outline flex items-center gap-1 mr-2">
-          <span class="material-symbols-outlined text-[16px]">cloud_done</span>
-          Salvo
-        </span>
-        <a aria-label="Modo Leitor" class="w-10 h-10 flex items-center justify-center rounded-full text-[#2E4D43] hover:bg-[#EAE7E0] transition-colors" href="/vereda/reader.html">
-          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">visibility</span>
+      <div class="flex items-center space-x-4">
+        <button class="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200">
+          <span class="material-symbols-outlined text-[20px]" data-icon="history">history</span>
+        </button>
+        <a class="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200" href="/vereda/reader.html" aria-label="Modo leitor">
+          <span class="material-symbols-outlined text-[20px]" data-icon="auto_stories">auto_stories</span>
         </a>
-        <button aria-label="Configurações" class="w-10 h-10 flex items-center justify-center rounded-full text-[#2E4D43] hover:bg-[#EAE7E0] transition-colors">
-          <span class="material-symbols-outlined">settings</span>
+        <button class="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200">
+          <span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
         </button>
       </div>
     </header>
 
-    <div class="flex flex-1 overflow-hidden">
-      <aside class="hidden md:flex flex-col w-64 h-full bg-[#F2EFE9] border-r border-[#2E4D43]/10 flex-shrink-0 z-40 overflow-y-auto">
-        <div class="p-6">
-          <h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-4">Capítulos</h3>
-          <nav class="flex flex-col gap-1">
-            <a class="flex items-center gap-3 px-4 py-3 text-[#2E4D43] bg-[#EAE7E0] border-l-4 border-[#2E4D43] font-body-ui text-body-ui rounded-r-lg transition-all" href="#">
-              <span class="material-symbols-outlined">format_list_numbered</span>
-              <span>Capítulo 1: O Início</span>
-            </a>
-            <a class="flex items-center gap-3 px-4 py-3 text-stone-500 opacity-70 hover:bg-[#EAE7E0] font-body-ui text-body-ui border-l-4 border-transparent rounded-r-lg transition-all" href="#">
-              <span class="material-symbols-outlined">format_list_numbered</span>
-              <span>Capítulo 2: A Jornada</span>
-            </a>
-            <a class="flex items-center gap-3 px-4 py-3 text-stone-500 opacity-70 hover:bg-[#EAE7E0] font-body-ui text-body-ui border-l-4 border-transparent rounded-r-lg transition-all" href="#">
-              <span class="material-symbols-outlined">format_list_numbered</span>
-              <span>Capítulo 3: Sombras</span>
-            </a>
-          </nav>
+    <div class="flex flex-1 overflow-hidden relative">
+      <aside class="bg-[#F2EFE9] dark:bg-stone-900 text-[#2E4D43] dark:text-emerald-400 font-sans text-xs uppercase tracking-widest fixed left-0 top-16 h-[calc(100vh-64px)] w-64 border-r border-stone-200 dark:border-stone-800 flat no shadows flex flex-col py-4 z-10 md:relative md:top-0 md:h-full bg-paper-dark border-outline-variant hidden md:flex shrink-0">
+        <div class="px-6 mb-8">
+          <h2 class="font-h2 text-h2 text-primary mb-1">Projeto Sertão</h2>
+          <p class="font-helper-text text-helper-text text-on-surface-variant">Rascunho Principal</p>
+          <button class="mt-4 w-full bg-primary text-on-primary py-2 px-4 rounded hover:bg-primary-container transition-colors flex items-center justify-center space-x-2">
+            <span class="material-symbols-outlined text-[18px]">add</span>
+            <span>Novo Capítulo</span>
+          </button>
         </div>
-
-        <div class="p-6 mt-auto">
-          <h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-4">Documentos</h3>
-          <nav class="flex flex-col gap-1">
-            <a class="flex items-center gap-3 px-4 py-3 text-stone-500 opacity-70 hover:bg-[#EAE7E0] font-body-ui text-body-ui border-l-4 border-transparent rounded-r-lg transition-all" href="#">
-              <span class="material-symbols-outlined">inventory_2</span>
-              <span>Arquivo Geral</span>
-            </a>
-          </nav>
-        </div>
+        <nav class="flex-1 overflow-y-auto">
+          <a class="flex items-center space-x-3 border-l-2 border-[#2E4D43] bg-stone-100/50 dark:bg-stone-800/50 text-[#2E4D43] dark:text-emerald-400 px-4 py-3 hover:bg-stone-100 dark:hover:bg-stone-800/30 scale-[0.98] transition-transform" href="#">
+            <span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+            <span>Manuscrito</span>
+          </a>
+          <a class="flex items-center space-x-3 text-stone-500 dark:text-stone-400 px-4 py-3 hover:bg-stone-100 dark:hover:bg-stone-800/30" href="#">
+            <span class="material-symbols-outlined" data-icon="format_list_numbered">format_list_numbered</span>
+            <span>Capítulos</span>
+          </a>
+          <a class="flex items-center space-x-3 text-stone-500 dark:text-stone-400 px-4 py-3 hover:bg-stone-100 dark:hover:bg-stone-800/30" href="#">
+            <span class="material-symbols-outlined" data-icon="groups">groups</span>
+            <span>Personagens</span>
+          </a>
+          <a class="flex items-center space-x-3 text-stone-500 dark:text-stone-400 px-4 py-3 hover:bg-stone-100 dark:hover:bg-stone-800/30" href="#">
+            <span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+            <span>Notas</span>
+          </a>
+        </nav>
       </aside>
 
-      <main class="flex-1 overflow-y-auto flex justify-center bg-surface pb-32">
-        <article class="w-full max-w-container-max-width px-gutter pt-margin-focus focus:outline-none">
-          <input class="w-full bg-transparent border-0 border-b border-surface-variant focus:ring-0 focus:border-primary font-display-lg text-display-lg text-on-surface mb-8 pb-2 placeholder:text-outline-variant" placeholder="Título do Capítulo" type="text" value="Capítulo 1: O Início" />
-          <div class="font-body-reading text-body-reading text-on-surface space-y-6" contenteditable="true">
-            <p>O sol castigava a terra seca do sertão com uma ferocidade implacável. A poeira fina levantava a cada passo, criando uma névoa amarelada que obscurecia o horizonte distante. João caminhava devagar, sentindo o peso não apenas do sol, mas das memórias que aquela terra árida carregava.</p>
-            <p>"Não há caminho fácil por aqui", ele pensou, ajustando o chapéu de palha desgastado. Cada rachadura no solo parecia contar uma história de sede e resiliência. As veredas, antes úmidas e cheias de vida, agora eram apenas cicatrizes na paisagem.</p>
-            <p>Ele parou perto de um mandacaru solitário, a única mancha verde em milhas de marrom e cinza. Tirou o cantil do cinto, o som da água balançando dentro era quase uma provocação. Tomou um gole frugal. Precisava economizar. O próximo poço estava a pelo menos meio dia de caminhada, se a memória não falhasse. E a memória de João, forjada naquele calor, raramente falhava.</p>
-            <p>Ao longe, uma silhueta tremeluzia na névoa de calor. Parecia um cavaleiro, mas a essa hora do dia, e sob aquele sol, poderia muito bem ser uma miragem. Uma peça pregada por uma mente cansada e uma terra que não perdoa.</p>
+      <main class="flex-1 flex justify-center overflow-y-auto bg-paper px-4 relative scroll-smooth focus-within:bg-paper transition-colors duration-500">
+        <div class="w-full max-w-[720px] py-margin-focus focus-within:opacity-100 opacity-90 transition-opacity duration-500">
+          <div class="mb-12">
+            <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 font-display-lg text-display-lg text-primary placeholder-on-surface-variant/50 p-0 pb-2 mb-4" placeholder="Título do Capítulo" type="text" value="Capítulo 4: A Poeira e o Vento" />
+            <div class="flex space-x-2">
+              <span class="inline-flex items-center px-2 py-1 rounded bg-secondary-container/20 text-secondary border border-secondary-container/30 font-label-caps text-label-caps">DRAFT</span>
+              <span class="inline-flex items-center px-2 py-1 rounded bg-surface-variant text-on-surface-variant font-label-caps text-label-caps">1,240 PALAVRAS</span>
+            </div>
           </div>
-        </article>
+          <div class="font-body-reading text-body-reading text-on-surface text-justify leading-relaxed focus:outline-none" contenteditable="true">
+            <p class="mb-6">O sol a pino castigava a terra rachada, desenhando sombras curtas e duras sob os umbuzeiros raleados. Tonho caminhava a passos lentos, arrastando as alpercatas de couro cru no pó fino que se levantava a cada movimento, criando uma nuvem particular que o acompanhava feito assombração. A cantilena seca das cigarras era a única trilha sonora daquele pedaço esquecido de sertão.</p>
+            <p class="mb-6">Ele parou. Respirou fundo. O ar queimava as narinas. Olhou para trás, não para medir a distância percorrida, mas para ter certeza de que a promessa que fizera ainda estava lá, na direção da casa de taipa que agora não passava de um ponto indistinto no horizonte trêmulo de calor.</p>
+            <p class="mb-6">"Não tem volta", murmurou para o nada. A voz saiu rascante, como se tivesse engolido areia. Ajeitou o bornal no ombro esquerdo, sentindo o peso da rapadura e do punhado de farinha que lhe restavam. Precisava chegar ao leito seco do rio Pajeú antes do anoitecer, ou os coiotes fariam a festa.</p>
+            <p class="mb-6">Foi então que viu o vulto. Lá na frente, onde a estrada de terra se dobrava em curva fechada, uma figura solitária parecia esperar. Tonho estreitou os olhos, tentando furar a cortina de mormaço. Não era bicho. Tinha contornos de gente, mas a postura era torta, esquisita. Apertou o passo, a mão instintivamente buscando o cabo da faca peixeira presa à cintura. O sertão não perdoa os distraídos.</p>
+          </div>
+          <div class="mt-8 pt-4 border-t border-outline-variant/30 flex justify-between items-center text-on-surface-variant opacity-50">
+            <span class="font-helper-text text-helper-text">Última edição: hoje, 14:32</span>
+            <span class="material-symbols-outlined text-[18px]">cloud_done</span>
+          </div>
+        </div>
       </main>
 
-      <aside class="hidden xl:flex flex-col w-80 bg-surface-container-low border-l border-surface-variant flex-shrink-0 p-6 overflow-y-auto gap-8">
-        <section class="bg-surface-container-lowest p-4 rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.02)] border border-surface-variant">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="font-h2 text-h2 text-on-surface text-[18px]">Gramática</h3>
-            <span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+      <aside class="w-80 bg-paper-dark border-l border-outline-variant overflow-y-auto flex-shrink-0 hidden xl:block shadow-[-4px_0_20px_rgba(0,0,0,0.02)] relative z-10">
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-8">
+            <h2 class="font-h2 text-h2 text-primary">Análise Literária</h2>
+            <span class="material-symbols-outlined text-primary" data-icon="troubleshoot">troubleshoot</span>
           </div>
-          <p class="font-helper-text text-helper-text text-on-surface-variant">Nenhum erro encontrado. O texto flui bem estruturalmente.</p>
-        </section>
 
-        <section class="bg-surface-container-lowest p-4 rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.02)] border border-surface-variant">
-          <h3 class="font-h2 text-h2 text-on-surface text-[18px] mb-4">Sugestões de Estilo</h3>
-          <div class="space-y-4">
-            <div class="p-3 bg-secondary-fixed-dim/20 rounded-lg border border-secondary-fixed-dim/30">
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-secondary text-[18px] mt-0.5">pace</span>
-                <div>
-                  <span class="font-label-caps text-label-caps text-secondary uppercase block mb-1">Ritmo Lento</span>
-                  <p class="font-helper-text text-helper-text text-on-surface">A repetição de parágrafos longos na descrição pode estar diminuindo o ritmo. Considere quebrar a descrição do sol.</p>
-                </div>
+          <section class="mb-8 bg-surface rounded-xl p-4 border border-outline-variant/50 shadow-sm">
+            <h3 class="font-body-ui text-body-ui font-semibold text-on-surface mb-4 flex items-center">
+              <span class="material-symbols-outlined mr-2 text-[18px] text-surface-tint">waves</span>
+              Métrica de Ritmo
+            </h3>
+            <div class="h-24 flex items-end justify-between space-x-1 mb-2">
+              <div class="w-full bg-primary-fixed rounded-t" style="height: 60%"></div>
+              <div class="w-full bg-primary-container rounded-t" style="height: 30%"></div>
+              <div class="w-full bg-primary-container rounded-t" style="height: 80%"></div>
+              <div class="w-full bg-primary-fixed rounded-t" style="height: 40%"></div>
+              <div class="w-full bg-primary-fixed rounded-t" style="height: 50%"></div>
+              <div class="w-full bg-primary-container rounded-t" style="height: 90%"></div>
+              <div class="w-full bg-primary-fixed rounded-t" style="height: 20%"></div>
+              <div class="w-full bg-primary-fixed rounded-t" style="height: 35%"></div>
+              <div class="w-full bg-primary-container rounded-t" style="height: 70%"></div>
+              <div class="w-full bg-primary-fixed rounded-t" style="height: 45%"></div>
+              <div class="w-full bg-secondary rounded-t" style="height: 15%"></div>
+              <div class="w-full bg-primary-container rounded-t" style="height: 85%"></div>
+            </div>
+            <div class="flex justify-between font-helper-text text-helper-text text-on-surface-variant">
+              <span>Frases curtas</span>
+              <span>Fluxo</span>
+            </div>
+            <p class="mt-3 font-helper-text text-helper-text text-on-surface-variant leading-tight">Ritmo constante com boa variação. Picos longos proporcionam descrição imersiva.</p>
+          </section>
+
+          <section class="mb-8 bg-surface rounded-xl p-4 border border-outline-variant/50 shadow-sm">
+            <h3 class="font-body-ui text-body-ui font-semibold text-on-surface mb-4 flex items-center">
+              <span class="material-symbols-outlined mr-2 text-[18px] text-surface-tint">speed</span>
+              Legibilidade Flesch-BR
+            </h3>
+            <div class="flex items-center space-x-4">
+              <div class="relative w-16 h-16 flex-shrink-0">
+                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <path class="text-surface-variant" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="100, 100" stroke-width="3"></path>
+                  <path class="text-primary-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="68, 100" stroke-width="3"></path>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center font-bold text-primary">68</div>
+              </div>
+              <div>
+                <p class="font-body-ui text-body-ui text-on-surface font-medium">Padrão Desafiador</p>
+                <p class="font-helper-text text-helper-text text-on-surface-variant">Ideal para prosa literária adulta.</p>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section class="bg-surface-container-lowest p-4 rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.02)] border border-surface-variant">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="font-h2 text-h2 text-on-surface text-[18px]">Metas de Escrita</h3>
-            <span class="material-symbols-outlined text-outline text-[20px]">flag</span>
-          </div>
-          <div class="space-y-2">
-            <div class="flex justify-between font-helper-text text-helper-text text-on-surface-variant">
-              <span>Palavras na Sessão</span>
-              <span class="font-medium text-on-surface">450 / 1000</span>
+          <section class="mb-8 bg-surface rounded-xl p-4 border border-outline-variant/50 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-body-ui text-body-ui font-semibold text-on-surface flex items-center">
+                <span class="material-symbols-outlined mr-2 text-[18px] text-surface-tint">science</span>
+                Laboratório de Estilo
+              </h3>
+              <span class="bg-error-container text-on-error-container text-xs font-bold px-2 py-0.5 rounded-full">3 Alertas</span>
             </div>
-            <div class="w-full bg-surface-variant rounded-full h-2 overflow-hidden">
-              <div class="bg-primary h-full rounded-full" style="width: 45%"></div>
+            <ul class="space-y-3">
+              <li class="bg-surface-container-low p-2 rounded border-l-2 border-secondary">
+                <div class="flex justify-between items-start mb-1">
+                  <span class="font-helper-text text-helper-text font-semibold text-on-surface">Gerundismo Detectado</span>
+                  <button class="text-outline hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">close</span></button>
+                </div>
+                <p class="font-helper-text text-helper-text text-on-surface-variant">Considere trocar "...arrastando as alpercatas..." por "...e arrastava as alpercatas..."</p>
+              </li>
+              <li class="bg-surface-container-low p-2 rounded border-l-2 border-outline">
+                <div class="flex justify-between items-start mb-1">
+                  <span class="font-helper-text text-helper-text font-semibold text-on-surface">Palavra de Enchimento</span>
+                  <button class="text-outline hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">close</span></button>
+                </div>
+                <p class="font-helper-text text-helper-text text-on-surface-variant">"Foi <b>então</b> que viu..." pode ser enxugado para "Viu o vulto."</p>
+              </li>
+            </ul>
+          </section>
+
+          <section class="bg-surface rounded-xl p-4 border border-outline-variant/50 shadow-sm">
+            <h3 class="font-body-ui text-body-ui font-semibold text-on-surface mb-4 flex items-center">
+              <span class="material-symbols-outlined mr-2 text-[18px] text-surface-tint">record_voice_over</span>
+              Voz Brasileira
+            </h3>
+            <p class="font-helper-text text-helper-text text-on-surface-variant mb-3">Regionalismos e arcaísmos identificados no texto atual:</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded-sm font-label-caps text-label-caps border border-tertiary-fixed-dim">UMBUZEIROS</span>
+              <span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded-sm font-label-caps text-label-caps border border-tertiary-fixed-dim">ALPERCATAS</span>
+              <span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded-sm font-label-caps text-label-caps border border-tertiary-fixed-dim">BORNAL</span>
+              <span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded-sm font-label-caps text-label-caps border border-tertiary-fixed-dim">RAPADURA</span>
+              <span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded-sm font-label-caps text-label-caps border border-tertiary-fixed-dim">PEIXEIRA</span>
+              <span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded-sm font-label-caps text-label-caps border border-tertiary-fixed-dim opacity-70">MORMAÇO</span>
             </div>
-          </div>
-        </section>
-
-        <section class="mt-auto">
-          <h4 class="font-label-caps text-label-caps text-outline-variant uppercase mb-2">Tags do Capítulo</h4>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-secondary/10 text-secondary font-helper-text text-helper-text rounded-full">Drama</span>
-            <span class="px-3 py-1 bg-secondary/10 text-secondary font-helper-text text-helper-text rounded-full">Sertão</span>
-          </div>
-        </section>
-      </aside>
-    </div>
-
-    <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-4 bg-[#2E4D43] rounded-t-lg shadow-[0px_-4px_20px_rgba(0,0,0,0.04)]">
-      <a class="flex flex-col items-center justify-center text-[#F2EFE9] bg-white/10 rounded-lg p-2 scale-95 duration-150" href="#">
-        <span class="material-symbols-outlined mb-1 text-[20px]">edit_note</span>
-        <span class="font-label-caps text-label-caps text-[10px] uppercase tracking-widest font-bold">Manuscrito</span>
-      </a>
-      <a class="flex flex-col items-center justify-center text-[#F2EFE9]/60 p-2 hover:text-white transition-opacity duration-150" href="/vereda/reader.html">
-        <span class="material-symbols-outlined mb-1 text-[20px]">auto_stories</span>
-        <span class="font-label-caps text-label-caps text-[10px] uppercase tracking-widest font-bold">Revisar</span>
-      </a>
-      <a class="flex flex-col items-center justify-center text-[#F2EFE9]/60 p-2 hover:text-white transition-opacity duration-150" href="#">
-        <span class="material-symbols-outlined mb-1 text-[20px]">track_changes</span>
-        <span class="font-label-caps text-label-caps text-[10px] uppercase tracking-widest font-bold">Metas</span>
-      </a>
-    </nav>
-
-    <div class="fixed inset-0 z-[100] flex flex-col pointer-events-none hidden" id="reader-mode-overlay">
-      <div class="absolute inset-0 bg-background/80 backdrop-blur-sm pointer-events-auto"></div>
-      <div class="absolute top-1/2 left-0 w-full h-32 -translate-y-1/2 pointer-events-none">
-        <div class="absolute bottom-full left-0 w-full h-[512px] bg-background/90"></div>
-        <div class="w-full h-full border-y border-primary/20 bg-transparent shadow-[inset_0_10px_20px_rgba(0,0,0,0.02),inset_0_-10px_20px_rgba(0,0,0,0.02)]"></div>
-        <div class="absolute top-full left-0 w-full h-[512px] bg-background/90"></div>
-      </div>
-      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-auto">
-        <div class="flex items-center gap-4 px-6 py-3 bg-[#2E4D43] rounded-full shadow-[0px_8px_32px_rgba(0,0,0,0.12)]">
-          <button aria-label="Velocidade" class="flex items-center justify-center text-[#F2EFE9]/70 hover:text-[#F2EFE9] transition-colors">
-            <span class="material-symbols-outlined text-[20px]">speed</span>
-            <span class="font-label-caps text-[10px] ml-1 uppercase tracking-widest font-bold">1.5x</span>
-          </button>
-          <div class="w-px h-6 bg-[#F2EFE9]/20 mx-2"></div>
-          <button aria-label="Play" class="flex items-center justify-center text-[#F2EFE9] hover:scale-110 transition-transform">
-            <span class="material-symbols-outlined text-[40px]" style="font-variation-settings: 'FILL' 1;">play_circle</span>
-          </button>
-          <div class="w-px h-6 bg-[#F2EFE9]/20 mx-2"></div>
-          <button aria-label="Foco" class="flex items-center justify-center text-[#F2EFE9]/70 hover:text-[#F2EFE9] transition-colors">
-            <span class="material-symbols-outlined text-[20px]">center_focus_weak</span>
-          </button>
-          <button aria-label="Sair" class="flex items-center justify-center text-[#F2EFE9]/70 hover:text-[#F2EFE9] ml-2 transition-colors">
-            <span class="material-symbols-outlined text-[20px]">close</span>
-          </button>
+          </section>
         </div>
-      </div>
+      </aside>
     </div>
   </body>
 </html>
