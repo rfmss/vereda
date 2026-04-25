@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Santuário do Escritor - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-dim": "#dcd9d9",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#e4e2e1",
+              "on-primary": "#ffffff",
+              "outline-variant": "#c1c8c4",
+              "inverse-primary": "#accec1",
+              "primary-fixed": "#c7eadc",
+              "on-background": "#1b1c1c",
+              "secondary-fixed-dim": "#ffb59e",
+              "surface-tint": "#45655a",
+              secondary: "#99462a",
+              error: "#ba1a1a",
+              "surface-container": "#f0eded",
+              "primary-container": "#2e4d43",
+              "on-tertiary-container": "#dbaaa3",
+              "surface-container-highest": "#e4e2e1",
+              "on-error": "#ffffff",
+              "inverse-surface": "#303030",
+              "on-tertiary-fixed": "#2f1310",
+              surface: "#fcf9f8",
+              "surface-container-high": "#eae7e7",
+              "on-surface-variant": "#414845",
+              "on-secondary": "#ffffff",
+              primary: "#17362d",
+              "inverse-on-surface": "#f3f0f0",
+              "on-primary-container": "#9bbdb0",
+              "tertiary-fixed": "#ffdad5",
+              "secondary-fixed": "#ffdbd0",
+              "on-primary-fixed-variant": "#2e4d43",
+              "on-error-container": "#93000a",
+              tertiary: "#482824",
+              "tertiary-container": "#623e39",
+              "surface-container-low": "#f6f3f2",
+              background: "#fcf9f8",
+              "surface-bright": "#fcf9f8",
+              "error-container": "#ffdad6",
+              "on-surface": "#1b1c1c",
+              "on-secondary-fixed-variant": "#7a2f15",
+              "surface-container-lowest": "#ffffff",
+              "secondary-container": "#fe9572",
+              "tertiary-fixed-dim": "#edbbb3",
+              "primary-fixed-dim": "#accec1",
+              outline: "#727975",
+              "on-secondary-fixed": "#390b00",
+              "on-secondary-container": "#762c12",
+              "on-primary-fixed": "#002018",
+              "on-tertiary-fixed-variant": "#613d38"
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem"
+            },
+            spacing: {
+              "margin-focus": "64px",
+              "sidebar-width": "280px",
+              unit: "8px",
+              gutter: "24px",
+              "container-max-width": "720px"
+            },
+            fontFamily: {
+              "helper-text": ["Manrope"],
+              "body-ui": ["Manrope"],
+              "label-caps": ["Manrope"],
+              "body-reading": ["Newsreader"],
+              h1: ["Manrope"],
+              "display-lg": ["Newsreader"],
+              h2: ["Manrope"]
+            },
+            fontSize: {
+              "helper-text": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              "body-ui": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "700" }],
+              "body-reading": ["20px", { lineHeight: "34px", fontWeight: "400" }],
+              h1: ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }],
+              "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "600" }],
+              h2: ["24px", { lineHeight: "32px", fontWeight: "600" }]
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-background font-body-ui text-body-ui antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex">
+    <nav class="fixed left-0 top-0 h-full flex flex-col pt-16 bg-[#F2EFE9] dark:bg-stone-900 w-64 border-r border-stone-200 dark:border-stone-800 font-serif text-base antialiased text-[#2E4D43] dark:text-emerald-500 hidden md:flex z-50">
+      <div class="px-6 mb-8">
+        <span class="font-serif font-bold text-xl text-[#2E4D43]">Vereda</span>
+        <div class="mt-4 flex items-center gap-3">
+          <img alt="Vereda Mentor" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSE7ETjEGvc7qRx98wFKq_0U7btvU9K0RFAYvc8ACZ3cAsQPezqWbHGHSk_EjEERguoaAfSSXxaJ0JcIl1ACTAmxtQehwR7RYRNIevXOTgPkk2-CVlXT5f-r_-HJBYlKjpkKUtz0kU1M1fEVa2sfozXeZJJMYWHiRiTZLDQwY_fVeZFnXJCkzP-a_6ooKT4Md-GOppAV6OCMyphUTA4QPTcmdH-ZvDjpfjzCwAzY7w78GhO6P9ZlygF3IzAhBZl2NPi-n6kRBbgEuS" />
+          <div>O caminho do escritor</div>
+        </div>
+      </div>
+      <div class="flex-1 overflow-y-auto space-y-1">
+        <a class="flex items-center space-x-4 px-4 py-3 border-l-4 border-[#2E4D43] bg-[#EAE7E0] dark:bg-stone-800 text-[#2E4D43] dark:text-emerald-400 font-medium hover:translate-x-1 transition-transform duration-200" href="#">
+          <span class="material-symbols-outlined">space_dashboard</span>
+          <span>Painel</span>
+        </a>
+        <a class="flex items-center space-x-4 px-4 py-3 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 hover:translate-x-1 transition-transform duration-200" href="#">
+          <span class="material-symbols-outlined">timer</span>
+          <span>Temporizador de Foco</span>
+        </a>
+        <a class="flex items-center space-x-4 px-4 py-3 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 hover:translate-x-1 transition-transform duration-200" href="#">
+          <span class="material-symbols-outlined">auto_stories</span>
+          <span>Rotinas</span>
+        </a>
+        <a class="flex items-center space-x-4 px-4 py-3 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 hover:translate-x-1 transition-transform duration-200" href="#">
+          <span class="material-symbols-outlined">psychology</span>
+          <span>Neurociência</span>
+        </a>
+        <a class="flex items-center space-x-4 px-4 py-3 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 hover:translate-x-1 transition-transform duration-200" href="#">
+          <span class="material-symbols-outlined">psychology_alt</span>
+          <span>Ambiente</span>
+        </a>
+      </div>
+      <div class="p-6 mt-auto">
+        <button class="w-full bg-primary-container text-on-primary font-body-ui text-body-ui py-3 rounded-DEFAULT hover:bg-primary transition-colors duration-300">Iniciar Sessão de Foco</button>
+        <div class="mt-6 space-y-1">
+          <a class="flex items-center space-x-4 px-4 py-3 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 hover:translate-x-1 transition-transform duration-200" href="#">
+            <span class="material-symbols-outlined">help_outline</span>
+            <span>Suporte</span>
+          </a>
+          <a class="flex items-center space-x-4 px-4 py-3 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 hover:translate-x-1 transition-transform duration-200" href="#">
+            <span class="material-symbols-outlined">inventory_2</span>
+            <span>Arquivo</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-1 md:ml-64 flex flex-col min-h-screen max-w-[1200px] mx-auto w-full pb-20 md:pb-0">
+      <header class="md:hidden flex justify-between items-center w-full px-8 h-16 bg-[#F2EFE9] dark:bg-stone-950 font-serif text-sm tracking-wide text-[#2E4D43] dark:text-emerald-500 border-b border-stone-200 dark:border-stone-800 transition-opacity duration-500 z-40 sticky top-0">
+        <div class="text-2xl font-serif italic text-[#2E4D43] dark:text-emerald-400">Vereda</div>
+        <div class="flex items-center gap-4">
+          <button class="text-stone-500 dark:text-stone-400 hover:text-[#2E4D43] hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors duration-300 p-2 rounded-full"><span class="material-symbols-outlined">menu_book</span></button>
+          <button class="text-stone-500 dark:text-stone-400 hover:text-[#2E4D43] hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors duration-300 p-2 rounded-full"><span class="material-symbols-outlined">settings</span></button>
+        </div>
+      </header>
+
+      <div class="flex-1 overflow-y-auto px-6 md:px-12 py-12 space-y-16 max-w-container-max-width mx-auto">
+        <section class="text-center space-y-4">
+          <h1 class="font-display-lg text-display-lg text-on-background">Santuário do Escritor</h1>
+          <p class="font-body-reading text-body-reading text-on-surface-variant max-w-2xl mx-auto">Abrace o ritmo de sprints focados. Evite a ansiedade do relógio; veja-o como um recipiente gentil para o seu fluxo, não um mestre rigoroso.</p>
+        </section>
+
+        <section class="bg-surface-container-low rounded-xl p-8 border border-outline-variant/30 relative overflow-hidden group hover:border-outline-variant/50 transition-colors duration-300">
+          <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
+            <span class="material-symbols-outlined text-[120px] text-primary">timer</span>
+          </div>
+          <div class="relative z-10 max-w-lg">
+            <div class="inline-flex items-center gap-2 bg-primary-container/10 text-primary-container px-3 py-1 rounded-full font-label-caps text-label-caps mb-4"><span class="material-symbols-outlined text-sm">schedule</span> Foco e Tempo</div>
+            <h2 class="font-h1 text-h1 text-on-surface mb-4">Ciclo da Vereda</h2>
+            <p class="font-body-reading text-body-reading text-on-surface-variant mb-6">Abrace o ritmo de sprints focados. Evite a ansiedade do relógio; veja-o como um recipiente gentil para o seu fluxo, não um mestre rigoroso.</p>
+            <div class="bg-surface rounded-lg p-6 flex flex-col items-center justify-center border border-outline-variant/20 shadow-[0px_4px_20px_rgba(0,0,0,0.02)]">
+              <div class="font-display-lg text-[64px] leading-none text-primary-container mb-2 tracking-tighter">45:00</div>
+              <div class="font-helper-text text-helper-text text-on-surface-variant mb-6">Fase de Trabalho Profundo</div>
+              <div class="flex gap-4 w-full">
+                <button class="flex-1 bg-primary-container text-on-primary font-body-ui text-body-ui py-2.5 rounded-DEFAULT hover:bg-primary transition-colors duration-300">Iniciar Fluxo</button>
+                <button class="flex-1 border border-primary-container text-primary-container font-body-ui text-body-ui py-2.5 rounded-DEFAULT hover:bg-primary-container/5 transition-colors duration-300">Descanso</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <section class="bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/20 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0px_8px_30px_rgba(0,0,0,0.04)] transition-shadow duration-300">
+            <div class="w-12 h-12 bg-secondary-container/20 rounded-full flex items-center justify-center mb-6 text-secondary"><span class="material-symbols-outlined">chair</span></div>
+            <h3 class="font-h2 text-h2 text-on-surface mb-3">O Espaço de Trabalho</h3>
+            <p class="font-body-ui text-body-ui text-on-surface-variant mb-6">Estabeleça uma janela inegociável para o seu ofício.</p>
+            <ul class="space-y-3 font-helper-text text-helper-text text-on-surface-variant">
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-sm mt-0.5 text-primary">check_circle</span> Elimine a poluição visual</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-sm mt-0.5 text-primary">check_circle</span> Otimize a iluminação natural</li>
+              <li class="flex items-start gap-2"><span class="material-symbols-outlined text-sm mt-0.5 text-primary">check_circle</span> Use ferramentas analógicas</li>
+            </ul>
+          </section>
+
+          <section class="bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/20 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0px_8px_30px_rgba(0,0,0,0.04)] transition-shadow duration-300">
+            <div class="w-12 h-12 bg-tertiary-container/10 rounded-full flex items-center justify-center mb-6 text-tertiary"><span class="material-symbols-outlined">psychology</span></div>
+            <h3 class="font-h2 text-h2 text-on-surface mb-3">Mente e Dopamina</h3>
+            <p class="font-body-ui text-body-ui text-on-surface-variant mb-6">Estabeleça uma janela inegociável para o seu ofício.</p>
+            <div class="bg-surface-container-low p-4 rounded-lg border-l-2 border-tertiary-container">
+              <p class="font-body-reading text-[18px] leading-relaxed italic text-on-surface">"A mente precisa de espaço vazio para vagar antes de poder construir novos mundos."</p>
+            </div>
+          </section>
+        </div>
+
+        <section class="relative rounded-xl overflow-hidden min-h-[400px] flex items-center bg-surface-dim">
+          <img alt="Paisagem serena" class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-multiply" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0553_M7mEvEIqa986xFJjQdvFUvyvlKcSNHogfurKZSlfoWdlbcS-sF-EfUQmtRx8WRefCVtWEuNr_6avz_65dhh0GnWr3g6QgEARQzIFeZ_8gAKFzUXiINMud6cDSBKlabDJai2vq-0EVVkKTuHZFcMYXhonVQvfXehMOonmuO36CVBSDq14AyiRqKsfKBzFO5_hmzNb8qOTzePOyCMwVMaFJeUBIY9ZCnmYuQ8WvzTdQkiIcZVGNm3VJiPMVy3yTV2AEMZntdxE" />
+          <div class="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-transparent"></div>
+          <div class="relative z-10 p-10 md:p-16 max-w-xl">
+            <div class="inline-flex items-center gap-2 bg-secondary-container/20 text-secondary px-3 py-1 rounded-full font-label-caps text-label-caps mb-4"><span class="material-symbols-outlined text-sm">vpn_key</span> Conselho do Mentor</div>
+            <h2 class="font-h1 text-h1 text-on-surface mb-6">O Círculo Interno</h2>
+            <div class="space-y-4 font-body-reading text-body-reading text-on-surface-variant">
+              <p>Confie em seus instintos acima de tudo. O rascunho inicial é um ecossistema frágil; proteja-o ferozmente.</p>
+              <p>Seja altamente seletivo com leitores beta. Nem todo feedback é um mandato; aprenda a distinguir entre preferência pessoal e percepção estrutural.</p>
+              <p>Mantenha o silêncio necessário para a criação. Não fale sobre a história antes de escrevê-la.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/20 shadow-[0px_4px_20px_rgba(0,0,0,0.02)]">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+            <div>
+              <h2 class="font-h1 text-h1 text-on-surface mb-2">A Hora Sagrada</h2>
+              <p class="font-body-ui text-body-ui text-on-surface-variant">Estabeleça uma janela inegociável para o seu ofício.</p>
+            </div>
+            <button class="bg-transparent border border-primary-container text-primary-container font-body-ui text-body-ui px-6 py-2 rounded-DEFAULT hover:bg-primary-container/5 transition-colors duration-300 whitespace-nowrap">Configurar Rotina</button>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-surface-container-low p-5 rounded-lg border border-transparent hover:border-outline-variant/30 transition-colors cursor-pointer group">
+              <div class="text-primary-container mb-3 group-hover:scale-110 transition-transform origin-left"><span class="material-symbols-outlined text-3xl">wb_twilight</span></div>
+              <h4 class="font-h2 text-[18px] text-on-surface mb-1">Sessão da Alvorada</h4>
+              <p class="font-helper-text text-helper-text text-on-surface-variant">05:00 - 07:00</p>
+            </div>
+            <div class="bg-surface-container-low p-5 rounded-lg border border-primary-container shadow-[0px_0px_0px_1px_rgba(46,77,67,1)] cursor-pointer relative">
+              <div class="absolute top-3 right-3 text-primary-container"><span class="material-symbols-outlined text-sm">check_circle</span></div>
+              <div class="text-primary-container mb-3"><span class="material-symbols-outlined text-3xl">light_mode</span></div>
+              <h4 class="font-h2 text-[18px] text-on-surface mb-1">Âncora do Meio-dia</h4>
+              <p class="font-helper-text text-helper-text text-on-surface-variant">12:00 - 14:00</p>
+            </div>
+            <div class="bg-surface-container-low p-5 rounded-lg border border-transparent hover:border-outline-variant/30 transition-colors cursor-pointer group">
+              <div class="text-primary-container mb-3 group-hover:scale-110 transition-transform origin-left"><span class="material-symbols-outlined text-3xl">nights_stay</span></div>
+              <h4 class="font-h2 text-[18px] text-on-surface mb-1">Coruja Noturna</h4>
+              <p class="font-helper-text text-helper-text text-on-surface-variant">22:00 - 00:00</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

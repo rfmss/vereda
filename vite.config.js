@@ -18,6 +18,7 @@ export default defineConfig({
         linguisticAnalysis: resolve(__dirname, 'analise-linguistica.html'),
         launchTrack: resolve(__dirname, 'trilha-lancamento.html'),
         personaMapping: resolve(__dirname, 'persona-literaria.html'),
+        writerSanctuary: resolve(__dirname, 'santuario-escritor.html'),
       },
     },
   },
