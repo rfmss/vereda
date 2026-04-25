@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vereda — Ecossistema Literário Brasileiro</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app" id="app">
+  <header class="hd">
+    <div class="logo">Vereda</div>
+    <nav class="nav-main">
+      <a href="#" class="nav-link active">Escrever</a>
+      <a href="#" class="nav-link">Analisar</a>
+      <a href="#" class="nav-link">Organizar</a>
+      <a href="#" class="nav-link">Publicar</a>
+    </nav>
+    <div class="pohw-badge" id="pohw-badge" data-action="tribunal">
+      <span style="width:8px;height:8px;border-radius:50%;background:#2A5E45;"></span>
+      AUTORIA HUMANA: --%
+    </div>
+  </header>
+
+  <div class="body">
+    <aside class="sidebar" id="sidebar">
+      <div style="padding:20px; font-size:11px; color:var(--t4); font-weight:700; text-transform:uppercase;">Manuscrito</div>
+      <a href="#" class="sb-item active" data-manuscript="new">+ Novo Manuscrito</a>
+      <div id="manuscripts-list" style="flex:1; overflow-y:auto;"></div>
+      <div style="margin-top:auto; padding:20px; border-top:1px solid rgba(26,22,18,.05);">
+        <button class="btn-primary" style="width:100%;" data-action="backup">Cópia de Segurança</button>
+      </div>
+    </aside>
+
+    <main class="editor-container">
+      <div class="editor-toolbar" id="toolbar">
+        <button class="btn-icon" title="Negrito"><b>B</b></button>
+        <button class="btn-icon" title="Itálico"><i>I</i></button>
+        <button class="btn-icon" title="Título">H2</button>
+        <div style="width:1px; height:16px; background:var(--p4);"></div>
+        <button class="btn-icon" data-action="focus-mode" title="Modo Foco">⌘ Modo Foco</button>
+        <div style="width:1px; height:16px; background:var(--p4);"></div>
+        <button class="btn-icon" data-action="export-proof" title="Exportar Prova">📜 Exportar Prova</button>
+      </div>
+      <div class="editor-main" id="editor" contenteditable="true" spellcheck="true">
+        Era uma vez, no coração do sertão, onde a terra racha e o sol não perdoa, que uma vereda se abria como uma promessa...
+      </div>
+    </main>
+
+    <aside class="panel-right" id="panel-right">
+      <div class="card">
+        <div class="card-title">Status da Sessão</div>
+        <div style="font-size:12px; color:var(--t2); margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span>Eventos:</span>
+            <strong id="session-events">0</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span>Suspeitos:</span>
+            <strong id="session-suspicious" style="color:var(--verde);">0</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span>Autenticidade:</span>
+            <strong id="session-score" style="color:var(--acento);">--%</strong>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-title">Academia Gramatical</div>
+        <p style="font-size:12px; color:var(--t4); font-style:italic; margin-bottom:8px;">"Selecione uma palavra para análise."</p>
+        <div id="grammar-analysis" style="display:none;">
+          <div style="font-size:13px; font-weight:600;" id="word-class">--</div>
+          <p style="font-size:12px; color:var(--t2); line-height:1.5; margin-top:4px;" id="word-desc">--</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="ft">
+    <div id="sync-status">● Sincronizado: Disponível Offline</div>
+    <div data-element="word-count">0 palavras · 0 caracteres</div>
+    <div id="daily-goal">Meta Diária: 0%</div>
+  </footer>
+</div>
+
+<!-- Modal Tribunal de Autoria -->
+<div class="modal-overlay" id="tribunal-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 style="font-family:var(--serif); color:var(--acento);">⚖️ Tribunal de Autoria</h3>
+      <button class="btn-icon" onclick="smartEditor.closeTribunal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="tribunal-stats"></div>
+      
+      <div class="card-title">Timeline de Eventos</div>
+      <div class="pohw-timeline" id="pohw-timeline"></div>
+      
+      <div style="margin-top:20px; padding:16px; background:var(--p2); border-radius:8px;">
+        <h4 style="font-size:13px; font-weight:600; margin-bottom:8px;">Critérios de Validação</h4>
+        <ul style="font-size:12px; color:var(--t2); line-height:1.8; padding-left:20px;">
+          <li>Apenas eventos <code>isTrusted</code> são considerados</li>
+          <li>Intervalo entre teclas: 30ms - 2000ms (Regra de Ouro)</li>
+          <li>Hash SHA-256 vincula texto ao processo criativo</li>
+          <li>Logs completos disponíveis para auditoria</li>
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" onclick="smartEditor.exportProof()">📥 Baixar Prova (.proof.json)</button>
+      <button class="btn-icon" onclick="smartEditor.closeTribunal()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="js/database.js"></script>
+<script src="js/pohw.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

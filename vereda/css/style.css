@@ -1,0 +1,189 @@
+/* ── reset & tokens ── */
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --p:    #F8F5EF;
+  --p2:   #EEE9DF;
+  --p3:   #E2DACE;
+  --p4:   #D4CCBE;
+  --t:    #1A1612;
+  --t2:   #3D3830;
+  --t3:   #6B6358;
+  --t4:   #9E9488;
+  --t5:   #C2B9AF;
+  --acento: #2E4D43; /* Verde Vereda */
+  --acento2:#3D6B5C;
+  --verde: #2A5E45;
+  --vbg:  #D6EDE3;
+  --serif:'Georgia','Times New Roman',serif;
+  --ui:   system-ui,-apple-system,'Segoe UI',sans-serif;
+  --sh: 0 2px 12px rgba(26,22,18,.08);
+}
+html,body{min-height:100vh;background:var(--p);color:var(--t);font-family:var(--ui);overflow-x:hidden;}
+
+/* ── layout ── */
+.app{display:flex;flex-direction:column;min-height:100vh;}
+
+/* ── header ── */
+.hd{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;height:64px;
+  background:var(--p);border-bottom:1px solid rgba(26,22,18,.1);
+  position:sticky;top:0;z-index:100;
+}
+.logo{
+  font-family:var(--serif);font-size:24px;font-weight:700;
+  letter-spacing:-.5px;color:var(--acento);font-style:italic;
+}
+.nav-main{display:flex;gap:24px;}
+.nav-link{
+  font-size:13px;font-weight:500;color:var(--t3);text-decoration:none;
+  text-transform:uppercase;letter-spacing:.05em;padding-bottom:4px;
+  border-bottom:2px solid transparent;transition:all .2s;cursor:pointer;
+}
+.nav-link:hover, .nav-link.active{color:var(--acento);border-bottom-color:var(--acento);}
+
+/* ── main content ── */
+.body{display:flex;flex:1;min-height:0;}
+
+/* ── sidebar ── */
+.sidebar{
+  width:260px;flex-shrink:0;
+  border-right:1px solid rgba(26,22,18,.1);
+  background:var(--p2);
+  display:flex;flex-direction:column;
+  transition:transform 0.3s ease;
+}
+.sidebar.collapsed{
+  transform:translateX(-260px);
+}
+.sb-item{
+  padding:12px 20px;display:flex;align-items:center;gap:12px;
+  color:var(--t2);text-decoration:none;font-size:14px;
+  transition:background .2s;border-left:3px solid transparent;cursor:pointer;
+}
+.sb-item:hover{background:rgba(26,22,18,.05);}
+.sb-item.active{background:var(--p);border-left-color:var(--acento);color:var(--acento);font-weight:600;}
+
+/* ── editor area ── */
+.editor-container{
+  flex:1;display:flex;flex-direction:column;
+  background:var(--p);
+  transition:margin 0.3s ease;
+}
+.editor-toolbar{
+  height:48px;display:flex;align-items:center;justify-content:center;
+  gap:16px;border-bottom:1px solid rgba(26,22,18,.05);
+  opacity:1;transition:opacity 0.3s ease;
+}
+.editor-toolbar.hidden{
+  opacity:0;pointer-events:none;
+}
+.editor-main{
+  flex:1;padding:60px 10%;max-width:900px;margin:0 auto;
+  font-family:var(--serif);font-size:18px;line-height:1.8;
+  outline:none;min-height:80vh;
+  white-space:pre-wrap;word-wrap:break-word;
+}
+
+/* Modo Foco Dinâmico */
+.focus-mode .sidebar{
+  transform:translateX(-260px);
+}
+.focus-mode .editor-toolbar{
+  opacity:0;pointer-events:none;
+}
+.focus-mode .panel-right{
+  transform:translateX(320px);
+}
+
+/* ── analytics panel ── */
+.panel-right{
+  width:320px;border-left:1px solid rgba(26,22,18,.1);
+  background:var(--p2);padding:24px;overflow-y:auto;
+  transition:transform 0.3s ease;
+}
+.panel-right.collapsed{
+  transform:translateX(320px);
+}
+.card{
+  background:#fff;border-radius:8px;padding:16px;margin-bottom:16px;
+  box-shadow:var(--sh);border:1px solid rgba(26,22,18,.05);
+}
+.card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t4);margin-bottom:12px;}
+
+/* ── footer status ── */
+.ft{
+  height:32px;background:var(--acento);color:var(--p);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;font-size:11px;letter-spacing:.05em;
+}
+
+/* ── PoHW Badge ── */
+.pohw-badge{
+  padding:4px 12px;border-radius:20px;font-size:10px;font-weight:700;
+  background:#D6EDE3;color:#2A5E45;display:flex;align-items:center;gap:6px;
+}
+.pohw-badge.suspicious{
+  background:#FFE5E5;color:#8B0000;
+}
+.pohw-badge.suspicious span{
+  background:#8B0000;
+}
+
+/* ── Botões utilitários ── */
+.btn-icon{
+  background:none;border:none;color:var(--t3);
+  cursor:pointer;padding:8px;border-radius:4px;
+  transition:background 0.2s;
+}
+.btn-icon:hover{background:rgba(26,22,18,.05);color:var(--acento);}
+.btn-icon.active{background:var(--vbg);color:var(--verde);}
+
+.btn-primary{
+  padding:10px 20px;background:var(--acento);color:var(--p);
+  border:none;border-radius:4px;font-size:12px;cursor:pointer;
+  transition:background 0.2s;
+}
+.btn-primary:hover{background:var(--acento2);}
+
+/* ── Modal Tribunal de Autoria ── */
+.modal-overlay{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(26,22,18,.7);
+  display:flex;align-items:center;justify-content:center;
+  z-index:1000;opacity:0;visibility:hidden;
+  transition:all 0.3s;
+}
+.modal-overlay.active{opacity:1;visibility:visible;}
+.modal-content{
+  background:var(--p);border-radius:8px;max-width:600px;width:90%;
+  max-height:80vh;overflow-y:auto;box-shadow:0 4px 24px rgba(0,0,0,.2);
+}
+.modal-header{
+  padding:20px;border-bottom:1px solid rgba(26,22,18,.1);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.modal-body{padding:20px;}
+.modal-footer{
+  padding:20px;border-top:1px solid rgba(26,22,18,.1);
+  display:flex;justify-content:flex-end;gap:12px;
+}
+
+/* ── Timeline PoHW ── */
+.pohw-timeline{
+  height:40px;background:var(--p3);border-radius:4px;
+  margin:12px 0;position:relative;overflow:hidden;
+}
+.pohw-event{
+  position:absolute;top:0;bottom:0;
+  background:rgba(46,77,67,.3);border-right:1px solid var(--acento);
+}
+.pohw-event.suspicious{
+  background:rgba(139,0,0,.3);border-right-color:#8B0000;
+}
+
+/* ── Scrollbar customizada ── */
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-track{background:var(--p2);}
+::-webkit-scrollbar-thumb{background:var(--t4);border-radius:4px;}
+::-webkit-scrollbar-thumb:hover{background:var(--t3);}
