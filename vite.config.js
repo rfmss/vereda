@@ -20,6 +20,7 @@ export default defineConfig({
         personaMapping: resolve(__dirname, 'persona-literaria.html'),
         writerSanctuary: resolve(__dirname, 'santuario-escritor.html'),
         writingWorkspaceEn: resolve(__dirname, 'writing-workspace-en.html'),
+        bookAnatomy: resolve(__dirname, 'anatomia-objeto-livro.html'),
       },
     },
   },

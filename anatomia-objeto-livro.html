@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Anatomia do Objeto Livro</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#2e4d43",
+              "on-surface": "#1b1c1c",
+              "error-container": "#ffdad6",
+              tertiary: "#482824",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#623e39",
+              secondary: "#99462a",
+              "on-secondary-fixed": "#390b00",
+              "on-background": "#1b1c1c",
+              "surface-container-high": "#eae7e7",
+              outline: "#727975",
+              "inverse-surface": "#303030",
+              "surface-bright": "#fcf9f8",
+              surface: "#fcf9f8",
+              "surface-container": "#f0eded",
+              "on-primary-container": "#9bbdb0",
+              "on-error-container": "#93000a",
+              "surface-tint": "#45655a",
+              "secondary-fixed-dim": "#ffb59e",
+              "secondary-fixed": "#ffdbd0",
+              "secondary-container": "#fe9572",
+              "primary-container": "#2e4d43",
+              "on-error": "#ffffff",
+              "surface-container-highest": "#e4e2e1",
+              "outline-variant": "#c1c8c4",
+              "surface-container-lowest": "#ffffff",
+              primary: "#17362d",
+              "on-tertiary": "#ffffff",
+              "on-primary": "#ffffff",
+              "inverse-on-surface": "#f3f0f0",
+              "surface-container-low": "#f6f3f2",
+              "on-tertiary-fixed": "#2f1310",
+              "on-secondary-container": "#762c12",
+              "surface-dim": "#dcd9d9",
+              "surface-variant": "#e4e2e1",
+              "inverse-primary": "#accec1",
+              error: "#ba1a1a",
+              "on-tertiary-fixed-variant": "#613d38",
+              "tertiary-fixed": "#ffdad5",
+              "on-surface-variant": "#414845",
+              "on-primary-fixed": "#002018",
+              "primary-fixed-dim": "#accec1",
+              background: "#fcf9f8",
+              "primary-fixed": "#c7eadc",
+              "tertiary-fixed-dim": "#edbbb3",
+              "on-tertiary-container": "#dbaaa3",
+              "on-secondary-fixed-variant": "#7a2f15"
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem"
+            },
+            spacing: {
+              "margin-focus": "64px",
+              unit: "8px",
+              gutter: "24px",
+              "container-max-width": "720px",
+              "sidebar-width": "280px"
+            },
+            fontFamily: {
+              "body-ui": ["Manrope"],
+              h1: ["Manrope"],
+              "helper-text": ["Manrope"],
+              "display-lg": ["Newsreader"],
+              h2: ["Manrope"],
+              "body-reading": ["Newsreader"],
+              "label-caps": ["Manrope"]
+            },
+            fontSize: {
+              "body-ui": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              h1: ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }],
+              "helper-text": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "600" }],
+              h2: ["24px", { lineHeight: "32px", fontWeight: "600" }],
+              "body-reading": ["20px", { lineHeight: "34px", fontWeight: "400" }],
+              "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "700" }]
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      body {
+        background-color: #fcf9f8;
+        color: #1b1c1c;
+      }
+      .parallax-bg {
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    </style>
+  </head>
+  <body class="font-body-ui text-body-ui bg-background text-on-background antialiased selection:bg-primary-container selection:text-on-primary-container">
+    <header class="fixed top-0 w-full border-b border-[#2E4D43]/10 bg-[#F2EFE9]/90 backdrop-blur-sm z-50 transition-all duration-300">
+      <div class="flex justify-between items-center px-8 py-6 w-full max-w-7xl mx-auto">
+        <div class="font-serif text-2xl italic text-[#2E4D43] font-bold tracking-tight">Vereda</div>
+        <nav class="hidden md:flex space-x-8 font-serif text-sm tracking-widest uppercase">
+          <a class="text-[#2E4D43]/60 hover:text-[#2E4D43] transition-colors duration-300" href="#revestimento">Externo</a>
+          <a class="text-[#2E4D43]/60 hover:text-[#2E4D43] transition-colors duration-300" href="#portal">Pré-textual</a>
+          <a class="text-[#2E4D43] border-b-2 border-[#2E4D43] pb-1 opacity-70 transition-opacity" href="#miolo">Textual</a>
+          <a class="text-[#2E4D43]/60 hover:text-[#2E4D43] transition-colors duration-300" href="#encerramento">Pós-textual</a>
+        </nav>
+        <div class="flex items-center space-x-4 text-[#2E4D43]">
+          <span class="material-symbols-outlined cursor-pointer hover:opacity-70 transition-opacity">menu_book</span>
+          <span class="material-symbols-outlined cursor-pointer hover:opacity-70 transition-opacity">ink_pen</span>
+        </div>
+      </div>
+    </header>
+    <main class="pt-[100px]">
+      <section class="min-h-[819px] flex flex-col justify-center items-center text-center px-gutter max-w-container-max-width mx-auto">
+        <h1 class="font-display-lg text-display-lg text-primary mb-6">Anatomia do Objeto Livro</h1>
+        <p class="font-body-reading text-body-reading text-on-surface-variant max-w-2xl">Uma exploração aprofundada dos elementos estruturais que compõem o livro, desde sua capa até o colofão.</p>
+      </section>
+
+      <section class="py-margin-focus relative" id="revestimento">
+        <div class="parallax-bg h-[614px] opacity-20 absolute inset-0 z-0" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA-qtrmi55H3uhh53qtliy5GK1TMiIlv_yHbmRh4CM2B37t2BEfRdHwKmrJi4D40wvIh20kLPPwoS_IFFSf037Pgi5fodNdc7G-Lc5-akDgh3fnx91J1SEJcrnKQsnEG3bEc76ujTR7NzKG_GIMuOtaf4AjCjB6aBGyKQiJYoAQ3wlMGT51_atWMa32tVbm9OIRgYKNGzc05kYdVurxK3X4KU5PvMsB04k3WGqEIKn2bJ9qk8TO4Vt_4yF_yr5Z_5BwEOQNi04rVv-x');"></div>
+        <div class="max-w-container-max-width mx-auto px-gutter relative z-10 bg-surface/90 backdrop-blur-sm p-12 rounded-xl border border-outline-variant/30">
+          <h2 class="font-h1 text-h1 text-primary mb-8 border-b border-outline-variant/20 pb-4">O Revestimento (Elementos Externos)</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <div class="space-y-8">
+                <div>
+                  <h3 class="font-h2 text-h2 text-primary-container mb-2">Capa</h3>
+                  <p class="font-body-reading text-body-reading text-on-surface-variant">A face principal do livro, projetada para proteger o miolo e atrair o leitor. Geralmente contém o título, autor e identidade visual.</p>
+                </div>
+                <div>
+                  <h3 class="font-h2 text-h2 text-primary-container mb-2">Lombada</h3>
+                  <p class="font-body-reading text-body-reading text-on-surface-variant">A parte que une as páginas. Exibe informações essenciais para identificação na estante.</p>
+                </div>
+                <div>
+                  <h3 class="font-h2 text-h2 text-primary-container mb-2">Quarta Capa</h3>
+                  <p class="font-body-reading text-body-reading text-on-surface-variant">O verso do livro. Freqüentemente apresenta sinopses, resenhas ou informações biográficas.</p>
+                </div>
+              </div>
+            </div>
+            <div class="aspect-[3/4] bg-surface-container-high rounded-DEFAULT shadow-[0px_4px_20px_rgba(0,0,0,0.04)] flex items-center justify-center p-8 relative overflow-hidden">
+              <img alt="Renderização 3D de um livro de capa dura em tom verde escuro" class="w-full h-full object-cover rounded-sm absolute inset-0 opacity-80 mix-blend-multiply" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb1HqBgKoS59BCVullnNye0FbvzND7lnRtpXQd1d7loLPezlR_pXqPQ4GPAU4K2dfRKRCUWTm7_ZRcqfChjGzj1uv-rH05-DIbXxKb6OWyZ-nNWZnG60spQ11w6XW-gjTaoUKjTCA9JWTEDz-uXKwGi0ZkUChsoX0RS_YseD4x9AAHO7c5wegNwULvy279C8qPBvYAnqJ3pjk6ihecODGIwMlaoS8JMw6Uuf0pdjLxzsSCZpypZXsPd3xuDfcPqnNNMmNHtOo3oB38" />
+              <div class="absolute inset-0 border border-primary-container/20 m-4 rounded-sm"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-margin-focus bg-surface-container-low" id="portal">
+        <div class="max-w-container-max-width mx-auto px-gutter">
+          <h2 class="font-h1 text-h1 text-primary mb-12 text-center">O Portal (Elementos Pré-textuais)</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div class="bg-surface p-8 rounded-lg border border-outline-variant/30 hover:border-primary-container/50 transition-colors">
+              <h3 class="font-h2 text-h2 text-primary-container mb-3 font-serif">Folha de Rosto</h3>
+              <p class="font-body-ui text-body-ui text-on-surface-variant">A página principal de identificação, contendo o título completo, autor, editora e local de publicação.</p>
+            </div>
+            <div class="bg-surface p-8 rounded-lg border border-outline-variant/30 hover:border-primary-container/50 transition-colors">
+              <h3 class="font-h2 text-h2 text-primary-container mb-3 font-serif">Ficha Catalográfica</h3>
+              <p class="font-body-ui text-body-ui text-on-surface-variant">O registro oficial da obra, contendo dados essenciais para catalogação em bibliotecas.</p>
+            </div>
+            <div class="bg-surface p-8 rounded-lg border border-outline-variant/30 hover:border-primary-container/50 transition-colors">
+              <h3 class="font-h2 text-h2 text-primary-container mb-3 font-serif">Dedicatória</h3>
+              <p class="font-body-ui text-body-ui text-on-surface-variant">Uma breve homenagem do autor a pessoas ou entidades significativas para a criação da obra.</p>
+            </div>
+            <div class="bg-surface p-8 rounded-lg border border-outline-variant/30 hover:border-primary-container/50 transition-colors">
+              <h3 class="font-h2 text-h2 text-primary-container mb-3 font-serif">Epígrafe</h3>
+              <p class="font-body-ui text-body-ui text-on-surface-variant">Uma citação, geralmente de outro autor, que estabelece o tom ou o tema da obra que se segue.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-margin-focus" id="miolo">
+        <div class="max-w-[900px] mx-auto px-gutter">
+          <h2 class="font-h1 text-h1 text-primary mb-12 text-center">O Miolo (Elementos Textuais)</h2>
+          <div class="bg-surface-container-lowest border border-outline-variant/20 p-12 md:p-16 rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.02)]">
+            <div class="flex justify-between items-center mb-16 pb-4 border-b border-outline-variant/30">
+              <span class="font-label-caps text-label-caps text-outline uppercase tracking-widest">Capítulo 1</span>
+              <span class="font-label-caps text-label-caps text-outline">12</span>
+            </div>
+            <h3 class="font-display-lg text-display-lg text-primary mb-8 text-center">Aberturas e Alinhamentos</h3>
+            <p class="font-body-reading text-body-reading text-on-surface-variant text-justify mb-6 first-letter:text-5xl first-letter:font-serif first-letter:text-primary-container first-letter:mr-2 first-letter:float-left">O texto principal, ou miolo, é o coração do livro. A tipografia e o layout são meticulosamente planejados para proporcionar a melhor experiência de leitura. O alinhamento justificado cria blocos de texto uniformes, enquanto as margens generosas evitam a fadiga visual.</p>
+            <p class="font-body-reading text-body-reading text-on-surface-variant text-justify">Cabeçalhos correntes orientam o leitor através das seções, e a numeração das páginas (fólios) ancora o texto no espaço físico. Cada elemento serve a um propósito funcional, mantendo a estética silenciosa.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-margin-focus bg-surface-container" id="encerramento">
+        <div class="max-w-container-max-width mx-auto px-gutter text-center">
+          <h2 class="font-h1 text-h1 text-primary mb-8">O Encerramento (Elementos Pós-textuais)</h2>
+          <div class="flex flex-col space-y-6 max-w-xl mx-auto">
+            <div class="p-6 border-b border-outline-variant/30">
+              <h4 class="font-h2 text-h2 text-primary-container mb-2">Bibliografia</h4>
+              <p class="font-body-ui text-body-ui text-on-surface-variant">Lista de fontes consultadas, essencial para trabalhos acadêmicos.</p>
+            </div>
+            <div class="p-6 border-b border-outline-variant/30">
+              <h4 class="font-h2 text-h2 text-primary-container mb-2">Índice remissivo</h4>
+              <p class="font-body-ui text-body-ui text-on-surface-variant">Guia alfabético detalhado de termos e conceitos.</p>
+            </div>
+            <div class="p-6">
+              <h4 class="font-h2 text-h2 text-primary-container mb-2">Colofão</h4>
+              <p class="font-body-ui text-body-ui text-on-surface-variant">A nota final detalhando os aspectos da produção do livro, como tipografia e papel.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="w-full border-t border-[#2E4D43]/5 bg-[#F2EFE9] text-[#2E4D43] font-serif text-xs italic">
+      <div class="flex flex-col md:flex-row justify-between items-center py-12 px-16 w-full max-w-7xl mx-auto">
+        <div class="font-serif font-bold text-[#2E4D43] text-lg mb-4 md:mb-0">Vereda</div>
+        <div class="mb-4 md:mb-0">© 2024 Vereda. Carving literary paths through the sertão.</div>
+        <nav class="flex space-x-6">
+          <a class="no-underline opacity-80 hover:opacity-100 hover:underline transition-all" href="#">Bibliografia</a>
+          <a class="no-underline opacity-80 hover:opacity-100 hover:underline transition-all" href="#">Índice</a>
+          <a class="no-underline opacity-80 hover:opacity-100 hover:underline transition-all" href="#">Colofão</a>
+          <a class="no-underline opacity-80 hover:opacity-100 hover:underline transition-all" href="#">Privacidade</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
