@@ -19,6 +19,7 @@ export default defineConfig({
         launchTrack: resolve(__dirname, 'trilha-lancamento.html'),
         personaMapping: resolve(__dirname, 'persona-literaria.html'),
         writerSanctuary: resolve(__dirname, 'santuario-escritor.html'),
+        writingWorkspaceEn: resolve(__dirname, 'writing-workspace-en.html'),
       },
     },
   },
