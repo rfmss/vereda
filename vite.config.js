@@ -17,6 +17,7 @@ export default defineConfig({
         digitalRegistry: resolve(__dirname, 'cartorio-digital.html'),
         linguisticAnalysis: resolve(__dirname, 'analise-linguistica.html'),
         launchTrack: resolve(__dirname, 'trilha-lancamento.html'),
+        personaMapping: resolve(__dirname, 'persona-literaria.html'),
       },
     },
   },
