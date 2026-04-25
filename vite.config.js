@@ -13,6 +13,7 @@ export default defineConfig({
         reader: resolve(__dirname, 'reader.html'),
         readerDark: resolve(__dirname, 'reader-dark.html'),
         organize: resolve(__dirname, 'organize-se.html'),
+        pohwEditor: resolve(__dirname, 'editor-pohw.html'),
       },
     },
   },

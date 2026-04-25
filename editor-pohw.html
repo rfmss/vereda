@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Vereda Editor - PoHW</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed": "#002018",
+              "on-secondary-fixed-variant": "#7a2f15",
+              "error-container": "#ffdad6",
+              "primary-fixed": "#c7eadc",
+              outline: "#727975",
+              "on-surface": "#1b1c1c",
+              "inverse-primary": "#accec1",
+              "secondary-container": "#fe9572",
+              "on-primary": "#ffffff",
+              "tertiary-fixed": "#ffdad5",
+              surface: "#fcf9f8",
+              tertiary: "#482824",
+              "outline-variant": "#c1c8c4",
+              "secondary-fixed-dim": "#ffb59e",
+              "on-primary-container": "#9bbdb0",
+              "tertiary-fixed-dim": "#edbbb3",
+              primary: "#17362d",
+              secondary: "#99462a",
+              "surface-container-highest": "#e4e2e1",
+              "on-tertiary-fixed": "#2f1310",
+              "surface-variant": "#e4e2e1",
+              "surface-container-low": "#f6f3f2",
+              "primary-fixed-dim": "#accec1",
+              "inverse-on-surface": "#f3f0f0",
+              "on-error": "#ffffff",
+              "surface-bright": "#fcf9f8",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#45655a",
+              background: "#fcf9f8",
+              "surface-dim": "#dcd9d9",
+              "on-tertiary-fixed-variant": "#613d38",
+              "tertiary-container": "#623e39",
+              "on-error-container": "#93000a",
+              "on-surface-variant": "#414845",
+              "primary-container": "#2e4d43",
+              "on-secondary-fixed": "#390b00",
+              error: "#ba1a1a",
+              "on-secondary": "#ffffff",
+              "secondary-fixed": "#ffdbd0",
+              "surface-container-high": "#eae7e7",
+              "surface-container-lowest": "#ffffff",
+              "surface-container": "#f0eded",
+              "on-primary-fixed-variant": "#2e4d43",
+              "on-background": "#1b1c1c",
+              "inverse-surface": "#303030",
+              "on-tertiary-container": "#dbaaa3",
+              "on-secondary-container": "#762c12"
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem"
+            },
+            spacing: {
+              gutter: "24px",
+              "container-max-width": "720px",
+              unit: "8px",
+              "sidebar-width": "280px",
+              "margin-focus": "64px"
+            },
+            fontFamily: {
+              "display-lg": ["Newsreader"],
+              "helper-text": ["Manrope"],
+              "body-ui": ["Manrope"],
+              "body-reading": ["Newsreader"],
+              h2: ["Manrope"],
+              h1: ["Manrope"],
+              "label-caps": ["Manrope"]
+            },
+            fontSize: {
+              "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "600" }],
+              "helper-text": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              "body-ui": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "body-reading": ["20px", { lineHeight: "34px", fontWeight: "400" }],
+              h2: ["24px", { lineHeight: "32px", fontWeight: "600" }],
+              h1: ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }],
+              "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "700" }]
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      body {
+        background-color: #fcf9f8;
+      }
+
+      .text-cursor {
+        display: inline-block;
+        width: 2px;
+        height: 1.2em;
+        background-color: #17362d;
+        vertical-align: middle;
+        animation: blink 1s step-end infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="font-body-ui text-body-ui text-on-surface bg-background flex h-screen overflow-hidden">
+    <aside class="hidden lg:flex flex-col h-screen sticky top-0 py-6 h-full w-64 border-r border-[#2E4D43]/10 dark:border-white/5 bg-[#F2EFE9] dark:bg-stone-900 text-[#2E4D43] dark:text-emerald-500 text-sm font-medium tracking-wide">
+      <div class="px-6 mb-8 flex flex-col gap-1">
+        <h2 class="text-lg font-bold text-[#2E4D43] dark:text-emerald-500">Vereda</h2>
+        <span class="text-xs opacity-70">PoHW System</span>
+      </div>
+      <div class="px-4 mb-6">
+        <button class="w-full flex items-center justify-center gap-2 py-3 px-4 bg-primary text-on-primary rounded-DEFAULT font-h2 text-body-ui transition-colors hover:bg-primary/90">
+          <span class="material-symbols-outlined text-[18px]">add</span>
+          Nova Obra
+        </button>
+      </div>
+      <nav class="flex-1 flex flex-col gap-1 px-3">
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg border-l-2 border-[#2E4D43] text-[#2E4D43] dark:text-emerald-400 bg-[#E8E4DB]/50 dark:bg-stone-800/50 hover:bg-[#E8E4DB] dark:hover:bg-stone-800 transition-transform" href="#">
+          <span class="material-symbols-outlined">edit_note</span>
+          Escrita
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg border-l-2 border-transparent text-[#2E4D43]/70 dark:text-stone-400 hover:pl-5 transition-all hover:bg-[#E8E4DB] dark:hover:bg-stone-800" href="#">
+          <span class="material-symbols-outlined">auto_stories</span>
+          Biblioteca
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg border-l-2 border-transparent text-[#2E4D43]/70 dark:text-stone-400 hover:pl-5 transition-all hover:bg-[#E8E4DB] dark:hover:bg-stone-800" href="#">
+          <span class="material-symbols-outlined">gavel</span>
+          Cartório Digital
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg border-l-2 border-transparent text-[#2E4D43]/70 dark:text-stone-400 hover:pl-5 transition-all hover:bg-[#E8E4DB] dark:hover:bg-stone-800" href="#">
+          <span class="material-symbols-outlined">settings</span>
+          Configurações
+        </a>
+      </nav>
+      <div class="px-6 mt-auto flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-surface-dim overflow-hidden flex items-center justify-center">
+          <span class="material-symbols-outlined text-on-surface-variant">person</span>
+        </div>
+        <span class="text-xs opacity-70">Perfil do Autor</span>
+      </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col overflow-hidden relative">
+      <header class="border-b border-[#2E4D43]/10 dark:border-white/5 bg-[#F2EFE9] dark:bg-stone-900 text-[#2E4D43] dark:text-emerald-500 font-serif tracking-tight flex justify-between items-center px-8 h-16 w-full max-w-[1440px] mx-auto z-10">
+        <div class="flex items-center gap-4">
+          <span class="text-2xl font-serif italic text-[#2E4D43] dark:text-emerald-500 lg:hidden">Vereda</span>
+          <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-fixed/30 border border-primary-fixed">
+            <span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+            <span class="font-helper-text text-helper-text text-primary font-medium tracking-wide">Integridade Humana: 98% (Confiável)</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <button class="flex items-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-DEFAULT font-body-ui text-body-ui transition-colors hover:bg-primary/90 shadow-sm">
+            <span class="material-symbols-outlined text-[18px]">gavel</span>
+            Certificar Obra
+          </button>
+          <div class="flex gap-2 text-[#2E4D43]/60 dark:text-stone-400">
+            <button class="p-2 rounded-full hover:bg-[#E8E4DB] dark:hover:bg-stone-800 transition-colors">
+              <span class="material-symbols-outlined">verified_user</span>
+            </button>
+            <button class="p-2 rounded-full hover:bg-[#E8E4DB] dark:hover:bg-stone-800 transition-colors">
+              <span class="material-symbols-outlined">account_circle</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="w-full flex justify-center border-b border-surface-variant bg-surface/80 backdrop-blur-sm z-0">
+        <div class="w-full max-w-container-max-width flex items-center justify-between py-2 px-4">
+          <div class="flex items-center gap-1 text-on-surface-variant">
+            <button class="p-2 rounded hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">format_bold</span></button>
+            <button class="p-2 rounded hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">format_italic</span></button>
+            <div class="w-px h-4 bg-outline-variant mx-2"></div>
+            <button class="p-2 rounded hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">format_list_bulleted</span></button>
+            <button class="p-2 rounded hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">format_quote</span></button>
+          </div>
+          <div class="font-helper-text text-helper-text text-outline flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+            Monitoramento Ativo
+          </div>
+        </div>
+      </div>
+
+      <main class="flex-1 overflow-y-auto w-full flex flex-col items-center pb-32">
+        <div class="w-full max-w-container-max-width px-margin-focus pt-16 flex flex-col gap-8">
+          <input class="w-full bg-transparent border-0 border-b border-surface-variant focus:border-primary focus:ring-0 px-0 pb-2 font-display-lg text-display-lg text-on-surface placeholder:text-outline-variant" placeholder="Título da Obra" type="text" value="O Silêncio das Águas" />
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-full bg-secondary/10 text-secondary font-label-caps text-label-caps">Ficção</span>
+            <span class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-caps text-label-caps">Capítulo 1</span>
+          </div>
+          <article class="font-body-reading text-body-reading text-on-surface flex flex-col gap-6 outline-none" contenteditable="true">
+            <p>A manhã despertou pálida sobre a campina. O orvalho ainda teimava em se agarrar às folhas secas da aroeira, refletindo a luz tênue que escapava por entre as nuvens de chumbo. Era um dia que cheirava a terra revolvida e a promessas antigas.</p>
+            <p>Ele sentou-se na varanda de madeira lascada, o bule de ágata fumegando ao seu lado. O silêncio ali não era ausência de som, mas uma presença densa, quase palpável. Cada rangido das tábuas contava a história das gerações que caminharam por aquele mesmo chão, traçando veredas invisíveis rumo ao horizonte.</p>
+            <p>Puxou o caderno de couro gasto do bolso do casaco. As páginas, amarelecidas pelo tempo e pela poeira da estrada, aguardavam pacientemente. Pegou a caneta-tinteiro, o bico de metal frio contra os dedos calosos, e deixou que a primeira gota de tinta tocasse o papel.</p>
+            <p class="relative">Nesse instante, o vento mudou de direção, trazendo consigo o murmúrio distante das águas do rio que há muito se julgava sê<span class="text-cursor"></span></p>
+          </article>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
