@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Cartório Digital Vereda - Tribunal de Autoria</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed": "#002018",
+              "on-secondary-fixed-variant": "#7a2f15",
+              "error-container": "#ffdad6",
+              "primary-fixed": "#c7eadc",
+              outline: "#727975",
+              "on-surface": "#1b1c1c",
+              "inverse-primary": "#accec1",
+              "secondary-container": "#fe9572",
+              "on-primary": "#ffffff",
+              "tertiary-fixed": "#ffdad5",
+              surface: "#fcf9f8",
+              tertiary: "#482824",
+              "outline-variant": "#c1c8c4",
+              "secondary-fixed-dim": "#ffb59e",
+              "on-primary-container": "#9bbdb0",
+              "tertiary-fixed-dim": "#edbbb3",
+              primary: "#17362d",
+              secondary: "#99462a",
+              "surface-container-highest": "#e4e2e1",
+              "on-tertiary-fixed": "#2f1310",
+              "surface-variant": "#e4e2e1",
+              "surface-container-low": "#f6f3f2",
+              "primary-fixed-dim": "#accec1",
+              "inverse-on-surface": "#f3f0f0",
+              "on-error": "#ffffff",
+              "surface-bright": "#fcf9f8",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#45655a",
+              background: "#fcf9f8",
+              "surface-dim": "#dcd9d9",
+              "on-tertiary-fixed-variant": "#613d38",
+              "tertiary-container": "#623e39",
+              "on-error-container": "#93000a",
+              "on-surface-variant": "#414845",
+              "primary-container": "#2e4d43",
+              "on-secondary-fixed": "#390b00",
+              error: "#ba1a1a",
+              "on-secondary": "#ffffff",
+              "secondary-fixed": "#ffdbd0",
+              "surface-container-high": "#eae7e7",
+              "surface-container-lowest": "#ffffff",
+              "surface-container": "#f0eded",
+              "on-primary-fixed-variant": "#2e4d43",
+              "on-background": "#1b1c1c",
+              "inverse-surface": "#303030",
+              "on-tertiary-container": "#dbaaa3",
+              "on-secondary-container": "#762c12"
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem"
+            },
+            spacing: {
+              gutter: "24px",
+              "container-max-width": "720px",
+              unit: "8px",
+              "sidebar-width": "280px",
+              "margin-focus": "64px"
+            },
+            fontFamily: {
+              "display-lg": ["Newsreader", "serif"],
+              "helper-text": ["Manrope", "sans-serif"],
+              "body-ui": ["Manrope", "sans-serif"],
+              "body-reading": ["Newsreader", "serif"],
+              h2: ["Manrope", "sans-serif"],
+              h1: ["Manrope", "sans-serif"],
+              "label-caps": ["Manrope", "sans-serif"]
+            },
+            fontSize: {
+              "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "600" }],
+              "helper-text": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              "body-ui": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "body-reading": ["20px", { lineHeight: "34px", fontWeight: "400" }],
+              h2: ["24px", { lineHeight: "32px", fontWeight: "600" }],
+              h1: ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }],
+              "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "700" }]
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-background min-h-screen flex flex-col lg:flex-row antialiased selection:bg-primary selection:text-on-primary">
+    <nav class="lg:hidden flex justify-between items-center px-8 h-16 w-full max-w-[1440px] mx-auto bg-[#F2EFE9] dark:bg-stone-900 border-b border-[#2E4D43]/10 dark:border-white/5">
+      <div class="text-2xl font-serif italic text-[#2E4D43] dark:text-emerald-500 tracking-tight">Vereda</div>
+      <div class="flex items-center gap-4 text-[#2E4D43] dark:text-emerald-500">
+        <button class="hover:bg-[#E8E4DB] dark:hover:bg-stone-800 transition-colors p-2 rounded-full">
+          <span class="material-symbols-outlined">verified_user</span>
+        </button>
+        <button class="hover:bg-[#E8E4DB] dark:hover:bg-stone-800 transition-colors p-2 rounded-full">
+          <span class="material-symbols-outlined">account_circle</span>
+        </button>
+      </div>
+    </nav>
+
+    <aside class="hidden lg:flex flex-col h-screen sticky top-0 py-6 h-full w-64 border-r border-[#2E4D43]/10 dark:border-white/5 bg-[#F2EFE9] dark:bg-stone-900 shrink-0">
+      <div class="px-6 mb-10 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center overflow-hidden shrink-0 border border-outline-variant/50">
+          <span class="material-symbols-outlined text-outline">account_circle</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-lg font-bold text-[#2E4D43] dark:text-emerald-500">Vereda</span>
+          <span class="text-sm font-medium tracking-wide text-[#2E4D43]/70 dark:text-stone-400">PoHW System</span>
+        </div>
+      </div>
+      <nav class="flex-1 px-4 space-y-2">
+        <a class="flex items-center gap-3 px-4 py-3 rounded-DEFAULT text-[#2E4D43]/70 dark:text-stone-400 hover:pl-5 transition-all hover:bg-[#E8E4DB] dark:hover:bg-stone-800 text-sm font-medium tracking-wide" href="#">
+          <span class="material-symbols-outlined">edit_note</span>
+          Escrita
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-DEFAULT text-[#2E4D43]/70 dark:text-stone-400 hover:pl-5 transition-all hover:bg-[#E8E4DB] dark:hover:bg-stone-800 text-sm font-medium tracking-wide" href="#">
+          <span class="material-symbols-outlined">auto_stories</span>
+          Biblioteca
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-DEFAULT border-l-2 border-[#2E4D43] text-[#2E4D43] dark:text-emerald-400 bg-[#E8E4DB]/50 dark:bg-stone-800/50 text-sm font-medium tracking-wide transition-transform" href="#">
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">gavel</span>
+          Cartório Digital
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-DEFAULT text-[#2E4D43]/70 dark:text-stone-400 hover:pl-5 transition-all hover:bg-[#E8E4DB] dark:hover:bg-stone-800 text-sm font-medium tracking-wide" href="#">
+          <span class="material-symbols-outlined">settings</span>
+          Configurações
+        </a>
+      </nav>
+      <div class="px-6 mt-auto">
+        <button class="w-full py-3 bg-primary text-on-primary rounded-full font-label-caps text-label-caps hover:opacity-90 transition-opacity">Nova Obra</button>
+      </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col p-gutter lg:p-margin-focus overflow-y-auto w-full">
+      <div class="max-w-[1024px] mx-auto w-full space-y-12">
+        <header class="text-center md:text-left border-b border-outline-variant/30 pb-8">
+          <div class="inline-flex items-center gap-2 mb-4 text-secondary">
+            <span class="material-symbols-outlined text-xl">gavel</span>
+            <span class="font-label-caps text-label-caps uppercase tracking-widest">Tribunal de Autoria</span>
+          </div>
+          <h1 class="font-display-lg text-display-lg text-primary mb-4">Cartório Digital Vereda</h1>
+          <p class="font-body-reading text-body-reading text-on-surface-variant max-w-2xl">Apresente os artefatos de sua jornada literária para validação solene. Para autores, o selo de autenticidade. Para editores, a garantia técnica de autoria humana e a descoberta de talentos genuínos.</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div class="lg:col-span-8 bg-surface-container-lowest rounded-xl p-8 border border-outline-variant relative overflow-hidden group">
+            <div class="absolute inset-0 bg-surface-tint/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+            <div class="text-center mb-8">
+              <h2 class="font-h2 text-h2 text-primary mb-2">Protocolo de Verificação</h2>
+              <p class="font-body-ui text-body-ui text-on-surface-variant">Deposite os manuscritos e provas de esforço para auditoria de autoria e certificação de obra humana.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+              <div class="relative border-2 border-dashed border-outline-variant rounded-lg p-8 flex flex-col items-center justify-center text-center bg-surface hover:border-primary hover:bg-surface-container-low transition-colors cursor-pointer group/slot h-48">
+                <span class="material-symbols-outlined text-4xl text-outline mb-4 group-hover/slot:text-primary transition-colors">description</span>
+                <span class="font-h2 text-h2 text-primary mb-1 text-lg">Manuscrito Original</span>
+                <span class="font-helper-text text-helper-text text-on-surface-variant">Formato .txt aceito</span>
+              </div>
+              <div class="relative border-2 border-dashed border-outline-variant rounded-lg p-8 flex flex-col items-center justify-center text-center bg-surface hover:border-secondary hover:bg-surface-container-low transition-colors cursor-pointer group/slot h-48">
+                <span class="material-symbols-outlined text-4xl text-outline mb-4 group-hover/slot:text-secondary transition-colors">receipt_long</span>
+                <span class="font-h2 text-h2 text-primary mb-1 text-lg">Prova de Eventos</span>
+                <span class="font-helper-text text-helper-text text-on-surface-variant">Arquivo .proof.json</span>
+              </div>
+              <div class="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-px bg-outline-variant"></div>
+              <div class="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface-container-lowest w-8 h-8 rounded-full border border-outline-variant items-center justify-center text-outline-variant text-xs font-bold">+</div>
+            </div>
+          </div>
+
+          <aside class="lg:col-span-4 bg-surface-container-low rounded-xl p-6 border border-outline-variant/50">
+            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-outline-variant/30">
+              <span class="material-symbols-outlined text-primary">security</span>
+              <h3 class="font-h2 text-h2 text-primary text-xl">Selo de Autoria Humana</h3>
+            </div>
+            <div class="space-y-4 font-body-ui text-body-ui text-on-surface">
+              <p>O <span class="font-bold">Cartório Digital</span> é o elo de confiança entre quem escreve e quem publica, assegurando a integridade criativa.</p>
+              <p>Para editores, funciona como um filtro de <strong>Talento Verificado</strong>, garantindo que cada obra submetida é fruto de esforço humano real via assinatura <span class="font-mono text-sm bg-surface-variant px-1 py-0.5 rounded text-on-surface-variant">SHA-256</span>.</p>
+              <ul class="space-y-3 mt-4">
+                <li class="flex items-start gap-2">
+                  <span class="material-symbols-outlined text-secondary text-sm mt-1">check_circle</span>
+                  <span class="text-sm">Protege a originalidade do autor contra plágio algorítmico.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="material-symbols-outlined text-secondary text-sm mt-1">check_circle</span>
+                  <span class="text-sm">Certifica a curadoria de talentos através do <span class="italic">Proof of Human Work</span>.</span>
+                </li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+
+        <div class="pt-8 flex justify-center border-t border-outline-variant/30">
+          <button class="bg-primary text-on-primary font-label-caps text-label-caps uppercase tracking-widest px-12 py-5 rounded-full hover:bg-surface-tint hover:shadow-lg transition-all duration-300 flex items-center gap-3 group opacity-50 cursor-not-allowed" disabled title="Insira os arquivos para habilitar">
+            <span class="material-symbols-outlined group-hover:scale-110 transition-transform">verified</span>
+            Validar Certificado
+          </button>
+        </div>
+        <div class="text-center mt-2">
+          <span class="font-helper-text text-helper-text text-outline">Aguardando artefatos para certificação de autoria...</span>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

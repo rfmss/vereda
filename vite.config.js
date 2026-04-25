@@ -14,6 +14,7 @@ export default defineConfig({
         readerDark: resolve(__dirname, 'reader-dark.html'),
         organize: resolve(__dirname, 'organize-se.html'),
         pohwEditor: resolve(__dirname, 'editor-pohw.html'),
+        digitalRegistry: resolve(__dirname, 'cartorio-digital.html'),
       },
     },
   },
