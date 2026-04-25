@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   /* Official Palette: Luminous Blue & Muted Amber */
   --bg-color: #f5f5f0;
@@ -13,8 +17,8 @@
   --error: #d73a49;
   
   /* Typography */
-  --font-ui: 'Inter', sans-serif;
-  --font-editor: 'Lora', serif;
+  --font-ui: 'Manrope', sans-serif;
+  --font-editor: 'Newsreader', serif;
 }
 
 body.theme-dark {
@@ -980,11 +984,6 @@ body {
 .app-layout.focus-mode .editor-content-wrapper {
   padding-top: 4rem;
 }
-
-  padding-top: 50vh;
-  padding-bottom: 50vh;
-}
-
 .editor-container-inner {
   display: flex;
   flex-direction: column;
@@ -2213,6 +2212,7 @@ body {
 }
 
 /* Gatilho de Borda (Hot Zone) */
+@keyframes edgeHotZonePulse {
   0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(82, 201, 106, 0.7); }
   70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(82, 201, 106, 0); }
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(82, 201, 106, 0); }
@@ -3849,8 +3849,8 @@ textarea.char-field {
 .planner-goals-sidebar {
   width: 300px;
   flex-shrink: 0;
-  position: relative;
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(20px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   background: var(--bg-sidebar);
   border-left: 1px solid var(--border-color);
   display: flex;
@@ -4802,29 +4802,55 @@ textarea.char-field {
   font-size: 0.8em;
 }
 
-/* ── MODO INVISÍVEL (RECESSED UI) ── */
-.ui-recede .top-toolbar,
-.ui-recede .markdown-toolbar,
+/* ── MODO INVISÍVEL (RECESSED UI / STITCH INVISIBLE UX) ── */
+.ui-recede header,
+.ui-recede .sticky,
+.ui-recede nav,
+.ui-recede #floating-toolbar,
 .ui-recede .editor-stats,
-.ui-recede .genre-guide-banner,
-.ui-recede .badge {
-  opacity: 0.08 !important;
+.ui-recede .genre-guide-banner {
+  opacity: 0 !important;
   pointer-events: none;
-  filter: blur(1px);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out !important;
+}
+
+.ui-recede nav {
+  transform: translateX(-20px);
 }
 
 .ui-recede .editor-stats {
-  transform: translateY(2px);
+  transform: translateY(4px);
 }
 
-/* Reaparecer no Hover mesmo em modo Recede */
-.top-toolbar:hover,
-.markdown-toolbar:hover,
-.editor-stats:hover,
-.badge:hover {
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  filter: none !important;
-  transform: translateY(0) !important;
+/* Reaparecer no Hover ou quando parado */
+header, .sticky, nav, #floating-toolbar, .editor-stats {
+  transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
+}
+
+.material-symbols-outlined.fill-icon {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.text-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background-color: #17362d;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }

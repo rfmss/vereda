@@ -55,9 +55,8 @@ const SECTIONS = [
 ];
 
 function SheetField({ field, value, onChange }) {
-  const baseClass = `char-field ${!value || value.trim() === '' ? 'char-field--empty' : ''}`;
   const props = {
-    className: baseClass,
+    className: "w-full bg-stone-50 dark:bg-stone-900 border-0 border-b border-stone-200 dark:border-stone-800 focus:border-primary dark:focus:border-emerald-500 focus:ring-0 font-body-reading text-sm text-on-surface py-2 px-0 placeholder:text-stone-300 dark:placeholder:text-stone-700 transition-all",
     placeholder: field.placeholder,
     value: value || '',
     onChange: e => onChange(field.key, e.target.value),
@@ -65,10 +64,12 @@ function SheetField({ field, value, onChange }) {
   };
 
   return (
-    <div className={`char-field-group ${field.wide ? 'char-field-group--wide' : ''} ${field.narrow ? 'char-field-group--narrow' : ''}`}>
-      <label className="char-label">{field.label}</label>
+    <div className={`flex flex-col gap-1 ${field.wide ? 'md:col-span-2' : field.narrow ? 'md:col-span-1/2' : ''}`}>
+      <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400 group-hover:text-primary transition-colors">
+        {field.label}
+      </label>
       {field.type === 'textarea'
-        ? <textarea {...props} rows={field.rows || 2} />
+        ? <textarea {...props} rows={field.rows || 2} className={`${props.className} resize-none`} />
         : <input type="text" {...props} />
       }
     </div>
@@ -81,27 +82,31 @@ export function CharacterSheet({ characterData = {}, onUpdateCharacter }) {
   }, [characterData, onUpdateCharacter]);
 
   return (
-    <div className="character-sheet-wrapper">
-      <div className="character-sheet-header">
-        <span className="character-sheet-badge">👤 Ficha de Personagem</span>
-        <p className="character-sheet-desc">
-          Construa seu personagem por dentro. Cada campo é um raio-x da alma —
+    <div className="max-w-4xl mx-auto py-12 px-6 space-y-16">
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <span className="bg-primary text-on-primary text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-full">
+            Ficha de Personagem
+          </span>
+        </div>
+        <p className="font-body-reading text-lg italic text-on-surface-variant leading-relaxed max-w-2xl">
+          Construa seu personagem por dentro. Cada campo é um raio-x da alma — 
           não apenas aparência, mas o que o move, o que o quebra e o que ele jamais admite.
         </p>
       </div>
 
-      <div className="character-sheet-body">
+      <div className="space-y-20">
         {SECTIONS.map(section => (
-          <div
-            key={section.id}
-            className="char-section"
-            style={{ '--section-accent': section.accent }}
-          >
-            <div className="char-section-header">
-              <div className="char-section-bar" />
-              <h3 className="char-section-title">{section.title}</h3>
+          <div key={section.id} className="group">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
+              <h3 className="font-display-lg text-xl italic text-primary dark:text-emerald-500 whitespace-nowrap px-4 border-l-4 border-primary dark:border-emerald-500">
+                {section.title}
+              </h3>
+              <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
             </div>
-            <div className="char-section-fields">
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
               {section.fields.map(field => (
                 <SheetField
                   key={field.key}
@@ -113,6 +118,10 @@ export function CharacterSheet({ characterData = {}, onUpdateCharacter }) {
             </div>
           </div>
         ))}
+      </div>
+      
+      <div className="pt-20 border-t border-stone-100 dark:border-stone-900 text-center">
+        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-stone-300">Vereda • Edição Literária</p>
       </div>
     </div>
   );

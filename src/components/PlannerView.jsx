@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Plus, X, Calendar as CalendarIcon } from 'lucide-react';
+import { Plus, CheckCircle2, Circle, Trash2 } from 'lucide-react';
 
 const MONTHS = [
   'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -7,17 +7,11 @@ const MONTHS = [
 ];
 
 const MONTHS_SHORT = [
-  'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
-  'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+  'JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN',
+  'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'
 ];
 
-const COLORS = [
-  { id: 'yellow', hex: '#fde68a', label: 'Âmbar' },
-  { id: 'pink',   hex: '#fbcfe8', label: 'Rosa' },
-  { id: 'blue',   hex: '#bfdbfe', label: 'Azul' },
-  { id: 'green',  hex: '#bbf7d0', label: 'Verde' },
-  { id: 'purple', hex: '#e9d5ff', label: 'Lilás' },
-];
+const WEEKDAYS = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
 
 const TODAY = new Date();
 
@@ -43,51 +37,35 @@ function getEaster(year) {
 function getBrazilianHolidays(year) {
   const holidays = { ...FIXED_HOLIDAYS };
   const easter = getEaster(year);
-  
   const addMoveable = (days, name) => {
     const d = new Date(easter);
     d.setDate(d.getDate() + days);
     const key = `${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     holidays[key] = name;
   };
-
   addMoveable(-47, 'Carnaval');
   addMoveable(-2, 'Sexta-feira Santa');
   addMoveable(60, 'Corpus Christi');
-  
   return holidays;
 }
 
 export function PlannerView({ noteContent, onUpdateContent }) {
   const [currentYear, setCurrentYear] = useState(TODAY.getFullYear());
   const [currentMonthIndex, setCurrentMonthIndex] = useState(TODAY.getMonth());
-  const [plannerData, setPlannerData] = useState({ notes: {}, monthlyGoals: {} });
-  const [activeDate, setActiveDate] = useState(null);
-  const [editingNoteId, setEditingNoteId] = useState(null);
-  const [draftNote, setDraftNote] = useState({ text: '', color: 'yellow' });
-  const [showGoalInput, setShowGoalInput] = useState(false);
-  const [newGoalText, setNewGoalText] = useState('');
-  const [showMiniCalendar, setShowMiniCalendar] = useState(false);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [plannerData, setPlannerData] = useState({ items: {} });
+  const [showMonthPicker, setShowMonthPicker] = useState(false);
 
   const holidays = useMemo(() => getBrazilianHolidays(currentYear), [currentYear]);
 
-  // Parse data from note content
   useEffect(() => {
     try {
       if (noteContent && noteContent.trim().startsWith('{')) {
-        const parsed = JSON.parse(noteContent);
-        // Migração simples se for formato antigo (apenas notas no root)
-        if (!parsed.notes && !parsed.monthlyGoals) {
-          setPlannerData({ notes: parsed, monthlyGoals: {} });
-        } else {
-          setPlannerData(parsed);
-        }
+        setPlannerData(JSON.parse(noteContent));
       } else {
-        setPlannerData({ notes: {}, monthlyGoals: {} });
+        setPlannerData({ items: {} });
       }
     } catch (e) {
-      setPlannerData({ notes: {}, monthlyGoals: {} });
+      setPlannerData({ items: {} });
     }
   }, [noteContent]);
 
@@ -96,444 +74,159 @@ export function PlannerView({ noteContent, onUpdateContent }) {
     onUpdateContent(JSON.stringify(newData));
   }, [onUpdateContent]);
 
-  // Generate calendar grid
-  const calendarDays = useMemo(() => {
+  const daysInMonth = useMemo(() => {
+    const date = new Date(currentYear, currentMonthIndex, 1);
     const days = [];
-    const firstDay = new Date(currentYear, currentMonthIndex, 1).getDay();
-    const daysInMonth = new Date(currentYear, currentMonthIndex + 1, 0).getDate();
-
-    for (let i = 0; i < firstDay; i++) {
-      days.push({ day: null, isCurrentMonth: false, dateStr: null });
+    while (date.getMonth() === currentMonthIndex) {
+      days.push(new Date(date));
+      date.setDate(date.getDate() + 1);
     }
-
-    for (let i = 1; i <= daysInMonth; i++) {
-      const padMonth = String(currentMonthIndex + 1).padStart(2, '0');
-      const padDay = String(i).padStart(2, '0');
-      days.push({
-        day: i,
-        isCurrentMonth: true,
-        dateStr: `${currentYear}-${padMonth}-${padDay}`,
-        holiday: holidays[`${padMonth}-${padDay}`]
-      });
-    }
-
-    const remaining = 7 - (days.length % 7);
-    if (remaining < 7) {
-      for (let i = 0; i < remaining; i++) {
-        days.push({ day: null, isCurrentMonth: false, dateStr: null });
-      }
-    }
-
     return days;
-  }, [currentMonthIndex, currentYear, holidays]);
+  }, [currentYear, currentMonthIndex]);
 
-  const todayStr = TODAY.toISOString().split('T')[0];
-
-  const handleAddNote = useCallback(() => {
-    if (!draftNote.text.trim() || !activeDate) return;
-
-    const newData = { ...plannerData, notes: { ...plannerData.notes } };
-    const dayNotes = [...(newData.notes[activeDate] || [])];
-
-    if (editingNoteId) {
-      const idx = dayNotes.findIndex(n => n.id === editingNoteId);
-      if (idx > -1) {
-        dayNotes[idx] = { ...dayNotes[idx], text: draftNote.text, color: draftNote.color };
-      }
-    } else {
-      dayNotes.push({
-        id: Date.now().toString(),
-        text: draftNote.text.trim(),
-        color: draftNote.color
-      });
-    }
-
-    newData.notes[activeDate] = dayNotes;
+  const handleAddItem = (dayKey, type = 'task') => {
+    const text = prompt(`Novo ${type === 'task' ? 'item' : 'nota'}:`);
+    if (!text) return;
+    const newData = { ...plannerData };
+    if (!newData.items[dayKey]) newData.items[dayKey] = [];
+    newData.items[dayKey].push({ id: Date.now(), text, type, completed: false });
     savePlannerData(newData);
-    setDraftNote({ text: '', color: 'yellow' });
-    // Mantém o activeDate para permitir adicionar múltiplas notas
-    setEditingNoteId(null);
-  }, [draftNote, activeDate, editingNoteId, plannerData, savePlannerData]);
-
-
-  const handleDeleteNote = useCallback((e, dateStr, noteId) => {
-    e.stopPropagation();
-    const updatedNotes = (plannerData.notes[dateStr] || []).filter(n => n.id !== noteId);
-    const newData = { ...plannerData, notes: { ...plannerData.notes } };
-    if (updatedNotes.length > 0) {
-      newData.notes[dateStr] = updatedNotes;
-    } else {
-      delete newData.notes[dateStr];
-    }
-    savePlannerData(newData);
-  }, [plannerData, savePlannerData]);
-
-  const handleAddGoal = useCallback(() => {
-    if (!newGoalText.trim()) return;
-    const monthKey = `${currentYear}-${currentMonthIndex}`;
-    const newGoal = { id: Date.now().toString(), text: newGoalText.trim(), completed: false };
-    
-    const newData = {
-      ...plannerData,
-      monthlyGoals: {
-        ...plannerData.monthlyGoals,
-        [monthKey]: [...(plannerData.monthlyGoals[monthKey] || []), newGoal]
-      }
-    };
-    
-    savePlannerData(newData);
-    setNewGoalText('');
-    setShowGoalInput(false);
-  }, [newGoalText, currentMonthIndex, currentYear, plannerData, savePlannerData]);
-
-  const toggleGoal = useCallback((goalId) => {
-    const monthKey = `${currentYear}-${currentMonthIndex}`;
-    const updatedGoals = (plannerData.monthlyGoals[monthKey] || []).map(g => 
-      g.id === goalId ? { ...g, completed: !g.completed } : g
-    );
-    
-    savePlannerData({
-      ...plannerData,
-      monthlyGoals: { ...plannerData.monthlyGoals, [monthKey]: updatedGoals }
-    });
-  }, [currentMonthIndex, currentYear, plannerData, savePlannerData]);
-
-  const deleteGoal = useCallback((goalId) => {
-    const monthKey = `${currentYear}-${currentMonthIndex}`;
-    const updatedGoals = (plannerData.monthlyGoals[monthKey] || []).filter(g => g.id !== goalId);
-    
-    savePlannerData({
-      ...plannerData,
-      monthlyGoals: { ...plannerData.monthlyGoals, [monthKey]: updatedGoals }
-    });
-  }, [currentMonthIndex, currentYear, plannerData, savePlannerData]);
-
-  const handleDayClick = useCallback((cell) => {
-    if (!cell.isCurrentMonth) return;
-    setActiveDate(prev => prev === cell.dateStr ? null : cell.dateStr);
-    setDraftNote({ text: '', color: 'yellow' });
-    setEditingNoteId(null);
-  }, []);
-
-  const handleEditNote = useCallback((e, dateStr, note) => {
-    e.stopPropagation();
-    setActiveDate(dateStr);
-    setEditingNoteId(note.id);
-    setDraftNote({ text: note.text, color: note.color });
-  }, []);
-
-  // Count notes in a month for the strip
-  const notesCountByMonth = useMemo(() => {
-    const counts = Array(12).fill(0);
-    Object.keys(plannerData.notes || {}).forEach(dateStr => {
-      const parts = dateStr.split('-');
-      if (parts.length === 3 && parseInt(parts[0], 10) === currentYear) {
-        const month = parseInt(parts[1], 10) - 1;
-        counts[month] += (plannerData.notes[dateStr] || []).length;
-      }
-    });
-    return counts;
-  }, [plannerData.notes, currentYear]);
-
-  const currentMonthGoals = useMemo(() => {
-    return plannerData.monthlyGoals?.[`${currentYear}-${currentMonthIndex}`] || [];
-  }, [plannerData.monthlyGoals, currentMonthIndex, currentYear]);
-
-  const changeMonth = (delta) => {
-    let newMonth = currentMonthIndex + delta;
-    let newYear = currentYear;
-    if (newMonth < 0) {
-      newMonth = 11;
-      newYear--;
-    } else if (newMonth > 11) {
-      newMonth = 0;
-      newYear++;
-    }
-    setCurrentMonthIndex(newMonth);
-    setCurrentYear(newYear);
   };
 
-  const scrollToDay = (dayNum) => {
-    const id = `day-${currentYear}-${currentMonthIndex}-${dayNum}`;
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      setShowMiniCalendar(false);
-      // Destaque visual temporário
-      setActiveDate(`${currentYear}-${String(currentMonthIndex + 1).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`);
-    }
+  const toggleItem = (dayKey, itemId) => {
+    const newData = { ...plannerData };
+    newData.items[dayKey] = newData.items[dayKey].map(item => 
+      item.id === itemId ? { ...item, completed: !item.completed } : item
+    );
+    savePlannerData(newData);
+  };
+
+  const deleteItem = (dayKey, itemId) => {
+    const newData = { ...plannerData };
+    newData.items[dayKey] = newData.items[dayKey].filter(item => item.id !== itemId);
+    savePlannerData(newData);
   };
 
   return (
-    <div className="planner-container">
-      {/* Header */}
-      <div className="planner-header">
-        <div className="planner-title">
-          <div className="calendar-icon-btn-wrapper" onClick={() => setShowMiniCalendar(!showMiniCalendar)}>
-            <CalendarIcon size={22} strokeWidth={1.5} className="calendar-trigger-icon" />
-            
-            {showMiniCalendar && (
-              <div className="mini-calendar-popover" onClick={e => e.stopPropagation()}>
-                <div className="mini-calendar-header">
-                  <button className="mini-nav-btn" onClick={(e) => { e.stopPropagation(); changeMonth(-1); }}>
-                    <ChevronLeft size={16} />
-                  </button>
-                  <div className="mini-title-group">
-                    <span className="mini-month-name">{MONTHS[currentMonthIndex]}</span>
-                    <div className="mini-year-nav-small">
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); setCurrentYear(y => Math.max(2026, y - 1)); }} 
-                        disabled={currentYear <= 2026}
-                        title="Ano Anterior"
-                      >
-                        <ChevronLeft size={12} />
-                      </button>
-                      <span className="mini-year-display">{currentYear}</span>
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); setCurrentYear(y => Math.min(2030, y + 1)); }} 
-                        disabled={currentYear >= 2030}
-                        title="Próximo Ano"
-                      >
-                        <ChevronRight size={12} />
-                      </button>
-                    </div>
-                  </div>
-                  <button className="mini-nav-btn" onClick={(e) => { e.stopPropagation(); changeMonth(1); }}>
-                    <ChevronRight size={16} />
-                  </button>
-                </div>
-                <div className="mini-calendar-grid">
-                  {['D','S','T','Q','Q','S','S'].map(d => <div key={d} className="mini-weekday">{d}</div>)}
-                  {calendarDays.map((cell, i) => (
-                    <div 
-                      key={i} 
-                      className={`mini-day-cell ${!cell.isCurrentMonth ? 'inactive' : ''} ${cell.dateStr === todayStr ? 'today' : ''}`}
-                      onClick={() => cell.isCurrentMonth && scrollToDay(cell.day)}
+    <div className="flex-1 flex flex-col h-full bg-background animate-in fade-in duration-500 overflow-y-auto">
+      <div className="max-w-container-max-width mx-auto w-full px-8 py-12">
+        
+        {/* Header Section */}
+        <div className="flex items-end justify-between mb-12">
+          <h2 className="font-display-lg text-4xl font-semibold text-on-surface">Organize-se em {currentYear}</h2>
+          <div className="relative">
+            <div 
+              className="flex items-center gap-3 bg-surface-container-low px-5 py-2.5 rounded-full border border-surface-variant hover:border-primary/50 transition-all cursor-pointer group"
+              onClick={() => setShowMonthPicker(!showMonthPicker)}
+            >
+              <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">calendar_month</span>
+              <span className="font-h2 text-h2 text-on-surface text-[18px]">{MONTHS[currentMonthIndex]}</span>
+              <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">expand_more</span>
+            </div>
+            {showMonthPicker && (
+              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl shadow-xl z-50 p-2 animate-in zoom-in-95 duration-200">
+                <div className="grid grid-cols-2 gap-1">
+                  {MONTHS.map((m, i) => (
+                    <button 
+                      key={m} 
+                      className={`px-3 py-2 text-xs rounded-lg transition-colors ${i === currentMonthIndex ? 'bg-primary text-white' : 'hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-400'}`}
+                      onClick={() => { setCurrentMonthIndex(i); setShowMonthPicker(false); }}
                     >
-                      {cell.day}
-                    </div>
+                      {m}
+                    </button>
                   ))}
                 </div>
               </div>
             )}
           </div>
-          
-          <div className="planner-year-selector">
-            <button onClick={() => setCurrentYear(y => y - 1)} disabled={currentYear <= 2026} className="year-btn">
-              <ChevronLeft size={14} />
-            </button>
-            <h1>Organize-se em {currentYear}</h1>
-            <button onClick={() => setCurrentYear(y => y + 1)} disabled={currentYear >= 2030} className="year-btn">
-              <ChevronRight size={14} />
-            </button>
-          </div>
         </div>
-        <div className="planner-month-selector">
-          <button
-            className="icon-btn"
-            onClick={() => setCurrentMonthIndex(prev => Math.max(0, prev - 1))}
-            disabled={currentMonthIndex === 0}
-          >
-            <ChevronLeft size={18} />
-          </button>
-          <h2>{MONTHS[currentMonthIndex]}</h2>
-          <button
-            className="icon-btn"
-            onClick={() => setCurrentMonthIndex(prev => Math.min(11, prev + 1))}
-            disabled={currentMonthIndex === 11}
-          >
-            <ChevronRight size={18} />
-          </button>
+
+        {/* Month Ruler (Heatmap) */}
+        <div className="flex justify-between items-center mb-16 px-6 py-8 bg-white dark:bg-stone-950 rounded-2xl border border-surface-variant shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+          {MONTHS_SHORT.map((m, i) => {
+            const hasItems = Object.keys(plannerData.items || {}).some(k => k.startsWith(`${currentYear}-${String(i+1).padStart(2, '0')}`));
+            return (
+              <div 
+                key={m} 
+                className={`flex flex-col items-center gap-2 cursor-pointer transition-all ${i === currentMonthIndex ? 'text-primary dark:text-emerald-500 scale-110' : 'opacity-40 hover:opacity-100'}`}
+                onClick={() => setCurrentMonthIndex(i)}
+              >
+                <span className="font-label-caps text-[10px] font-bold tracking-widest">{m}</span>
+                <div className="flex gap-[2px]">
+                  <div className={`w-1.5 h-1.5 rounded-full ${i === currentMonthIndex ? 'bg-primary' : hasItems ? 'bg-primary/40' : 'bg-surface-variant'}`}></div>
+                </div>
+              </div>
+            );
+          })}
         </div>
-      </div>
 
-      {/* Month strip for quick navigation */}
-      <div className="planner-months-strip">
-        {MONTHS_SHORT.map((m, i) => {
-          const count = notesCountByMonth[i];
-          const intensity = Math.min(count * 20, 100); // Heatmap logic
-          return (
-            <button
-              key={m}
-              className={`planner-month-pill ${currentMonthIndex === i ? 'active' : ''}`}
-              onClick={() => setCurrentMonthIndex(i)}
-              title={`${count} anotação(ões) em ${MONTHS[i]}`}
-            >
-              {m}
-              {count > 0 && (
-                <span className="month-heatmap-dot" style={{ opacity: intensity / 100 + 0.3 }} />
-              )}
-            </button>
-          );
-        })}
-      </div>
+        {/* Vertical Spine Timeline */}
+        <div className="relative pl-10 before:content-[''] before:absolute before:left-[19px] before:top-2 before:bottom-12 before:w-[1px] before:bg-stone-200 dark:before:bg-stone-800">
+          {daysInMonth.map(date => {
+            const dayNum = date.getDate();
+            const dayName = WEEKDAYS[date.getDay()];
+            const dayKey = `${currentYear}-${String(currentMonthIndex + 1).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
+            const holiday = holidays[`${String(currentMonthIndex + 1).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`];
+            const items = plannerData.items[dayKey] || [];
+            const isToday = TODAY.toDateString() === date.toDateString();
 
-      <div className="planner-main-content">
-        <div className="planner-timeline-container">
-          <div className="planner-timeline-spine" />
-          
-          <div className="planner-timeline-list">
-            {calendarDays.filter(cell => cell.isCurrentMonth).map((cell, index) => {
-              const isToday = cell.dateStr === todayStr;
-              const notes = cell.dateStr ? (plannerData.notes[cell.dateStr] || []) : [];
-              const isActive = activeDate === cell.dateStr;
-
-              return (
-                <div
-                  key={index}
-                  id={`day-${currentYear}-${currentMonthIndex}-${cell.day}`}
-                  className={`timeline-day ${isToday ? 'today' : ''} ${cell.holiday ? 'holiday' : ''} ${isActive ? 'active' : ''}`}
-                  onClick={(e) => { e.stopPropagation(); handleDayClick(cell); }}
-                >
-                  {/* Ponto na Linha */}
-                  <div className="timeline-marker">
-                    <div className="timeline-dot">
-                      {cell.day}
-                    </div>
-                    {isToday && <div className="timeline-dot-pulse" />}
-                  </div>
-
-                  {/* Conteúdo do Dia */}
-                  <div className="timeline-content">
-                    <div className="timeline-day-info">
-                      <span className="timeline-weekday">
-                        {new Date(currentYear, currentMonthIndex, cell.day).toLocaleDateString('pt-BR', { weekday: 'long' })}
+            return (
+              <div key={dayKey} className="relative mb-12 group animate-in slide-in-from-left-2 duration-500">
+                {/* Dot */}
+                <div className={`absolute -left-[30px] top-1.5 w-2.5 h-2.5 rounded-full bg-white border-2 z-10 transition-all ${isToday ? 'border-primary scale-125' : 'border-stone-300 dark:border-stone-700 group-hover:border-primary'}`}></div>
+                
+                <div className="flex items-baseline gap-4 mb-4">
+                  <span className={`font-h2 text-2xl font-bold ${isToday ? 'text-primary dark:text-emerald-500' : 'text-on-surface'}`}>{dayNum}</span>
+                  <span className="font-helper-text text-sm text-stone-400 flex items-center gap-3">
+                    {dayName}
+                    {holiday && (
+                      <span className="bg-orange-50 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded text-[9px] uppercase font-bold tracking-wider border border-orange-200 dark:border-orange-900/50">
+                        {holiday}
                       </span>
-                      {cell.holiday && (
-                        <span className="timeline-holiday-tag">{cell.holiday}</span>
-                      )}
-                      <button
-                        className="timeline-add-btn"
-                        onClick={(e) => { e.stopPropagation(); setActiveDate(cell.dateStr); setDraftNote({ text: '', color: 'yellow' }); setEditingNoteId(null); }}
+                    )}
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  {items.map(item => (
+                    <div 
+                      key={item.id} 
+                      className={`group/item flex items-center gap-4 px-5 py-3 rounded-2xl w-max min-w-[280px] border transition-all cursor-pointer ${item.completed ? 'bg-stone-50 dark:bg-stone-900/50 border-transparent opacity-60' : item.type === 'task' ? 'bg-primary/5 dark:bg-emerald-500/5 border-primary/10 hover:border-primary/30' : 'bg-orange-50 dark:bg-orange-900/5 border-orange-200/50 hover:border-orange-300'}`}
+                      onClick={() => toggleItem(dayKey, item.id)}
+                    >
+                      <span className="material-symbols-outlined text-lg">
+                        {item.completed ? 'check_circle' : 'circle'}
+                      </span>
+                      <span className={`font-body-ui text-sm flex-1 ${item.completed ? 'line-through text-stone-400' : 'text-on-surface'}`}>
+                        {item.text}
+                      </span>
+                      <button 
+                        className="opacity-0 group-hover/item:opacity-100 transition-opacity text-stone-300 hover:text-red-500"
+                        onClick={(e) => { e.stopPropagation(); deleteItem(dayKey, item.id); }}
                       >
-                        <Plus size={14} />
+                        <span className="material-symbols-outlined text-lg">delete</span>
                       </button>
                     </div>
+                  ))}
 
-                    <div className="timeline-events-list">
-                      {notes.length === 0 && !isActive && (
-                        <div className="timeline-empty-hint">Nenhuma anotação...</div>
-                      )}
-                      {notes.map(note => (
-                        <div 
-                          key={note.id} 
-                          className={`timeline-event-pill color-${note.color}`}
-                          onClick={(e) => handleEditNote(e, cell.dateStr, note)}
-                        >
-                          <span className="event-text">{note.text}</span>
-                          <button
-                            className="event-delete-btn"
-                            onClick={(e) => handleDeleteNote(e, cell.dateStr, note.id)}
-                          >
-                            <X size={12} />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Popover de Edição (Inline na Timeline) */}
-                    {isActive && (
-                      <div className="timeline-inline-editor" onClick={e => e.stopPropagation()}>
-                        <textarea
-                          autoFocus
-                          placeholder="O que acontece hoje? (ideia, meta, compromisso...)"
-                          value={draftNote.text}
-                          onChange={e => setDraftNote(d => ({ ...d, text: e.target.value }))}
-                          onKeyDown={e => {
-                            if (e.key === 'Enter' && !e.shiftKey) {
-                              e.preventDefault();
-                              handleAddNote();
-                            }
-                            if (e.key === 'Escape') { setActiveDate(null); setEditingNoteId(null); }
-                          }}
-                        />
-                        <div className="editor-footer">
-                          <div className="color-options">
-                            {COLORS.map(c => (
-                              <button
-                                key={c.id}
-                                className={`color-dot ${draftNote.color === c.id ? 'active' : ''}`}
-                                style={{ backgroundColor: c.hex }}
-                                onClick={() => setDraftNote(d => ({ ...d, color: c.id }))}
-                              />
-                            ))}
-                          </div>
-                          <div className="editor-actions">
-                            <button className="cancel-btn" onClick={() => { setActiveDate(null); setEditingNoteId(null); }}>Cancelar</button>
-                            <button className="save-btn" onClick={handleAddNote}>
-                              {editingNoteId ? 'Atualizar' : 'Salvar'}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                  <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button 
+                      className="px-4 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-500 hover:bg-primary/5 hover:text-primary transition-all text-[11px] font-bold uppercase tracking-widest flex items-center gap-2"
+                      onClick={() => handleAddItem(dayKey, 'task')}
+                    >
+                      <Plus size={14} /> Tarefa
+                    </button>
+                    <button 
+                      className="px-4 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-500 hover:bg-orange-500/5 hover:text-orange-500 transition-all text-[11px] font-bold uppercase tracking-widest flex items-center gap-2"
+                      onClick={() => handleAddItem(dayKey, 'note')}
+                    >
+                      <Plus size={14} /> Nota
+                    </button>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Barra de Metas com Puxador Estilo Canva */}
-        <div className={`planner-goals-sidebar ${isSidebarCollapsed ? 'collapsed' : ''}`}>
-          {/* Puxador (Handle) */}
-          <button 
-            className="sidebar-collapse-handle" 
-            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            title={isSidebarCollapsed ? "Mostrar Metas" : "Recolher Metas"}
-          >
-            {isSidebarCollapsed ? <ChevronLeft size={12} /> : <ChevronRight size={12} />}
-          </button>
-
-          {!isSidebarCollapsed && (
-            <div className="sidebar-content-wrapper">
-              <div className="goals-header">
-                <h3>Metas de {MONTHS[currentMonthIndex]}</h3>
-                <button className="icon-btn" onClick={() => setShowGoalInput(true)}>
-                  <Plus size={16} />
-                </button>
               </div>
-              
-              <div className="goals-list">
-                {showGoalInput && (
-                  <div className="goal-input-wrapper">
-                    <input
-                      autoFocus
-                      placeholder="Nova meta mensal..."
-                      value={newGoalText}
-                      onChange={e => setNewGoalText(e.target.value)}
-                      onKeyDown={e => {
-                        if (e.key === 'Enter') handleAddGoal();
-                        if (e.key === 'Escape') setShowGoalInput(false);
-                      }}
-                    />
-                    <div className="goal-input-actions">
-                      <button className="goal-cancel" onClick={() => setShowGoalInput(false)}>Cancelar</button>
-                      <button className="goal-save" onClick={handleAddGoal}>OK</button>
-                    </div>
-                  </div>
-                )}
-                
-                {currentMonthGoals.length === 0 && !showGoalInput ? (
-                  <p className="goals-empty">Nenhuma meta definida para este mês.</p>
-                ) : (
-                  currentMonthGoals.map(goal => (
-                    <div key={goal.id} className={`goal-item ${goal.completed ? 'completed' : ''}`}>
-                      <input
-                        type="checkbox"
-                        checked={goal.completed}
-                        onChange={() => toggleGoal(goal.id)}
-                      />
-                      <span>{goal.text}</span>
-                      <button onClick={() => deleteGoal(goal.id)} className="goal-delete">
-                        <X size={12} />
-                      </button>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-          )}
+            );
+          })}
         </div>
       </div>
     </div>

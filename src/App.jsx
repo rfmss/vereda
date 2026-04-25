@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNotes } from './hooks/useNotes';
 import { useEditorModes } from './hooks/useEditorModes';
 import { useKeystrokeTracker } from './useKeystrokeTracker';
@@ -12,7 +12,6 @@ import { TextStatistics } from './components/TextStatistics';
 import { generateProofSignature } from './crypto';
 import { ReaderSettings } from './components/ReaderSettings';
 import { AudioPlayer } from './components/AudioPlayer';
-import { Maximize2, Minimize2, Highlighter, ShieldCheck, Sun, Moon, Download, Settings, BookOpen, Headphones, Terminal, Columns, ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react';
 import getCaretCoordinates from 'textarea-caret';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -23,6 +22,18 @@ import { OfflineBanner } from './components/OfflineBanner';
 import { BookTemplate } from './components/BookTemplate';
 import { CharacterSheet } from './components/CharacterSheet';
 import { PlannerView } from './components/PlannerView';
+import { ReviewSidebar } from './components/ReviewSidebar';
+import { ReaderView } from './components/ReaderView';
+import { ProjectBible } from './components/ProjectBible';
+import { LinguisticAnalysis } from './components/LinguisticAnalysis';
+import { BrandingView } from './components/BrandingView';
+import { PersonaMappingView } from './components/PersonaMappingView';
+import { SanctuaryView } from './components/SanctuaryView';
+import { BookAnatomyView } from './components/BookAnatomyView';
+import { TemplateLibrary } from './components/TemplateLibrary';
+import { SplashScreen } from './components/SplashScreen';
+import { DictionarySidebar } from './components/DictionarySidebar';
+import { RightPanel } from './components/RightPanel';
 
 const lightBgs = ['#fdfaf6', '#fcf8f2', '#f9f5f0', '#fdfbf7', '#faf6f0'];
 const darkBgs = ['#1a1918', '#1c1b1a', '#181818', '#1e1d1c', '#1b1b1b'];
@@ -70,16 +81,24 @@ const LITERARY_QUOTES = [
 ];
 
 function EmptyState() {
-  const quote = React.useMemo(() => LITERARY_QUOTES[Math.floor(Math.random() * LITERARY_QUOTES.length)], []);
+  const quote = useMemo(() => LITERARY_QUOTES[Math.floor(Math.random() * LITERARY_QUOTES.length)], []);
   
   return (
-    <div className="empty-state-inspirador">
-      <div className="quote-container">
-        <p className="quote-text">"{quote.text}"</p>
-        <p className="quote-author">— {quote.author}</p>
-      </div>
-      <div className="empty-state-hint">
-        Selecione uma obra na lateral ou comece uma nova jornada.
+    <div className="h-full flex items-center justify-center p-12 text-center">
+      <div className="max-w-xl space-y-12 animate-in fade-in zoom-in-95 duration-700">
+        <div className="space-y-6">
+          <p className="text-3xl md:text-4xl font-display-lg italic text-stone-700 dark:text-stone-200 leading-relaxed">
+            "{quote.text}"
+          </p>
+          <p className="text-sm font-bold uppercase tracking-widest text-primary opacity-60">
+            — {quote.author}
+          </p>
+        </div>
+        <div className="h-px w-24 bg-stone-200 dark:bg-stone-800 mx-auto" />
+        <div className="text-sm font-medium text-stone-400 uppercase tracking-widest flex items-center justify-center gap-3">
+          <span className="material-symbols-outlined">west</span>
+          Selecione uma obra na lateral para começar
+        </div>
       </div>
     </div>
   );
@@ -100,16 +119,50 @@ function App() {
     exitSpecialModes
   } = useEditorModes();
 
-  const [readerFontSize, setReaderFontSize] = useState(20);
-  const [readerTheme, setReaderTheme] = useState('paper');
-  const [showReaderSettings, setShowReaderSettings] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [showVerifier, setShowVerifier] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isReviewSidebarOpen, setIsReviewSidebarOpen] = useState(false);
+  const [isBibleOpen, setIsBibleOpen] = useState(false);
+  const [isAnalysisMode, setIsAnalysisMode] = useState(false);
+  const [isVerifierOpen, setIsVerifierOpen] = useState(false);
+  const [isBrandingOpen, setIsBrandingOpen] = useState(false);
+  const [isPersonaMappingOpen, setIsPersonaMappingOpen] = useState(false);
+  const [isSanctuaryOpen, setIsSanctuaryOpen] = useState(false);
+  const [isBookAnatomyOpen, setIsBookAnatomyOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDictionaryOpen, setIsDictionaryOpen] = useState(false);
+  const [isRightPanelOpen, setIsRightPanelOpen] = useState(true);
+  const [rightPanelTab, setRightPanelTab] = useState('notas');
+  const [selectedDictWord, setSelectedDictWord] = useState('');
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+
+  const handleOpenDictionary = (word = '') => {
+    setSelectedDictWord(word);
+    setIsRightPanelOpen(true);
+    setRightPanelTab('dicionario');
+    setIsBibleOpen(false);
+    setIsReviewSidebarOpen(false);
+    setIsAnalysisMode(false);
+    setIsReviewSidebarOpen(false);
+    setIsAnalysisMode(false);
+  };
+
   const [dialogState, setDialogState] = useState({ isOpen: false });
   const [guideDismissed, setGuideDismissed] = useState(false); 
+
+  const handleToggleReview = () => {
+    setIsReviewSidebarOpen(!isReviewSidebarOpen);
+    if (!isReviewSidebarOpen) {
+      setIsReaderMode(false);
+      setIsGrammarMode(false);
+    }
+  };
+
+  const handleExitSpecial = () => {
+    exitSpecialModes();
+    setIsReviewSidebarOpen(false);
+  };
   const [isWriting, setIsWriting] = useState(false);
   const writingTimerRef = useRef(null);
   const textareaRef = useRef(null);
@@ -134,7 +187,7 @@ function App() {
     // Detecção de escrita para modo invisível
     setIsWriting(true);
     if (writingTimerRef.current) clearTimeout(writingTimerRef.current);
-    writingTimerRef.current = setTimeout(() => setIsWriting(false), 3000);
+    writingTimerRef.current = setTimeout(() => setIsWriting(false), 2500);
 
     const timer = setTimeout(() => {
       const tagsMatch = text.match(/#[\wÀ-ú]+/g) || [];
@@ -352,40 +405,114 @@ function App() {
     };
     window.addEventListener('keydown', handleKeyDownGlobal);
     return () => window.removeEventListener('keydown', handleKeyDownGlobal);
-  }, [text, currentNote, eventLog, humanScore, pastedChunks, isExporting, createNote]);
+  }, [text, currentNote, eventLog, humanScore, pastedChunks, organicKeys, updateCurrentNote]);
+
 
   return (
     <>
       <OfflineBanner />
-      <div 
-        className={`app-layout ${isReaderMode ? `reader-mode theme-${readerTheme}` : ''} ${isFocusMode ? 'focus-mode' : ''} ${isSidebarCollapsed ? 'sidebar-collapsed' : ''} ${isWriting ? 'ui-recede' : ''}`}
-        onMouseMove={() => {
-          if (isWriting) {
-            setIsWriting(false);
-            if (writingTimerRef.current) clearTimeout(writingTimerRef.current);
-          }
-        }}
-      >
-        {(isReaderMode || isFocusMode) && (
-          <div className="reader-progress-bar" style={{ width: `${scrollProgress}%` }} />
-        )}
+      <div className={`flex flex-col h-screen overflow-hidden font-body-ui text-body-ui bg-background text-on-background ${isDark ? 'dark' : ''} ${isWriting && isFocusMode ? 'ui-recede' : ''}`}>
         
-        <div className="sidebar-wrapper">
+        {/* TopAppBar */}
+        <header className="bg-[#F2EFE9] dark:bg-stone-950 text-[#2E4D43] dark:text-emerald-500 font-serif tracking-tight flex justify-between items-center w-full px-8 h-16 border-b border-stone-200 dark:border-stone-800 z-50 shrink-0">
+          <div className="flex items-center gap-6">
+            <h1 className="text-xl font-bold tracking-tighter text-[#2E4D43] dark:text-emerald-400 font-serif tracking-tight antialiased">
+              {currentNote?.genreName === 'Organize-se' ? 'Organize-se' : 'Vereda'}
+            </h1>
+            <nav className="hidden md:flex gap-6 items-center">
+            <button 
+              className={`h-full flex items-center pt-1 border-b-2 transition-all duration-300 ${!isReaderMode && !isReviewSidebarOpen && !isAnalysisMode ? 'text-[#2E4D43] dark:text-emerald-400 border-[#2E4D43] dark:border-emerald-400 font-bold' : 'text-stone-500 dark:text-stone-500 border-transparent hover:text-[#2E4D43]'}`}
+              onClick={() => { exitSpecialModes(); setIsReviewSidebarOpen(false); setIsAnalysisMode(false); }}
+            >
+              Write
+            </button>
+            <button 
+              className={`h-full flex items-center pt-1 border-b-2 transition-all duration-300 ${isAnalysisMode ? 'text-[#2E4D43] dark:text-emerald-400 border-[#2E4D43] dark:border-emerald-400 font-bold' : 'text-stone-500 dark:text-stone-500 border-transparent hover:text-[#2E4D43]'}`}
+              onClick={() => { setIsAnalysisMode(!isAnalysisMode); setIsReviewSidebarOpen(false); setIsReaderMode(false); }}
+            >
+              Analyze
+            </button>
+            <button 
+              className={`h-full flex items-center pt-1 border-b-2 transition-all duration-300 ${isReviewSidebarOpen ? 'text-[#2E4D43] dark:text-emerald-400 border-[#2E4D43] dark:border-emerald-400 font-bold' : 'text-stone-500 dark:text-stone-500 border-transparent hover:text-[#2E4D43]'}`}
+              onClick={() => { setIsReviewSidebarOpen(!isReviewSidebarOpen); setIsAnalysisMode(false); setIsReaderMode(false); }}
+            >
+              Review
+            </button>
+            <button 
+              className={`h-full flex items-center pt-1 border-b-2 transition-all duration-300 ${isReaderMode ? 'text-[#2E4D43] dark:text-emerald-400 border-[#2E4D43] dark:border-emerald-400 font-bold' : 'text-stone-500 dark:text-stone-500 border-transparent hover:text-[#2E4D43]'}`}
+              onClick={() => { toggleReader(); setIsReviewSidebarOpen(false); setIsAnalysisMode(false); }}
+            >
+              Read
+            </button>
+            </nav>
+          </div>
+          <div className="flex items-center gap-4">
+            {/* PoHW Badge */}
+            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-fixed/30 border border-primary-fixed">
+              <span className="material-symbols-outlined text-[16px] text-[#2E4D43] dark:text-emerald-400" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+              <span className="font-helper-text text-[11px] text-[#2E4D43] dark:text-emerald-400 font-bold uppercase tracking-widest">Human Integrity: 98%</span>
+            </div>
+            
+            <button className="text-stone-500 hover:text-[#2E4D43] transition-colors p-2 rounded-full hover:bg-black/5" onClick={() => setIsAnalysisMode(true)}>
+              <span className="material-symbols-outlined text-[20px]">analytics</span>
+            </button>
+
+            <button className="flex items-center gap-2 px-5 py-2 bg-primary dark:bg-emerald-600 text-on-primary dark:text-white rounded-DEFAULT font-body-ui text-sm transition-all hover:bg-primary/90 shadow-sm hover:shadow-md active:scale-95" onClick={() => setIsVerifierOpen(true)}>
+              <span className="material-symbols-outlined text-[18px]">gavel</span>
+              Certificar Obra
+            </button>
+
+            <div className="flex items-center gap-1 border-l border-stone-200 dark:border-stone-800 ml-2 pl-2">
+              <button className="text-stone-500 hover:text-[#2E4D43] transition-colors p-2 rounded-full hover:bg-black/5" onClick={() => setIsDark(!isDark)}>
+                <span className="material-symbols-outlined">{isDark ? 'light_mode' : 'dark_mode'}</span>
+              </button>
+              <button className="text-stone-500 hover:text-[#2E4D43] transition-colors p-2 rounded-full hover:bg-black/5">
+                <span className="material-symbols-outlined">account_circle</span>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        {/* Editor Toolbar (Minimalist PoHW) */}
+        <div className="w-full flex justify-center border-b border-stone-100 dark:border-stone-900 bg-white/80 dark:bg-stone-900/80 backdrop-blur-sm z-10">
+          <div className="w-full max-w-container-max-width flex items-center justify-between py-2 px-gutter md:px-0">
+            <div className="flex items-center gap-1 text-on-surface-variant">
+              <button className="p-2 rounded hover:bg-surface-container dark:hover:bg-stone-800 transition-colors" title="Bold"><span className="material-symbols-outlined text-[20px]">format_bold</span></button>
+              <button className="p-2 rounded hover:bg-surface-container dark:hover:bg-stone-800 transition-colors" title="Italic"><span className="material-symbols-outlined text-[20px]">format_italic</span></button>
+              <div className="w-px h-4 bg-outline-variant/30 mx-2"></div>
+              <button className="p-2 rounded hover:bg-surface-container dark:hover:bg-stone-800 transition-colors" title="List"><span className="material-symbols-outlined text-[20px]">format_list_bulleted</span></button>
+              <button className="p-2 rounded hover:bg-surface-container dark:hover:bg-stone-800 transition-colors" title="Quote"><span className="material-symbols-outlined text-[20px]">format_quote</span></button>
+            </div>
+            <div className="font-helper-text text-[11px] text-stone-400 font-bold uppercase tracking-widest flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-primary dark:bg-emerald-500 animate-pulse"></span>
+              Monitoramento Ativo
+            </div>
+          </div>
+        </div>
+
+        {/* Layout Container */}
+        <div className="flex flex-1 overflow-hidden">
           <Sidebar 
             notes={notes} 
-            currentNoteId={currentNoteId} 
+            currentNoteId={currentNoteId}
             onCreate={(genre) => createNote('', genre || null)}
             onCreateChapter={createChapter}
-            onSelect={setCurrentNoteId} 
+            onSelect={setCurrentNoteId}
+            onDeleteRequest={(id) => {
+              setDialogState({
+                isOpen: true,
+                type: 'confirm',
+                title: 'Deletar anotação',
+                message: 'Tem certeza que deseja deletar esta anotação permanentemente?',
+                onConfirm: () => {
+                  deleteNote(id);
+                  setDialogState({ isOpen: false });
+                },
+                onCancel: () => setDialogState({ isOpen: false })
+              });
+            }}
             onReorder={reorderNotes}
             onUpdateTitle={(id, title) => updateNote(id, { title })}
-            onImportNotes={importNotes}
-            onAlertRequest={(msg) => setDialogState({
-              isOpen: true,
-              type: 'alert',
-              message: msg,
-              onConfirm: () => setDialogState({ isOpen: false })
-            })}
             onImportRequest={(importedNotes) => {
               setDialogState({
                 isOpen: true,
@@ -399,231 +526,209 @@ function App() {
                 onCancel: () => setDialogState({ isOpen: false })
               });
             }}
-            onDeleteRequest={(id) => {
-              setDialogState({
-                isOpen: true,
-                type: 'confirm',
-                title: 'Deletar anotação',
-                message: 'Tem certeza que deseja deletar esta anotação permanentemente?',
-                onConfirm: () => {
-                  deleteNote(id);
-                  setDialogState({ isOpen: false });
-                },
-                onCancel: () => setDialogState({ isOpen: false })
-              });
-            }} 
+            isDark={isDark}
+            setIsDark={setIsDark}
+            isSidebarCollapsed={isSidebarCollapsed}
+            setIsSidebarCollapsed={setIsSidebarCollapsed}
+            onOpenVerifier={() => setIsVerifierOpen(true)}
+            onOpenBranding={() => setIsBrandingOpen(true)}
+            onOpenPersonaMapping={() => setIsPersonaMappingOpen(true)}
+            onOpenSanctuary={() => setIsSanctuaryOpen(true)}
+            onOpenBookAnatomy={() => setIsBookAnatomyOpen(true)}
+            onOpenDictionary={(w) => {
+              if (w === '') setIsDictionaryOpen(!isDictionaryOpen);
+              else handleOpenDictionary(w);
+            }}
+            isDictionaryOpen={isDictionaryOpen}
           />
-          <div 
-            className="sidebar-edge-trigger" 
-            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            data-tooltip={isSidebarCollapsed ? "Expandir Menu" : "Recolher Menu"}
-          >
-            {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-          </div>
-        </div>
-        
-        <main className="main-editor-area">
-          <DictionaryTooltip />
-          <header className="top-toolbar">
-            <div className="toolbar-left">
-              <button className={`icon-btn sidebar-toggle-btn ${isSidebarCollapsed ? 'collapsed' : ''}`} onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)} data-tooltip="Alternar Menu Lateral">
-                <Columns size={20} />
-              </button>
-              <button className="icon-btn" onClick={toggleFocus} data-tooltip="Modo Foco (Edição em tela cheia)">
-                <Maximize2 size={20} />
-              </button>
-              <button className="icon-btn" onClick={toggleReader} data-tooltip="Modo Leitor (Apenas leitura)">
-                <BookOpen size={20} />
-              </button>
-              <div style={{ position: 'relative' }}>
-                <button className={`icon-btn ${showAudioPlayer ? 'active' : ''}`} onClick={() => setShowAudioPlayer(!showAudioPlayer)} data-tooltip="Áudio Ambiente">
-                  <Headphones size={20} />
-                </button>
-                <AudioPlayer isOpen={showAudioPlayer} onClose={() => setShowAudioPlayer(false)} />
-              </div>
-              <button 
-                className="icon-btn" 
-                onClick={() => {
-                  const plannerNote = notes.find(n => n.genreName === 'Organize-se');
-                  if (plannerNote) {
-                    setCurrentNoteId(plannerNote.id);
-                  } else {
-                    // Define o objeto de gênero para o Organize-se
-                    const organizeGenre = {
-                      name: 'Organize-se',
-                      title: 'Minha Organização',
-                      placeholder: 'Prepare o espaço para as suas palavras...',
-                      titlePlaceholder: 'Título da Organização...',
-                      initialContent: JSON.stringify({ notes: {}, monthlyGoals: {} })
-                    };
-                    createNote('Minha Organização', organizeGenre);
 
-                  }
-                }} 
-                data-tooltip="Ir para Organize-se"
-              >
-                <CalendarIcon size={20} />
-              </button>
-              <button className={`icon-btn ${isGrammarMode ? 'active' : ''}`} onClick={toggleGrammar} data-tooltip="Alternar Marcador Gramatical">
-                <Highlighter size={20} />
-              </button>
-              <button className="icon-btn" onClick={() => setShowVerifier(true)} data-tooltip="Verificar Autoria">
-                <ShieldCheck size={20} />
-              </button>
-            </div>
-            <div className="toolbar-right">
-              <div className={`badge ${status.class}`} data-tooltip="Índice de Autoria Humana">
-                <span className="badge-dot"></span>
-                {status.label}
-              </div>
-              <button className={`icon-btn ${isTerminalMode ? 'active' : ''}`} onClick={toggleTerminal} data-tooltip="Modo Terminal">
-                <Terminal size={20} />
-              </button>
-              <button className="icon-btn" onClick={() => setIsDark(!isDark)} data-tooltip="Alternar Tema">
-                {isDark ? <Sun size={20} /> : <Moon size={20} />}
-              </button>
-              <button className="icon-btn outline-btn" onClick={handleExport} data-tooltip="Gerar Certificado de Autoria Humana (Proof of Writing)">
-                <Download size={18} />
-                <span>Certificar</span>
-              </button>
-            </div>
-          </header>
-
-          <div className={`editor-content-wrapper ${currentNote?.genreName === 'Livro (Template Completo)' ? 'paged-mode' : ''}`} ref={editorWrapperRef}>
-            {isReaderMode && (
-              <div className="reader-meta-info">
-                <span>{getReadingTime()} min de leitura</span>
-                <button className="reader-settings-toggle" onClick={() => setShowReaderSettings(!showReaderSettings)}>
-                  <Settings size={18} />
-                </button>
-                <ReaderSettings 
-                  isOpen={showReaderSettings} 
-                  onClose={() => setShowReaderSettings(false)}
-                  fontSize={readerFontSize}
-                  setFontSize={setReaderFontSize}
-                  theme={readerTheme}
-                  setTheme={setReaderTheme}
-                />
-              </div>
-            )}
+          {/* Main Content Area */}
+          <main className="flex-1 flex flex-col h-full overflow-hidden relative bg-surface dark:bg-stone-900">
+            <DictionaryTooltip />
             
-            {currentNote ? (
-              <div className="editor-container-inner">
-                {/* Book Template: Páginas reais editáveis para o gênero Livro */}
-                {currentNote.genreName === 'Livro (Template Completo)' && (
-                  <BookTemplate
-                    bookPages={currentNote.bookPages || {}}
-                    onUpdatePages={(pages) => updateCurrentNote({ bookPages: pages })}
-                  />
+            <div className={`flex-1 overflow-y-auto px-gutter md:px-0 scroll-smooth bg-background ${isReaderMode ? `reader-mode theme-${readerTheme}` : ''} ${isFocusMode ? 'focus-mode' : ''}`} ref={editorWrapperRef}>
+              <div className="max-w-container-max-width mx-auto py-margin-focus relative">
+                
+                {/* Floating Toolbar (Contextual) */}
+                {!isReaderMode && !isTerminalMode && currentNote && currentNote.genreName !== 'Organize-se' && (
+                  <div id="floating-toolbar" className="absolute -left-16 top-32 hidden lg:flex flex-col gap-2 bg-white dark:bg-stone-800 shadow-sm border border-outline-variant/30 dark:border-stone-700 rounded p-2 text-on-surface-variant dark:text-stone-300 z-20">
+                    <button className="p-1 hover:bg-surface-variant dark:hover:bg-stone-700 rounded hover:text-primary dark:hover:text-emerald-400 transition-colors" title="Bold" onClick={() => handleInsertMarkdown('**', '**', 'negrito')}>
+                      <span className="material-symbols-outlined text-[20px]">format_bold</span>
+                    </button>
+                    <button className="p-1 hover:bg-surface-variant dark:hover:bg-stone-700 rounded hover:text-primary dark:hover:text-emerald-400 transition-colors" title="Italic" onClick={() => handleInsertMarkdown('*', '*', 'itálico')}>
+                      <span className="material-symbols-outlined text-[20px]">format_italic</span>
+                    </button>
+                    <button className="p-1 hover:bg-surface-variant dark:hover:bg-stone-700 rounded hover:text-primary dark:hover:text-emerald-400 transition-colors" title="Quote" onClick={() => handleInsertMarkdown('> ', '', 'citação')}>
+                      <span className="material-symbols-outlined text-[20px]">format_quote</span>
+                    </button>
+                    <div className="w-full h-px bg-outline-variant/50 dark:bg-stone-700 my-1"></div>
+                    <button className="p-1 hover:bg-surface-variant dark:hover:bg-stone-700 rounded hover:text-primary dark:hover:text-emerald-400 transition-colors" title="Export" onClick={handleExport}>
+                      <span className="material-symbols-outlined text-[20px]">download</span>
+                    </button>
+                  </div>
                 )}
 
-                {currentNote.genreName === 'Ficha de Personagem' && (
-                  <CharacterSheet
-                    characterData={currentNote.characterData || {}}
-                    onUpdateCharacter={(data) => updateCurrentNote({ characterData: data })}
-                  />
-                )}
+                {currentNote ? (
+                  <article className="prose prose-stone max-w-none dark:prose-invert">
+                    {currentNote.genreName === 'Livro (Template Completo)' && (
+                      <BookTemplate
+                        bookPages={currentNote.bookPages || {}}
+                        onUpdatePages={(pages) => updateCurrentNote({ bookPages: pages })}
+                      />
+                    )}
 
-                {currentNote.genreName === 'Organize-se' && (
-                  <PlannerView
-                    noteContent={currentNote.content || ''}
-                    onUpdateContent={(json) => updateCurrentNote({ content: json })}
-                  />
-                )}
-                
-                {!isReaderMode && currentNote.genreName !== 'Ficha de Personagem' && currentNote.genreName !== 'Organize-se' && (
-                  <input
-                    type="text"
-                    className="editor-title-input"
-                    placeholder={currentNote.titlePlaceholder || "Título do Documento..."}
-                    value={currentNote.title || ''}
-                    onChange={(e) => updateCurrentNote({ title: e.target.value })}
-                  />
-                )}
-                
-                {isGrammarMode ? (
-                  <GrammarViewer text={text} />
-                ) : isReaderMode ? (
-                  <article className="reader-article" style={{ fontSize: `${readerFontSize}px` }}>
-                    <h1 className="reader-title">{currentNote.title || 'Sem Título'}</h1>
-                    <div className="reader-body markdown-preview">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{text}</ReactMarkdown>
-                    </div>
-                  </article>
-                ) : (currentNote.genreName === 'Ficha de Personagem' || currentNote.genreName === 'Organize-se') ? null : (
-                  <>
-                    {!isTerminalMode && <MarkdownToolbar editor={tiptapRef.current} onInsert={handleInsertMarkdown} />}
-                    {currentNote.genrePlaceholder && text.length === 0 && !guideDismissed && (
-                      <div 
-                        className="genre-guide-banner"
-                        onClick={() => {
-                          setGuideDismissed(true);
-                          setTimeout(() => {
-                            if (isTerminalMode) textareaRef.current?.focus();
-                            else tiptapRef.current?.view.focus();
-                          }, 10);
-                        }}
-                        data-tooltip="Clique para ocultar este guia"
-                      >
-                        <div className="genre-guide-header-label">
-                          <span className="genre-guide-chip">{currentNote.genreName}</span>
-                          guia de escrita • clique para ocultar
-                        </div>
-                        <div className="genre-guide-markdown">
-                          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{currentNote.genrePlaceholder}</ReactMarkdown>
-                        </div>
+                    {currentNote.genreName === 'Ficha de Personagem' && (
+                      <CharacterSheet
+                        characterData={currentNote.characterData || {}}
+                        onUpdateCharacter={(data) => updateCurrentNote({ characterData: data })}
+                      />
+                    )}
+
+                    {currentNote.genreName === 'Organize-se' && (
+                      <PlannerView
+                        noteContent={currentNote.content || ''}
+                        onUpdateContent={(json) => updateCurrentNote({ content: json })}
+                      />
+                    )}
+
+                    {!isReaderMode && currentNote.genreName !== 'Ficha de Personagem' && currentNote.genreName !== 'Organize-se' && (
+                      <div className="border-b border-outline-variant/30 pb-4 mb-8">
+                        <input
+                          className="w-full bg-transparent border-none focus:ring-0 p-0 font-display-lg text-display-lg text-on-surface placeholder:text-outline-variant/50"
+                          placeholder={currentNote.titlePlaceholder || "Chapter Title"}
+                          value={currentNote.title || ''}
+                          onChange={(e) => updateCurrentNote({ title: e.target.value })}
+                          type="text"
+                        />
                       </div>
                     )}
-                    <div className="editor-textarea-container" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      {!isTerminalMode ? (
-                        <RichTextEditor
-                          content={text}
-                          onChange={handleChange}
-                          editorRef={tiptapRef}
-                          onKeyDown={(e) => {
-                            handleTiptapKeydown();
-                            handleKeyDown(e);
-                          }}
-                          onClick={handleTiptapKeydown}
+
+                    {isGrammarMode ? (
+                      <GrammarViewer text={text} />
+                    ) : (currentNote.genreName === 'Ficha de Personagem' || currentNote.genreName === 'Organize-se') ? null : (
+                      <>
+                        {currentNote.genrePlaceholder && text.length === 0 && !guideDismissed && (
+                          <div 
+                            className="genre-guide-banner !border-primary/20 !bg-primary/5"
+                            onClick={() => setGuideDismissed(true)}
+                          >
+                            <div className="genre-guide-header-label">
+                              <span className="genre-guide-chip !bg-primary">{currentNote.genreName}</span>
+                              guia de escrita • clique para ocultar
+                            </div>
+                            <div className="genre-guide-markdown">
+                              <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{currentNote.genrePlaceholder}</ReactMarkdown>
+                            </div>
+                          </div>
+                        )}
+                        
+                        <div className="editor-textarea-container" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                          {!isTerminalMode ? (
+                            <RichTextEditor
+                              content={text}
+                              onChange={handleChange}
+                              editorRef={tiptapRef}
+                              onKeyDown={handleKeyDown}
+                            />
+                          ) : (
+                            <textarea
+                              ref={textareaRef}
+                              className="w-full bg-transparent border-none focus:ring-0 font-body-reading text-body-reading text-on-surface min-h-[500px] resize-none p-0"
+                              placeholder={currentNote.genrePlaceholder || 'Comece a escrever sua obra…'}
+                              value={text}
+                              onChange={handleChange}
+                              onKeyDown={handleKeyDown}
+                              onPaste={handlePaste}
+                              spellCheck="false"
+                            />
+                          )}
+                        </div>
+                        <TextStatistics
+                          text={text}
+                          goal={currentNote?.wordGoal}
+                          onSetGoal={(goal) => updateCurrentNote({ wordGoal: goal })}
                         />
-                      ) : (
-                        <textarea
-                          ref={textareaRef}
-                          className="editor-textarea"
-                          placeholder={currentNote.genrePlaceholder || 'Comece a escrever sua obra…'}
-                          value={text}
-                          onChange={handleChange}
-                          onKeyDown={handleKeyDown}
-                          onPaste={handlePaste}
-                          spellCheck="false"
-                        />
-                      )}
-                    </div>
-                    <TextStatistics
-                      text={text}
-                      goal={currentNote?.wordGoal}
-                      onSetGoal={(goal) => updateCurrentNote({ wordGoal: goal })}
-                    />
-                  </>
+                      </>
+                    )}
+                  </article>
+                ) : (
+                  <EmptyState />
                 )}
               </div>
-            ) : (
-              <EmptyState />
-            )}
-          </div>
-          
-          <button 
-            className={`floating-exit-btn ${(isReaderMode || isFocusMode) ? 'visible' : ''}`}
-            onClick={exitSpecialModes}
-            data-tooltip="Sair do Modo Expandido (Esc)"
-          >
-            <Minimize2 size={24} />
-          </button>
-        </main>
+            </div>
 
-        {showVerifier && <VerifierModal onClose={() => setShowVerifier(false)} />}
+            {/* Quick Access Floating Buttons (Terminal, Theme, Audio) */}
+            <div className="fixed bottom-12 right-20 flex flex-col gap-3 z-30">
+              <button className={`p-3 rounded-full shadow-lg transition-all ${showAudioPlayer ? 'bg-primary text-on-primary' : 'bg-white dark:bg-stone-800 text-on-surface-variant'}`} onClick={() => setShowAudioPlayer(!showAudioPlayer)}>
+                <span className="material-symbols-outlined">headphones</span>
+              </button>
+              <button className={`p-3 rounded-full shadow-lg transition-all ${isTerminalMode ? 'bg-primary text-on-primary' : 'bg-white dark:bg-stone-800 text-on-surface-variant'}`} onClick={toggleTerminal}>
+                <span className="material-symbols-outlined">terminal</span>
+              </button>
+            </div>
+            
+            <AudioPlayer isOpen={showAudioPlayer} onClose={() => setShowAudioPlayer(false)} />
+          </main>
+
+          <RightPanel 
+            isOpen={true} // Always open for the hover effect
+          />
+        </div>
         <CustomDialog {...dialogState} />
         <CustomCursor />
+        {isVerifierOpen && <VerifierModal onClose={() => setIsVerifierOpen(false)} />}
+        {isBrandingOpen && <BrandingView onClose={() => setIsBrandingOpen(false)} />}
+        {isPersonaMappingOpen && <PersonaMappingView onClose={() => setIsPersonaMappingOpen(false)} />}
+        {isSanctuaryOpen && <SanctuaryView onClose={() => setIsSanctuaryOpen(false)} />}
+        {isBookAnatomyOpen && <BookAnatomyView onClose={() => setIsBookAnatomyOpen(false)} />}
+        {isAnalysisMode && <LinguisticAnalysis text={text} onClose={() => setIsAnalysisMode(false)} />}
+        {isLoading && <SplashScreen onComplete={() => setIsLoading(false)} />}
+
+        {/* Footer: Metas & Status */}
+        <footer className="bg-[#FDFCFB] dark:bg-stone-950 text-[#2E4D43] dark:text-emerald-400 font-serif text-[11px] uppercase tracking-widest fixed bottom-0 w-full border-t border-stone-100 dark:border-stone-900 subtle border-t flat no shadows flex justify-between items-center px-12 h-10 w-full z-20 shrink-0">
+          <div className="hidden">
+            Vereda © 2024
+          </div>
+          <div className="flex items-center gap-8 w-full justify-between">
+            <span className="text-[#2E4D43] font-bold cursor-default hover:text-[#2E4D43] transition-colors">
+                Meta: 1.250 / 5.000 palavras
+            </span>
+            <div className="flex items-center gap-6">
+              <span className="text-stone-400 cursor-default hover:text-[#2E4D43] transition-colors">
+                  Tempo: 45min
+              </span>
+              <span className="text-stone-400 cursor-default hover:text-[#2E4D43] transition-colors flex items-center gap-1">
+                <span className="material-symbols-outlined text-[14px]">cloud_done</span>
+                Sincronizado
+              </span>
+            </div>
+          </div>
+        </footer>
+
+        {/* Mobile Bottom Navigation (Hidden on md+) */}
+        <nav className="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-4 bg-[#2E4D43] dark:bg-stone-950 rounded-t-xl shadow-[0px_-4px_20px_rgba(0,0,0,0.1)]">
+          <button 
+            className={`flex flex-col items-center justify-center p-2 transition-all duration-150 ${!isReviewSidebarOpen ? 'text-white bg-white/10 rounded-lg scale-95' : 'text-[#F2EFE9]/60 hover:text-white'}`}
+            onClick={handleExitSpecial}
+          >
+            <span className="material-symbols-outlined mb-1 text-[20px]">edit_note</span>
+            <span className="font-label-caps text-[10px] uppercase tracking-widest font-bold">Manuscrito</span>
+          </button>
+          <button 
+            className={`flex flex-col items-center justify-center p-2 transition-all duration-150 ${isReviewSidebarOpen ? 'text-white bg-white/10 rounded-lg scale-95' : 'text-[#F2EFE9]/60 hover:text-white'}`}
+            onClick={handleToggleReview}
+          >
+            <span className="material-symbols-outlined mb-1 text-[20px]">auto_stories</span>
+            <span className="font-label-caps text-[10px] uppercase tracking-widest font-bold">Revisar</span>
+          </button>
+          <button 
+            className="flex flex-col items-center justify-center text-[#F2EFE9]/60 p-2 hover:text-white transition-opacity duration-150"
+            onClick={() => setIsSidebarCollapsed(false)}
+          >
+            <span className="material-symbols-outlined mb-1 text-[20px]">track_changes</span>
+            <span className="font-label-caps text-[10px] uppercase tracking-widest font-bold">Menu</span>
+          </button>
+        </nav>
       </div>
     </>
   );

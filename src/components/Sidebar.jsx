@@ -16,12 +16,11 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-// ─── Catálogo de Gêneros Literários ──────────────────────────────────────────
-// placeholder: texto "fantasma" que ensina o escritor. NUNCA entra no content.
+// --- Catalogo de Generos Literarios ---
 const GENRE_CATALOG = [
   {
     group: 'Narrativo',
-    icon: BookOpen,
+    icon: 'book_5',
     color: '#d4845a',
     genres: [
       {
@@ -52,7 +51,7 @@ const GENRE_CATALOG = [
   },
   {
     group: 'Híbridos & Modernos',
-    icon: Feather,
+    icon: 'auto_stories',
     color: '#7a8fc4',
     genres: [
       {
@@ -83,7 +82,7 @@ const GENRE_CATALOG = [
   },
   {
     group: 'Roteiros',
-    icon: Feather,
+    icon: 'movie_edit',
     color: '#f59e0b',
     genres: [
       {
@@ -114,7 +113,7 @@ const GENRE_CATALOG = [
   },
   {
     group: 'Redes & Voz',
-    icon: Plus,
+    icon: 'share_reviews',
     color: '#34d399',
     genres: [
       {
@@ -137,7 +136,7 @@ const GENRE_CATALOG = [
   },
   {
     group: 'Profissional & Estrutura',
-    icon: HardDrive,
+    icon: 'architecture',
     color: '#a78bfa',
     genres: [
       {
@@ -166,7 +165,7 @@ const GENRE_CATALOG = [
   },
   {
     group: 'Organização & Vida',
-    icon: Calendar,
+    icon: 'calendar_today',
     color: '#ec4899',
     genres: [
       {
@@ -180,7 +179,7 @@ const GENRE_CATALOG = [
   },
 ];
 
-// ─── SortableNoteItem ─────────────────────────────────────────────────────────
+// --- SortableNoteItem ---
 function SortableNoteItem({ note, currentNoteId, onSelect, onDeleteRequest, onUpdateTitle }) {
   const {
     attributes,
@@ -199,24 +198,31 @@ function SortableNoteItem({ note, currentNoteId, onSelect, onDeleteRequest, onUp
     position: 'relative',
   };
 
+  const isActive = currentNoteId === note.id;
+
   if (note.isChapter) {
     return (
-      <div ref={setNodeRef} style={style} className="chapter-divider" {...attributes}>
-        <div className="chapter-drag-handle" {...listeners}>
-          <GripVertical size={14} />
+      <div 
+        ref={setNodeRef} 
+        style={style} 
+        className="flex items-center gap-2 px-6 py-2 mt-4 text-primary dark:text-emerald-400 font-bold text-[10px] uppercase tracking-widest opacity-60"
+        {...attributes}
+      >
+        <div className="cursor-grab hover:text-primary transition-colors" {...listeners}>
+          <span className="material-symbols-outlined text-[14px]">drag_indicator</span>
         </div>
         <input
-          className="chapter-title-input"
+          className="bg-transparent border-none p-0 focus:ring-0 w-full text-[10px] font-black uppercase tracking-widest"
           value={note.title}
           onChange={(e) => onUpdateTitle && onUpdateTitle(note.id, e.target.value)}
           spellCheck="false"
           onClick={(e) => e.stopPropagation()}
         />
         <button
-          className="delete-btn chapter-delete"
+          className="opacity-0 group-hover:opacity-100 text-stone-400 hover:text-error transition-all"
           onClick={(e) => { e.stopPropagation(); onDeleteRequest(note.id); }}
         >
-          <Trash2 size={14} />
+          <span className="material-symbols-outlined text-[14px]">delete</span>
         </button>
       </div>
     );
@@ -226,43 +232,36 @@ function SortableNoteItem({ note, currentNoteId, onSelect, onDeleteRequest, onUp
     <div
       ref={setNodeRef}
       style={style}
-      className={`note-item ${currentNoteId === note.id ? 'active' : ''}`}
+      className="pl-12 pr-4 py-1 flex flex-col gap-2"
       onClick={() => onSelect(note.id)}
     >
-      <div className="note-drag-handle" {...attributes} {...listeners}>
-        <GripVertical size={16} />
-      </div>
-      <div className="note-item-content">
-        <div className="note-item-title">
-          {String(note.title || '').trim() ? note.title : 'Sem título'}
+      <div className={`group flex items-center justify-between py-2 pl-3 pr-2 transition-all cursor-pointer border-l-4 ${
+        isActive 
+          ? 'text-[#2E4D43] dark:text-emerald-400 bg-[#EAE7E0] dark:bg-stone-900/50 border-[#2E4D43] dark:border-emerald-500 font-bold rounded-r-lg' 
+          : 'text-stone-500 dark:text-stone-400 border-transparent hover:bg-[#EAE7E0]/50 dark:hover:bg-stone-900/30'
+      }`}>
+        <div className="flex-1 min-width-0">
+          <div className="text-sm truncate">
+            {String(note.title || '').trim() ? note.title : 'Sem título'}
+          </div>
         </div>
-        {note.genreName && (
-          <div className="note-genre-badge">{note.genreName}</div>
-        )}
-        <div className="note-item-meta">
-          <span>{new Date(note.lastModified).toLocaleDateString()} • {new Date(note.lastModified).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="cursor-grab text-stone-300 hover:text-stone-500" {...attributes} {...listeners}>
+            <span className="material-symbols-outlined text-[14px]">drag_indicator</span>
+          </div>
           <button
-            className="delete-btn"
+            className="text-stone-300 hover:text-error"
             onClick={(e) => { e.stopPropagation(); onDeleteRequest(note.id); }}
-            data-tooltip="Deletar"
           >
-            <Trash2 size={16} />
+            <span className="material-symbols-outlined text-[14px]">delete</span>
           </button>
         </div>
-        {note.tags && note.tags.length > 0 && (
-          <div className="note-tags">
-            {note.tags.slice(0, 3).map(tag => (
-              <span key={tag} className="note-tag">{tag}</span>
-            ))}
-            {note.tags.length > 3 && <span className="note-tag">+{note.tags.length - 3}</span>}
-          </div>
-        )}
       </div>
     </div>
   );
 }
 
-// ─── GenreMenu ────────────────────────────────────────────────────────────────
+// --- GenreMenu ---
 function GenreMenu({ isOpen, onSelect, onClose }) {
   useEffect(() => {
     if (!isOpen) return;
@@ -276,31 +275,27 @@ function GenreMenu({ isOpen, onSelect, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="genre-menu" role="menu" aria-label="Escolha um gênero literário">
-      {/* Cabeçalho */}
-      <div className="genre-menu-header">
-        <span>Escolha um gênero</span>
-        <button className="genre-menu-close" onClick={onClose}><X size={14} /></button>
+    <div className="genre-menu fixed left-[290px] top-20 w-72 bg-white dark:bg-stone-900 shadow-xl border border-stone-200 dark:border-stone-800 rounded-lg z-[100] overflow-hidden animate-in fade-in slide-in-from-left-2 duration-200">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-stone-100 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-800/30">
+        <span className="text-xs font-bold uppercase tracking-widest text-stone-400">Gêneros</span>
+        <button onClick={onClose} className="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200"><X size={16} /></button>
       </div>
-
-      <div className="genre-menu-content">
+      <div className="max-h-[400px] overflow-y-auto p-2 space-y-4">
         {GENRE_CATALOG.map(group => {
-          const GroupIcon = group.icon;
           return (
-            <div key={group.group} className="genre-group">
-              <div className="genre-group-label" style={{ color: group.color }}>
-                <GroupIcon size={12} strokeWidth={2.5} />
+            <div key={group.group} className="space-y-1">
+              <div className="px-3 py-1 flex items-center gap-2 text-[10px] font-black uppercase tracking-tighter" style={{ color: group.color }}>
+                <span className="material-symbols-outlined text-[14px]">{group.icon}</span>
                 {group.group}
               </div>
               {group.genres.map(genre => (
                 <button
                   key={genre.name}
-                  className="genre-item"
-                  role="menuitem"
+                  className="w-full text-left px-3 py-2 rounded hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors group"
                   onClick={() => { onSelect(genre); onClose(); }}
                 >
-                  <span className="genre-item-name">{genre.name}</span>
-                  <span className="genre-item-desc">{genre.description}</span>
+                  <div className="text-sm font-semibold text-stone-700 dark:text-stone-200 group-hover:text-primary transition-colors">{genre.name}</div>
+                  <div className="text-[10px] text-stone-400 italic line-clamp-1">{genre.description}</div>
                 </button>
               ))}
             </div>
@@ -311,34 +306,36 @@ function GenreMenu({ isOpen, onSelect, onClose }) {
   );
 }
 
-// ─── Sidebar ──────────────────────────────────────────────────────────────────
+// --- Sidebar ---
 export function Sidebar({ 
   notes, currentNoteId, onCreate, onCreateChapter, onSelect, 
   onDeleteRequest, onReorder, onUpdateTitle, onImportNotes,
-  onImportRequest, onAlertRequest 
+  onImportRequest, onAlertRequest, isDark, setIsDark,
+  isSidebarCollapsed, setIsSidebarCollapsed,
+  onOpenVerifier,
+  onOpenBranding,
+  onOpenPersonaMapping,
+  onOpenSanctuary,
+  onOpenBookAnatomy,
+  onOpenDictionary, isDictionaryOpen
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [hint, setHint] = useState(false);       // tooltip de dica
+  const [hint, setHint] = useState(false);
   const holdTimer = useRef(null);
-  const holdFired = useRef(false);               // evita click após long-press
-  const btnRef = useRef(null);
+  const holdFired = useRef(false);
   const [searchQuery, setSearchQuery] = useState('');
   const searchInputRef = useRef(null);
+  const fileInputRef = useRef(null);
 
-  // ─── Filtragem de notas ───────────────────────────────────────
   const filteredNotes = useCallback(() => {
     if (!searchQuery.trim()) return notes;
     const query = searchQuery.trim().toLowerCase();
     const isHashtag = query.startsWith('#');
     const term = isHashtag ? query.slice(1) : query;
     return notes.filter(note => {
-      // Capítulos ficam OCULTOS durante busca ativa (são estruturais)
       if (note.isChapter) return false;
-      // Busca em tags
       if (note.tags && note.tags.some(t => t.toLowerCase().includes(term))) return true;
-      // Busca em título
       if (String(note.title || '').toLowerCase().includes(term)) return true;
-      // Busca em nome do gênero
       if (String(note.genreName || '').toLowerCase().includes(term)) return true;
       return false;
     });
@@ -346,7 +343,6 @@ export function Sidebar({
 
   const visibleNotes = filteredNotes();
   const isFiltering = searchQuery.trim().length > 0;
-  const matchCount = isFiltering ? visibleNotes.filter(n => !n.isChapter).length : null;
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -362,7 +358,7 @@ export function Sidebar({
     }
   };
 
-  const startHold = (e) => {
+  const startHold = () => {
     holdFired.current = false;
     holdTimer.current = setTimeout(() => {
       holdFired.current = true;
@@ -370,28 +366,16 @@ export function Sidebar({
     }, 480);
   };
 
-  const cancelHold = () => {
-    clearTimeout(holdTimer.current);
-  };
+  const cancelHold = () => clearTimeout(holdTimer.current);
 
   const handleClick = () => {
     if (holdFired.current) return;
     onCreate();
   };
 
-  const handleGenreSelect = (genre) => {
-    onCreate(genre);
-  };
-
-  // ─── Export / Import ─────────────────────────────────────────────
-  const fileInputRef = useRef(null);
-
   const handleExportAll = () => {
-    const pad = (n) => String(n).padStart(2, '0');
     const d = new Date();
-    const time = `${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
-    const date = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
-    const filename = `vereda-backup-${time}-${date}.json`;
+    const filename = `vereda-backup-${d.getTime()}.json`;
     const payload = { vereda_backup: true, exported_at: d.toISOString(), notes };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -404,8 +388,6 @@ export function Sidebar({
     URL.revokeObjectURL(url);
   };
 
-  const handleImportClick = () => fileInputRef.current?.click();
-
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -413,16 +395,9 @@ export function Sidebar({
     reader.onload = (ev) => {
       try {
         const data = JSON.parse(ev.target.result);
-        if (!data.vereda_backup || !Array.isArray(data.notes)) {
-          if (onAlertRequest) onAlertRequest('Arquivo inválido. Use um backup exportado pelo Vereda.');
-          return;
-        }
-        
-        if (onImportRequest) {
-          onImportRequest(data.notes);
-        }
+        if (data.vereda_backup && onImportRequest) onImportRequest(data.notes);
       } catch {
-        if (onAlertRequest) onAlertRequest('Erro ao ler o arquivo. Certifique-se de que é um JSON válido.');
+        if (onAlertRequest) onAlertRequest('Erro ao ler o arquivo.');
       }
       e.target.value = '';
     };
@@ -430,143 +405,175 @@ export function Sidebar({
   };
 
   return (
-    <div className="sidebar">
-      <div className="sidebar-header">
-        <div className="sidebar-header-top">
-          <h2 className="logo">
-            Vereda
-            <span className="logo-sub">Para Escritores Brasileiros</span>
-          </h2>
-          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', position: 'relative' }}>
-            <button
-              onClick={() => onCreateChapter()}
-              className="icon-btn"
-              data-tooltip="Novo Divisor de Capítulo"
+    <nav className={`fixed left-0 top-0 flex flex-col h-full py-6 w-sidebar-width border-r border-stone-200 dark:border-stone-800 bg-[#F2EFE9] dark:bg-stone-950 z-20 shrink-0 transition-all duration-500 ${isSidebarCollapsed ? '-translate-x-full' : 'translate-x-0'}`}>
+      
+      <button 
+        className="absolute top-6 right-2 text-on-surface-variant hover:text-primary transition-colors p-1" 
+        onClick={() => setIsSidebarCollapsed(true)}
+        title="Recolher painel"
+      >
+        <span className="material-symbols-outlined">chevron_left</span>
+      </button>
+
+      {/* Sidebar Header */}
+      <div className="p-6 pb-2 border-b border-stone-200/50 mb-4">
+        <div className="flex items-center justify-between mb-1">
+          <h2 className="font-serif font-bold text-lg text-[#2E4D43] dark:text-emerald-500 font-h2 text-h2 truncate">Vereda</h2>
+          <span className="bg-primary/10 dark:bg-emerald-500/10 text-[#2E4D43] dark:text-emerald-400 text-[9px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider border border-primary/20">PoHW</span>
+        </div>
+        <p className="font-helper-text text-xs text-stone-500 truncate">Human Integrity Verified</p>
+      </div>
+
+      {/* Primary Action */}
+      <div className="px-4 mb-6">
+        <button 
+          className="w-full bg-primary dark:bg-emerald-600 text-on-primary dark:text-white py-2.5 px-4 rounded hover:bg-primary-container dark:hover:bg-emerald-500 transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md active:scale-95"
+          onMouseDown={startHold}
+          onMouseUp={cancelHold}
+          onMouseLeave={cancelHold}
+          onClick={handleClick}
+        >
+          <span className="material-symbols-outlined text-sm">add</span>
+          Novo Capítulo
+        </button>
+      </div>
+
+      <GenreMenu
+        isOpen={menuOpen}
+        onSelect={(g) => onCreate(g)}
+        onClose={() => setMenuOpen(false)}
+      />
+
+      {/* Navigation & List */}
+      <nav className="flex-1 overflow-y-auto py-2">
+        <ul className="space-y-1 mb-4">
+          <li>
+            <button 
+              className={`w-full border-l-2 pl-4 py-3 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 flex items-center group transition-all ${!isDictionaryOpen ? 'border-[#2E4D43] dark:border-emerald-500 bg-[#2E4D43]/5 text-[#2E4D43] dark:text-emerald-400' : 'border-transparent text-stone-600 dark:text-stone-400'}`}
+              onClick={() => onOpenDictionary('')}
             >
-              <FolderPlus size={18} strokeWidth={2} />
+              <span className={`material-symbols-outlined mr-3 text-lg opacity-80 group-hover:opacity-100 transition-opacity ${!isDictionaryOpen ? 'fill' : ''}`}>menu_book</span>
+              <span className="font-body-ui text-body-ui">Manuscript</span>
             </button>
+          </li>
+          <li>
+            <button 
+              className="w-full text-stone-600 dark:text-stone-400 pl-4 py-3 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 border-l-2 border-transparent flex items-center group transition-colors"
+              onClick={onOpenVerifier}
+            >
+              <span className="material-symbols-outlined mr-3 text-lg opacity-60 group-hover:opacity-80 transition-opacity">gavel</span>
+              <span className="font-body-ui text-body-ui">Cartório Digital</span>
+            </button>
+          </li>
+          <li>
+            <button 
+              className="w-full text-stone-600 dark:text-stone-400 pl-4 py-3 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 border-l-2 border-transparent flex items-center group transition-colors"
+              onClick={onOpenBranding}
+            >
+              <span className="material-symbols-outlined mr-3 text-lg opacity-60 group-hover:opacity-80 transition-opacity">rocket_launch</span>
+              <span className="font-body-ui text-body-ui">Trilha do Lançamento</span>
+            </button>
+          </li>
+          <li>
+            <button 
+              className="w-full text-stone-600 dark:text-stone-400 pl-4 py-3 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 border-l-2 border-transparent flex items-center group transition-colors"
+              onClick={onOpenPersonaMapping}
+            >
+              <span className="material-symbols-outlined mr-3 text-lg opacity-60 group-hover:opacity-80 transition-opacity">groups</span>
+              <span className="font-body-ui text-body-ui">Personas</span>
+            </button>
+          </li>
+          <li>
+            <button 
+              className="w-full text-stone-600 dark:text-stone-400 pl-4 py-3 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 border-l-2 border-transparent flex items-center group transition-colors"
+              onClick={onOpenSanctuary}
+            >
+              <span className="material-symbols-outlined mr-3 text-lg opacity-60 group-hover:opacity-80 transition-opacity">spa</span>
+              <span className="font-body-ui text-body-ui">Santuário</span>
+            </button>
+          </li>
+          <li>
+            <button 
+              className="w-full text-stone-600 dark:text-stone-400 pl-4 py-3 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 border-l-2 border-transparent flex items-center group transition-colors"
+              onClick={onOpenBookAnatomy}
+            >
+              <span className="material-symbols-outlined mr-3 text-lg opacity-60 group-hover:opacity-80 transition-opacity">menu_book</span>
+              <span className="font-body-ui text-body-ui">Anatomia do Livro</span>
+            </button>
+          </li>
+          <li>
+            <button 
+              className="w-full text-stone-600 dark:text-stone-400 pl-4 py-3 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 border-l-2 border-transparent flex items-center group transition-colors"
+            >
+              <span className="material-symbols-outlined mr-3 text-lg opacity-60 group-hover:opacity-80 transition-opacity">edit_note</span>
+              <span className="font-body-ui text-body-ui">Notes</span>
+            </button>
+          </li>
+        </ul>
 
-            {/* Botão + com long-press */}
-            <div className="new-note-btn-wrapper">
-              <button
-                ref={btnRef}
-                className={`icon-btn new-note-btn ${menuOpen ? 'active' : ''}`}
-                onMouseDown={startHold}
-                onMouseUp={cancelHold}
-                onMouseLeave={cancelHold}
-                onTouchStart={startHold}
-                onTouchEnd={cancelHold}
-                onClick={handleClick}
-                onMouseEnter={() => setHint(true)}
-                onMouseLeave={() => { setHint(false); cancelHold(); }}
-                data-tooltip=""
-                aria-haspopup="menu"
-                aria-expanded={menuOpen}
-              >
-                <Plus size={20} strokeWidth={2} />
-              </button>
-
-              {/* Hint de dica */}
-              {hint && !menuOpen && (
-                <div className="new-note-hint">
-                  Nova anotação
-                  <span className="hint-hold">Segure para mais opções</span>
-                </div>
-              )}
-
-              {/* Menu de gêneros */}
-              <GenreMenu
-                isOpen={menuOpen}
-                onSelect={handleGenreSelect}
-                onClose={() => setMenuOpen(false)}
-              />
-            </div>
-          </div>
+        <div className="px-6 mb-4 mt-8 flex justify-between items-center">
+          <h3 className="font-label-caps text-label-caps text-on-surface-variant dark:text-stone-400 uppercase tracking-widest text-[10px]">Capítulos</h3>
+          <button className="material-symbols-outlined text-stone-400 hover:text-primary text-sm" onClick={() => onCreateChapter()}>add</button>
         </div>
-      </div>
 
-      {/* ─── Barra de Busca ─────────────────────────────────── */}
-      <div className={`sidebar-search ${isFiltering ? 'sidebar-search--active' : ''}`}>
-        <Search size={13} className="sidebar-search-icon" />
-        <input
-          ref={searchInputRef}
-          type="text"
-          className="sidebar-search-input"
-          placeholder="Buscar por título ou #tag…"
-          value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
-          spellCheck="false"
-          aria-label="Filtrar anotações"
-        />
-        {isFiltering && (
-          <button
-            className="sidebar-search-clear"
-            onClick={() => { setSearchQuery(''); searchInputRef.current?.focus(); }}
-            aria-label="Limpar busca"
-          >
-            <X size={13} />
-          </button>
-        )}
-      </div>
-
-      {/* Contador de resultados */}
-      {isFiltering && (
-        <div className="sidebar-search-results">
-          {matchCount === 0
-            ? 'Nenhuma anotação encontrada'
-            : `${matchCount} anotaç${matchCount === 1 ? 'ão' : 'ões'} encontrada${matchCount === 1 ? '' : 's'}`
-          }
+        <div className="space-y-1">
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext items={visibleNotes.map(n => n.id)} strategy={verticalListSortingStrategy}>
+                {visibleNotes.map(note => (
+                  <SortableNoteItem
+                    key={note.id}
+                    note={note}
+                    currentNoteId={currentNoteId}
+                    onSelect={onSelect}
+                    onDeleteRequest={onDeleteRequest}
+                    onUpdateTitle={onUpdateTitle}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
+            {notes.length === 0 && (
+              <div className="px-8 py-4 text-xs text-stone-400 italic">Nenhuma obra iniciada...</div>
+            )}
         </div>
-      )}
 
-      <div className="note-list">
-        {notes.length === 0 && <p className="empty-msg">Nenhuma anotação.</p>}
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext items={visibleNotes.map(n => n.id)} strategy={verticalListSortingStrategy}>
-            {visibleNotes.map(note => (
-              <SortableNoteItem
-                key={note.id}
-                note={note}
-                currentNoteId={currentNoteId}
-                onSelect={onSelect}
-                onDeleteRequest={onDeleteRequest}
-                onUpdateTitle={onUpdateTitle}
-              />
-            ))}
-          </SortableContext>
-        </DndContext>
+        <div className="px-6 mt-8 mb-4">
+          <h3 className="font-label-caps text-label-caps text-on-surface-variant dark:text-stone-400 uppercase tracking-widest text-[10px]">Documentos</h3>
+        </div>
+        <button className="w-full flex items-center gap-3 px-8 py-3 text-stone-500 dark:text-stone-400 opacity-70 hover:bg-[#EAE7E0] dark:hover:bg-stone-900 transition-all cursor-pointer rounded-r-lg group" onClick={() => onCreateChapter()}>
+          <span className="material-symbols-outlined text-lg opacity-60 group-hover:opacity-100 transition-opacity">inventory_2</span>
+          <span className="font-body-ui text-body-ui">Arquivo Geral</span>
+        </button>
+      </nav>
+
+      {/* Sidebar Footer */}
+      <div className="p-4 border-t border-stone-200 dark:border-stone-800 bg-[#F2EFE9] dark:bg-stone-950">
+        <ul className="space-y-1">
+          <li>
+            <button className="w-full flex items-center px-3 py-2 rounded text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800 transition-colors group" onClick={handleExportAll}>
+              <span className="material-symbols-outlined mr-3 text-lg opacity-60 group-hover:opacity-100">cloud_upload</span>
+              <span className="font-helper-text text-xs">Backup</span>
+            </button>
+          </li>
+          <li>
+            <button className="w-full flex items-center px-3 py-2 rounded text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800 transition-colors group" onClick={() => fileInputRef.current?.click()}>
+              <span className="material-symbols-outlined mr-3 text-lg opacity-60 group-hover:opacity-100">restore</span>
+              <span className="font-helper-text text-xs">Restore</span>
+            </button>
+          </li>
+        </ul>
       </div>
 
-      {/* Rodapé discreto: Backup & Restaurar */}
-      <div className="sidebar-footer">
-        <button
-          className="sidebar-footer-btn"
-          onClick={handleExportAll}
-          data-tooltip="Exportar Backup (.json)"
-        >
-          <Download size={14} strokeWidth={2.5} />
-          <span>Backup</span>
-        </button>
-        <button
-          className="sidebar-footer-btn sidebar-footer-btn--import"
-          onClick={handleImportClick}
-          data-tooltip="Restaurar Backup (Sobrescreve tudo!)"
-        >
-          <Upload size={14} strokeWidth={2.5} />
-          <span>Restaurar</span>
-        </button>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".json"
-          style={{ display: 'none' }}
-          onChange={handleFileChange}
-        />
-      </div>
-    </div>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json"
+        className="hidden"
+        onChange={handleFileChange}
+      />
+    </nav>
   );
 }

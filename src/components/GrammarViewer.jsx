@@ -2,16 +2,16 @@ import React, { useMemo, useState } from 'react';
 import { analyzeText } from '../utils/posTagger';
 
 const classColors = {
-  substantivo: '#e06c75', // red
-  artigo: '#56b6c2', // cyan
-  adjetivo: '#d19a66', // orange
-  pronome: '#c678dd', // purple
-  verbo: '#98c379', // green
-  adverbio: '#e5c07b', // yellow
-  conjuncao: '#61afef', // blue
-  interjeicao: '#be5046', // dark red
-  numeral: '#d19a66', // orange
-  preposicao: '#abb2bf', // gray
+  substantivo: '#99462a', // secondary
+  artigo: '#45655a', // surface-tint
+  adjetivo: '#2e4d43', // primary-container
+  pronome: '#9bbdb0', // on-primary-container
+  verbo: '#762c12', // on-secondary-container
+  adverbio: '#613d38', // on-tertiary-fixed-variant
+  conjuncao: '#482824', // tertiary
+  interjeicao: '#ba1a1a', // error
+  numeral: '#7a2f15', // on-secondary-fixed-variant
+  preposicao: '#414845', // on-surface-variant
   punctuation: 'inherit'
 };
 
@@ -29,171 +29,136 @@ const classLabels = {
 };
 
 const grammarAcademyData = {
-  substantivo: { 
-    title: 'Substantivo', 
-    friendlyDesc: 'Tudo no mundo precisa de um nome, né? É aí que entra o Substantivo, o grande astro das nossas frases.',
-    desc: 'Classe morfológica nuclear que nomeia seres, objetos, fenômenos, lugares, qualidades e ações. Sintaticamente, exerce a função de núcleo dos termos essenciais e integrantes da oração.',
+  substantivo: {
+    title: 'Substantivo',
+    friendlyDesc: 'Se o seu texto fosse um corpo, o Substantivo seria o esqueleto. Ele dá nome a tudo: pessoas, lugares, objetos e até o que a gente só sente.',
+    desc: 'Palavra variável que nomeia os seres em geral (pessoas, animais, objetos, lugares, sentimentos, estados, qualidades e ações). É o núcleo de funções sintáticas fundamentais.',
     classifications: [
-      { type: 'Comum / Próprio', details: 'Comum designa seres genéricos da mesma espécie (cidade). Próprio designa um ser específico, grafado em maiúscula (Londres).' },
-      { type: 'Concreto / Abstrato', details: 'Concreto possui existência real ou imaginária (mesa, dragão). Abstrato indica sentimentos ou ações e depende de outro ser (saudade, corrida).' },
-      { type: 'Primitivo / Derivado', details: 'Primitivo não provém de outra palavra (pedra). Derivado origina-se de outra palavra (pedreiro).' },
-      { type: 'Simples / Composto', details: 'Simples possui um único radical (sol). Composto possui dois ou mais radicais (girassol).' },
-      { type: 'Coletivo', details: 'Mesmo no singular, indica uma multiplicidade de seres da mesma espécie (alcateia).' }
+      { type: 'Comum / Próprio', details: 'Comum nomeia a espécie (cidade, homem). Próprio nomeia um ser específico (Paris, João).' },
+      { type: 'Concreto / Abstrato', details: 'Concreto tem existência independente (mesa, mar). Abstrato depende de outro ser (amor, beleza).' },
+      { type: 'Primitivo / Derivado', details: 'Primitivo não vem de outra palavra (pedra). Derivado vem (pedregulho).' }
     ],
     examples: [
-      { base: 'O ', highlight: 'tempo', rest: ' voa rapidamente.' },
-      { base: 'A ', highlight: 'felicidade', rest: ' é feita de pequenos momentos.' },
-      { base: 'Comprei um ', highlight: 'carro', rest: ' novo ontem.' }
-    ],
-    color: classColors.substantivo 
+      { base: 'A ', highlight: 'esperança', rest: ' é uma virtude poderosa.' },
+      { base: 'O ', highlight: 'vento', rest: ' soprava forte no sertão.' }
+    ]
   },
-  artigo: { 
-    title: 'Artigo', 
-    friendlyDesc: 'O Artigo é aquele anfitrião que anuncia a chegada do Substantivo: "Vem aí O carro, vem aí UMA chance".',
-    desc: 'Vocábulo que se antepõe ao substantivo para determiná-lo ou indeterminá-lo, indicando simultaneamente seu gênero e número. É um modificador nominal estrito.', 
-    classifications: [
-      { type: 'Definidos', details: 'Determinam o substantivo de forma precisa e particularizada. São eles: o, a, os, as.' },
-      { type: 'Indefinidos', details: 'Indeterminam o substantivo, tratando-o de forma vaga ou genérica. São eles: um, uma, uns, umas.' }
-    ],
-    examples: [
-      { base: 'Li ', highlight: 'um', rest: ' livro excelente.' },
-      { base: '', highlight: 'A', rest: ' casa amarela foi vendida.' },
-      { base: 'Quero comprar ', highlight: 'uns', rest: ' doces.' }
-    ],
-    color: classColors.artigo 
-  },
-  adjetivo: { 
-    title: 'Adjetivo', 
+  adjetivo: {
+    title: 'Adjetivo',
     friendlyDesc: 'Se a vida fosse um filme, o Adjetivo seria a direção de arte. Ele dá aquele charme, cor e qualidades pro seu texto.',
-    desc: 'Palavra que se junta ao substantivo para atribuir-lhe uma qualidade, estado ou modo de ser. Sintaticamente, funciona como adjunto adnominal ou predicativo.', 
+    desc: 'Palavra que se junta ao substantivo para atribuir-lhe uma qualidade, estado ou modo de ser. Sintaticamente, funciona como adjunto adnominal ou predicativo.',
     classifications: [
-      { type: 'Explicativo / Restritivo', details: 'Explicativo exprime qualidade inerente ao ser (neve branca). Restritivo exprime qualidade acidental (carro branco).' },
-      { type: 'Primitivo / Derivado', details: 'Primitivo (bom, feliz). Derivado, originado de verbos ou substantivos (amável, carnavalesco).' },
-      { type: 'Simples / Composto', details: 'Simples tem um radical (azul). Composto tem mais de um radical (azul-marinho).' },
-      { type: 'Pátrio ou Gentílico', details: 'Indica nacionalidade ou origem geográfica (brasileiro, paulista).' }
+      { type: 'Explicativo / Restritivo', details: 'Explicativo exprime qualidade inerente (neve branca). Restritivo exprime qualidade acidental (carro branco).' },
+      { type: 'Primitivo / Derivado', details: 'Primitivo (bom, feliz). Derivado (amável, carnavalesco).' }
     ],
     examples: [
       { base: 'Que filme ', highlight: 'fantástico', rest: '!' },
-      { base: 'Ela usava um vestido ', highlight: 'vermelho', rest: '.' },
-      { base: 'Tivemos um dia muito ', highlight: 'produtivo', rest: '.' }
-    ],
-    color: classColors.adjetivo 
+      { base: 'Ela usava um vestido ', highlight: 'vermelho', rest: '.' }
+    ]
   },
-  pronome: { 
-    title: 'Pronome', 
-    friendlyDesc: 'O Pronome é tipo aquele dublê de cinema: ele entra no lugar do astro principal para você não precisar repetir a mesma palavra mil vezes.',
-    desc: 'Palavra que substitui (pronome substantivo) ou acompanha (pronome adjetivo) o substantivo, indicando sua posição em relação às pessoas do discurso.', 
+  verbo: {
+    title: 'Verbo',
+    friendlyDesc: 'O Verbo é o motor da sua história. Sem ele, nada acontece. Ele é a ação, o estado ou a mudança que move os seus personagens.',
+    desc: 'Palavra de forma variável que exprime acontecimento representado no tempo (ação, estado, mudança ou fenômeno natural). Flexiona em número, pessoa, modo, tempo e voz.',
     classifications: [
-      { type: 'Pessoais', details: 'Retos exercem função de sujeito (eu, tu, ele); Oblíquos função de complemento (me, mim, te).' },
-      { type: 'Possessivos', details: 'Indicam posse em relação às pessoas do discurso (meu, sua, nosso).' },
-      { type: 'Demonstrativos', details: 'Situam os seres no tempo ou espaço (este, esse, aquele).' },
-      { type: 'Relativos', details: 'Retomam um termo anterior, ligando orações (que, o qual, onde).' },
-      { type: 'Indefinidos', details: 'Referem-se à 3ª pessoa de forma vaga (alguém, tudo, nenhum).' },
-      { type: 'Interrogativos', details: 'Usados em perguntas diretas ou indiretas (que, quem, qual, quanto).' }
+      { type: 'Regular / Irregular', details: 'Regular segue o radical padrão. Irregular sofre alterações profundas (ser, ir).' },
+      { type: 'Transitivo / Intransitivo', details: 'Transitivo exige complemento (comprei um livro). Intransitivo tem sentido completo (ele morreu).' }
     ],
     examples: [
-      { base: '', highlight: 'Ela', rest: ' resolveu o problema rapidamente.' },
-      { base: 'Este livro é ', highlight: 'meu', rest: '.' },
-      { base: '', highlight: 'Quem', rest: ' deixou a porta aberta?' }
-    ],
-    color: classColors.pronome 
+      { base: 'A chuva ', highlight: 'caiu', rest: ' e ela ficou triste.' },
+      { base: 'O autor ', highlight: 'escreveu', rest: ' uma obra-prima.' }
+    ]
   },
-  verbo: { 
-    title: 'Verbo', 
-    friendlyDesc: 'Sabe aquela palavra que faz a ação acontecer e bota a frase pra se mexer? Esse é o Verbo, o verdadeiro motor da história.',
-    desc: 'Núcleo do predicado verbal que exprime processo (ação, estado, ou fenômeno meteorológico), flexionando-se em pessoa, número, tempo, modo e voz.', 
+  adverbio: {
+    title: 'Advérbio',
+    friendlyDesc: 'O Advérbio é o "ajuste fino". Ele diz onde, quando e como a ação aconteceu, mudando o tom da sua narração.',
+    desc: 'Palavra invariável que modifica o sentido do verbo, do adjetivo ou de outro advérbio, indicando uma circunstância (lugar, tempo, modo, intensidade, negação, etc.).',
     classifications: [
-      { type: 'Regulares / Irregulares', details: 'Regulares mantêm o radical inalterado. Irregulares sofrem alteração (fazer -> faço).' },
-      { type: 'Anômalos / Defectivos', details: 'Anômalos mudam profundamente o radical (ser -> sou/fui). Defectivos não possuem conjugação completa (falir).' },
-      { type: 'Transitividade', details: 'Direta (sem preposição), Indireta (com preposição), Intransitivos (sentido completo) e de Ligação (indicam estado).' }
+      { type: 'Modo / Tempo', details: 'Modo (bem, mal, rapidamente). Tempo (ontem, agora, jamais).' },
+      { type: 'Lugar / Intensidade', details: 'Lugar (aqui, lá, longe). Intensidade (muito, pouco, bastante).' }
     ],
     examples: [
-      { base: 'Nós ', highlight: 'corremos', rest: ' no parque todos os dias.' },
-      { base: 'Hoje ', highlight: 'choveu', rest: ' bastante na cidade.' },
-      { base: 'Eles ', highlight: 'estão', rest: ' muito cansados.' }
-    ],
-    color: classColors.verbo 
+      { base: 'Ele correu ', highlight: 'rapidamente', rest: ' para casa.' },
+      { base: 'Ela chegou ', highlight: 'ontem', rest: ' à noite.' }
+    ]
   },
-  adverbio: { 
-    title: 'Advérbio', 
-    friendlyDesc: 'O Advérbio é o narrador fofoqueiro: ele te conta exatamente COMO, ONDE e QUANDO a cena aconteceu.',
-    desc: 'Palavra invariável que atua primariamente como modificador do verbo, exprimindo uma circunstância. Pode também intensificar adjetivos ou advérbios.', 
+  pronome: {
+    title: 'Pronome',
+    friendlyDesc: 'O Pronome é o elenco substituto. Ele evita que seu texto fique cansativo, substituindo nomes e organizando quem é quem no seu diálogo.',
+    desc: 'Palavra que substitui ou acompanha o substantivo, indicando a relação das pessoas do discurso ou situando-o no tempo e no espaço.',
     classifications: [
-      { type: 'Lugar e Tempo', details: 'Circunstância espacial (aqui, lá, perto) ou temporal (hoje, sempre, nunca).' },
-      { type: 'Modo', details: 'Indica a maneira como a ação ocorre (bem, mal, rapidamente).' },
-      { type: 'Intensidade', details: 'Atua como quantificador ou graduador (muito, pouco, bastante).' },
-      { type: 'Afirmação, Negação, Dúvida', details: 'Afirmação (sim, decerto), Negação (não, jamais) e Dúvida (talvez, quiçá).' }
+      { type: 'Pessoal / Possessivo', details: 'Pessoal (eu, tu, ele). Possessivo (meu, seu, nosso).' },
+      { type: 'Demonstrativo / Relativo', details: 'Demonstrativo (este, aquele). Relativo (que, o qual, cujo).' }
     ],
     examples: [
-      { base: 'Eles chegaram ', highlight: 'muito', rest: ' cedo.' },
-      { base: 'Ela cantou ', highlight: 'maravilhosamente', rest: ' bem na apresentação.' },
-      { base: '', highlight: 'Talvez', rest: ' eu viaje amanhã.' }
-    ],
-    color: classColors.adverbio 
+      { base: '', highlight: 'Ela', rest: ' trouxe o seu próprio material.' },
+      { base: 'Este livro é ', highlight: 'meu', rest: '.' }
+    ]
   },
-  conjuncao: { 
-    title: 'Conjunção', 
-    friendlyDesc: 'Pense na Conjunção como uma super cola. É ela que junta as partes do seu texto para não ficar tudo solto e sem sentido.',
-    desc: 'Palavra invariável cuja função estrita é conectar termos de mesma função sintática ou ligar orações, estabelecendo entre elas relações lógicas.', 
+  preposicao: {
+    title: 'Preposição',
+    friendlyDesc: 'A Preposição é o cimento. Ela une as palavras e cria pontes de sentido que mantêm o seu texto firme e coeso.',
+    desc: 'Palavra invariável que liga dois termos da oração, estabelecendo entre eles uma relação de dependência e significado.',
     classifications: [
-      { type: 'Coordenativas', details: 'Ligam elementos independentes: Aditivas (e), Adversativas (mas), Alternativas (ou), Conclusivas (logo) ou Explicativas (pois).' },
-      { type: 'Subordinativas', details: 'Ligam orações dependentes: Causais (porque), Condicionais (se), Concessivas (embora), Temporais (quando), Finais (para que), etc.' }
+      { type: 'Essenciais', details: 'Sempre funcionam como preposição (a, de, em, por, com, para).' },
+      { type: 'Acidentais', details: 'Palavras de outras classes que podem agir como preposição (como, conforme, consoante).' }
     ],
     examples: [
-      { base: 'Estudou muito, ', highlight: 'mas', rest: ' não passou.' },
-      { base: 'Vou comprar pão ', highlight: 'e', rest: ' leite.' },
-      { base: 'Não sairemos ', highlight: 'se', rest: ' estiver chovendo.' }
-    ],
-    color: classColors.conjuncao 
+      { base: 'O livro está ', highlight: 'sobre', rest: ' a mesa.' },
+      { base: 'Café ', highlight: 'com', rest: ' leite é clássico.' }
+    ]
   },
-  interjeicao: { 
-    title: 'Interjeição', 
-    friendlyDesc: 'Uau! Eita! Socorro! A Interjeição é pura emoção e grito solto, perfeita pra trazer aquela dramaticidade pro papel.',
-    desc: 'Palavra-frase invariável que constitui um enunciado autônomo, exprimindo emoções, reações súbitas, apelos ou sentimentos do emissor.', 
+  conjuncao: {
+    title: 'Conjunção',
+    friendlyDesc: 'A Conjunção é a engenharia do texto. Ela liga orações e ideias, decidindo se elas vão se somar, se opor ou se explicar.',
+    desc: 'Palavra invariável que liga duas orações ou dois termos de mesma função sintática, estabelecendo relações lógicas de coordenação ou subordinação.',
     classifications: [
-      { type: 'Alegria e Aplauso', details: 'Ex: oba!, viva!, bravo!, bis!' },
-      { type: 'Dor e Surpresa', details: 'Ex: ai!, ui!, nossa!, caramba!, puxa!' },
-      { type: 'Apelo e Silêncio', details: 'Ex: psit!, alô!, psiu!, silêncio!' },
-      { type: 'Locução Interjetiva', details: 'Duas ou mais palavras com valor de interjeição (ex: Virgem Maria!, Cruz credo!).' }
+      { type: 'Adversativa / Aditiva', details: 'Adversativa indica oposição (mas, porém). Aditiva indica soma (e, nem).' },
+      { type: 'Causal / Conclusiva', details: 'Causal indica motivo (porque). Conclusiva indica resultado (logo, portanto).' }
     ],
     examples: [
-      { base: '', highlight: 'Nossa', rest: '! Que susto você me deu.' },
-      { base: '', highlight: 'Puxa', rest: ', eu não esperava por isso.' },
-      { base: '', highlight: 'Ah', rest: ', agora eu entendi o problema!' }
-    ],
-    color: classColors.interjeicao 
+      { base: 'Estudei muito, ', highlight: 'mas', rest: ' não passei.' },
+      { base: 'Saímos cedo ', highlight: 'porque', rest: ' ia chover.' }
+    ]
   },
-  numeral: { 
-    title: 'Numeral', 
-    friendlyDesc: 'Se tem matemática no texto, o Numeral tá na área pra organizar a fila e dizer a quantidade e a ordem exata das coisas.',
-    desc: 'Palavra que exprime a quantidade exata de pessoas ou coisas, bem como a posição ou lugar que elas ocupam numa determinada sequência.', 
+  artigo: {
+    title: 'Artigo',
+    friendlyDesc: 'O Artigo é a lente da câmera. Ele decide se você está focando em um personagem específico ou em qualquer um na multidão.',
+    desc: 'Palavra que se antepõe ao substantivo para determiná-lo ou indeterminá-lo, indicando também o gênero e o número.',
     classifications: [
-      { type: 'Cardinais', details: 'Indicam a quantidade exata de seres (um, dois, mil).' },
-      { type: 'Ordinais', details: 'Indicam a posição ou ordem que o ser ocupa numa série (primeiro, décimo).' },
-      { type: 'Multiplicativos', details: 'Exprimem o número de vezes pelo qual uma quantidade é multiplicada (dobro, triplo).' },
-      { type: 'Fracionários', details: 'Exprimem a divisão ou fração de uma quantidade (meio, terço).' }
+      { type: 'Definidos', details: 'Precisam o ser de forma específica (o, a, os, as).' },
+      { type: 'Indefinidos', details: 'Apresentam o ser de forma genérica (um, uma, uns, umas).' }
     ],
     examples: [
-      { base: 'Comprei ', highlight: 'três', rest: ' maçãs no mercado.' },
-      { base: 'Ele foi o ', highlight: 'primeiro', rest: ' a chegar na corrida.' },
-      { base: 'Comi ', highlight: 'metade', rest: ' da pizza.' }
-    ],
-    color: classColors.numeral 
+      { base: '', highlight: 'O', rest: ' autor escreveu uma obra excelente.' },
+      { base: 'Vi ', highlight: 'uma', rest: ' estrela cadente.' }
+    ]
   },
-  preposicao: { 
-    title: 'Preposição', 
-    friendlyDesc: 'A Preposição é a pontezinha de madeira que liga uma palavra na outra e faz a relação entre elas funcionar direitinho.',
-    desc: 'Palavra invariável que atua como conectivo subordinativo, ligando um termo dependente a um regente de modo a estabelecer relações de sentido.', 
+  numeral: {
+    title: 'Numeral',
+    friendlyDesc: 'O Numeral é o contador da história. Ele traz precisão, ritmo e ordem para os detalhes que importam na sua cena.',
+    desc: 'Palavra que indica quantidade exata de seres ou o lugar que eles ocupam numa série.',
     classifications: [
-      { type: 'Essenciais', details: 'Palavras que sempre funcionam como preposição (a, ante, após, até, com, contra, de, desde, em, entre, para, perante, por, sem, sob, sobre, trás).' },
-      { type: 'Acidentais', details: 'Palavras de outras classes que, em determinados contextos, atuam como preposições (como, conforme, consoante, segundo, mediante, exceto).' }
+      { type: 'Cardinal / Ordinal', details: 'Cardinal indica quantidade (um, dois). Ordinal indica ordem (primeiro, décimo).' },
+      { type: 'Multiplicativo', details: 'Indica aumento proporcional (dobro, triplo).' }
     ],
     examples: [
-      { base: 'Fui ', highlight: 'para', rest: ' casa cedo.' },
-      { base: 'Café ', highlight: 'com', rest: ' leite é delicioso.' },
-      { base: 'Estou caminhando ', highlight: 'até', rest: ' o centro da cidade.' }
+      { base: 'Foram ', highlight: 'dois', rest: ' dias de viagem.' },
+      { base: 'Ele chegou em ', highlight: 'primeiro', rest: ' lugar.' }
+    ]
+  },
+  interjeicao: {
+    title: 'Interjeição',
+    friendlyDesc: 'A Interjeição é a alma pura do texto. É o grito, o suspiro ou o espanto que traduz a emoção imediata de quem vive a cena.',
+    desc: 'Palavra (ou locução) invariável que exprime emoções, sentimentos, estados de espírito ou apelos súbitos.',
+    classifications: [
+      { type: 'Alívio / Dor', details: 'Alívio (Ufa! Ah!). Dor (Ai! Ui!).' },
+      { type: 'Admiração / Apelo', details: 'Admiração (Nossa! Oh!). Apelo (Psiu! Ei!).' }
     ],
-    color: classColors.preposicao 
+    examples: [
+      { base: '', highlight: 'Ufa', rest: '! O perigo passou.' },
+      { base: '', highlight: 'Nossa', rest: ', que vista incrível!' }
+    ]
   }
 };
 
@@ -202,69 +167,105 @@ export function GrammarViewer({ text }) {
   const [selectedClass, setSelectedClass] = useState(null);
 
   return (
-    <div className="grammar-viewer-container">
-      <div className="grammar-viewer">
+    <div className="flex flex-col gap-8 w-full max-w-4xl mx-auto py-8">
+      {/* Editor/Text Display */}
+      <div className="bg-white dark:bg-stone-900/50 p-8 rounded-xl shadow-sm border border-stone-200 dark:border-stone-800 font-body-reading text-body-reading leading-relaxed">
         {tokens.map((t, i) => (
           <span 
             key={i} 
             style={{ color: t.isWord ? classColors[t.tag] : 'inherit' }}
-            data-tooltip={t.isWord ? classLabels[t.tag] || t.tag : ''}
-            className={`grammar-token ${t.isWord ? 'is-word' : ''}`}
+            className={`transition-all duration-200 ${t.isWord ? 'font-medium cursor-help hover:opacity-70 underline decoration-dotted decoration-2 underline-offset-4' : ''}`}
+            onClick={() => t.isWord && setSelectedClass(t.tag)}
+            title={t.isWord ? classLabels[t.tag] || t.tag : ''}
           >
             {t.text}
           </span>
         ))}
       </div>
-      <div className="grammar-legend">
+
+      {/* Legend / Filter */}
+      <div className="flex flex-wrap gap-2 justify-center">
         {Object.entries(classColors).filter(([tag]) => tag !== 'punctuation').map(([tag, color]) => (
-          <div 
+          <button 
             key={tag} 
-            className={`legend-item ${selectedClass === tag ? 'active' : ''}`}
+            className={`px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all border flex items-center gap-2 ${
+              selectedClass === tag 
+                ? 'bg-stone-900 text-white border-stone-900 dark:bg-emerald-500 dark:text-stone-950 dark:border-emerald-500 shadow-md scale-105' 
+                : 'bg-white text-stone-500 border-stone-200 hover:border-stone-400 dark:bg-stone-800 dark:text-stone-400 dark:border-stone-700'
+            }`}
             onClick={() => setSelectedClass(selectedClass === tag ? null : tag)}
           >
-            <span className="legend-color" style={{ backgroundColor: color }}></span>
+            <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }}></span>
             {classLabels[tag] || tag}
-          </div>
+          </button>
         ))}
       </div>
       
+      {/* Detail Card */}
       {selectedClass && grammarAcademyData[selectedClass] && (
-        <div className="grammar-academy-card">
-          <div className="academy-header">
-            <span className="academy-dot" style={{ backgroundColor: grammarAcademyData[selectedClass].color }}></span>
-            <h4>{grammarAcademyData[selectedClass].title}</h4>
-          </div>
-          <p className="academy-friendly-desc">{grammarAcademyData[selectedClass].friendlyDesc}</p>
-          <div className="academy-divider"></div>
-          <p className="academy-desc">{grammarAcademyData[selectedClass].desc}</p>
-          
-          {grammarAcademyData[selectedClass].classifications && (
-            <div className="academy-classifications">
-              <h5 className="classifications-title">Tipologia e Classificações</h5>
-              <ul>
-                {grammarAcademyData[selectedClass].classifications.map((item, idx) => (
-                  <li key={idx} className="classification-item">
-                    <span className="classification-type" style={{ color: grammarAcademyData[selectedClass].color }}>
-                      {item.type}:
-                    </span>{' '}
-                    {item.details}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          <h5 className="classifications-title" style={{ marginTop: '1.5rem' }}>Exemplos Práticos</h5>
-          <div className="academy-examples-list">
-            {grammarAcademyData[selectedClass].examples.map((ex, i) => (
-              <div key={i} className="academy-example">
-                <strong>Ex. {i + 1}:</strong> "{ex.base}
-                <span style={{ color: grammarAcademyData[selectedClass].color, fontWeight: 'bold' }}>
-                  {ex.highlight}
-                </span>
-                {ex.rest}"
+        <div className="bg-white dark:bg-stone-900 rounded-2xl shadow-xl border-l-4 overflow-hidden transition-all duration-300 animate-in fade-in slide-in-from-bottom-4" style={{ borderLeftColor: classColors[selectedClass] }}>
+          <div className="p-8 space-y-6">
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-xl bg-stone-100 dark:bg-stone-800" style={{ color: classColors[selectedClass] }}>
+                <span className="material-symbols-outlined text-3xl">menu_book</span>
               </div>
-            ))}
+              <div>
+                <h4 className="text-2xl font-display-lg font-bold text-stone-800 dark:text-stone-100 italic">{grammarAcademyData[selectedClass].title}</h4>
+                <p className="text-sm text-stone-400 font-medium uppercase tracking-widest">Academia Gramatical</p>
+              </div>
+            </div>
+
+            <p className="text-lg font-body-reading italic text-stone-600 dark:text-stone-300 leading-relaxed">
+              "{grammarAcademyData[selectedClass].friendlyDesc}"
+            </p>
+
+            <div className="h-px bg-stone-100 dark:bg-stone-800"></div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <h5 className="text-xs font-bold uppercase tracking-widest text-primary">Definição Técnica</h5>
+                <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed">
+                  {grammarAcademyData[selectedClass].desc}
+                </p>
+
+                {grammarAcademyData[selectedClass].classifications && (
+                  <div className="space-y-3 pt-4">
+                    <h5 className="text-xs font-bold uppercase tracking-widest text-primary">Tipologia</h5>
+                    <div className="space-y-3">
+                      {grammarAcademyData[selectedClass].classifications.map((item, idx) => (
+                        <div key={idx} className="group">
+                          <div className="text-xs font-bold mb-1 transition-colors" style={{ color: classColors[selectedClass] }}>{item.type}</div>
+                          <div className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">{item.details}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-4 bg-stone-50 dark:bg-stone-800/50 p-6 rounded-xl border border-stone-100 dark:border-stone-800">
+                <h5 className="text-xs font-bold uppercase tracking-widest text-primary">Exemplos Práticos</h5>
+                <div className="space-y-4">
+                  {grammarAcademyData[selectedClass].examples.map((ex, i) => (
+                    <div key={i} className="text-sm font-body-reading leading-relaxed">
+                      <span className="text-stone-400 mr-2">Ex.{i + 1}</span>
+                      <span className="text-stone-700 dark:text-stone-300">
+                        "{ex.base}
+                        <span className="font-bold underline decoration-2 underline-offset-4" style={{ color: classColors[selectedClass] }}>
+                          {ex.highlight}
+                        </span>
+                        {ex.rest}"
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="px-8 py-4 bg-stone-100 dark:bg-stone-800/80 flex justify-between items-center">
+            <span className="text-[10px] text-stone-400 uppercase tracking-widest">Módulo Academia Literária • Vereda 2026</span>
+            <button onClick={() => setSelectedClass(null)} className="text-xs font-bold text-stone-500 hover:text-stone-800 dark:hover:text-stone-200 transition-colors uppercase tracking-widest">Fechar</button>
           </div>
         </div>
       )}

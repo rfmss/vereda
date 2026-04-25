@@ -24,7 +24,7 @@ export const RichTextEditor = ({ content, onChange, onFocus, onBlur, onKeyDown, 
     onBlur,
     editorProps: {
       attributes: {
-        class: 'editor-textarea tiptap-editor',
+        class: 'prose prose-stone dark:prose-invert prose-lg max-w-none focus:outline-none min-h-[500px] font-body-reading text-body-reading leading-relaxed selection:bg-primary/20 selection:text-primary-container',
         spellcheck: 'false'
       },
       handleKeyDown: (view, event) => {
