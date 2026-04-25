@@ -111,7 +111,7 @@
     </style>
   </head>
   <body class="bg-background text-on-background min-h-screen flex flex-col md:flex-row overflow-hidden font-body-ui text-body-ui">
-    <header class="md:hidden flex justify-between items-center px-8 h-16 w-full bg-[#F2EFE9] dark:bg-stone-900 border-b border-stone-200/50 dark:border-stone-800 shrink-0 z-20 transition-opacity duration-700 ease-in-out">
+    <header class="md:hidden flex justify-between items-center px-8 h-16 w-full bg-[#F2EFE9] dark:bg-stone-900 border-b border-stone-200/50 dark:border-stone-800 shrink-0 z-20">
       <div class="font-display-lg text-h2 italic font-bold text-[#2E4D43] dark:text-emerald-500 tracking-tight">Vereda</div>
       <div class="flex items-center gap-4">
         <span class="text-[#2E4D43] dark:text-emerald-400 font-semibold border-b-2 border-[#2E4D43] pb-1">Escrever</span>
@@ -119,13 +119,12 @@
       </div>
       <div class="flex items-center gap-4 text-[#2E4D43] dark:text-emerald-400">
         <span class="font-helper-text text-helper-text">Salvo</span>
-        <button class="focus-btn material-symbols-outlined text-primary hover:text-primary transition-colors cursor-pointer focus:outline-none" data-icon="center_focus_strong" title="Modo foco">center_focus_strong</button>
         <span class="material-symbols-outlined hover:text-[#2E4D43] dark:hover:text-emerald-300 transition-colors cursor-pointer" data-icon="visibility_off">visibility_off</span>
         <span class="material-symbols-outlined hover:text-[#2E4D43] dark:hover:text-emerald-300 transition-colors cursor-pointer" data-icon="settings">settings</span>
       </div>
     </header>
 
-    <nav class="hidden md:flex fixed left-0 top-0 flex-col h-full py-6 w-sidebar-width border-r border-stone-200 dark:border-stone-800 bg-[#F2EFE9] dark:bg-stone-950 z-20 shrink-0 transition-all duration-700 ease-in-out" id="sidebar">
+    <nav class="hidden md:flex fixed left-0 top-0 flex-col h-full py-6 w-sidebar-width border-r border-stone-200 dark:border-stone-800 bg-[#F2EFE9] dark:bg-stone-950 z-20 shrink-0">
       <div class="px-6 mb-8">
         <div class="font-display-lg text-h1 italic text-[#2E4D43] dark:text-emerald-500">Vereda</div>
         <div class="font-helper-text text-helper-text text-on-surface-variant mt-1">Escrita Criativa</div>
@@ -165,8 +164,8 @@
       </div>
     </nav>
 
-    <main class="flex-1 flex flex-col md:ml-[280px] h-screen overflow-hidden relative bg-surface transition-all duration-700 ease-in-out" id="main-content">
-      <div class="hidden md:flex justify-between items-center px-8 h-16 w-full shrink-0 z-10 sticky top-0 bg-surface/80 backdrop-blur-sm transition-opacity duration-700 ease-in-out">
+    <main class="flex-1 flex flex-col md:ml-[280px] xl:mr-[280px] h-screen overflow-hidden relative bg-surface">
+      <div class="hidden md:flex justify-between items-center px-8 h-16 w-full shrink-0 z-10 sticky top-0 bg-surface/80 backdrop-blur-sm">
         <div class="flex items-center gap-6">
           <span class="font-body-ui text-body-ui text-on-surface-variant">Veredas do Sertão</span>
         </div>
@@ -180,7 +179,6 @@
               <span class="material-symbols-outlined text-[16px]" data-icon="cloud_done">cloud_done</span>
               Salvo
             </span>
-            <button class="focus-btn material-symbols-outlined text-primary hover:text-primary transition-colors cursor-pointer focus:outline-none" data-icon="center_focus_strong" title="Modo foco">center_focus_strong</button>
             <span class="material-symbols-outlined hover:text-primary transition-colors cursor-pointer" data-icon="visibility">visibility</span>
           </div>
         </div>
@@ -188,7 +186,7 @@
 
       <div class="flex-1 overflow-y-auto px-4 md:px-0">
         <div class="max-w-container-max-width mx-auto py-margin-focus px-gutter md:px-0 relative">
-          <div class="absolute -left-16 top-32 hidden lg:flex flex-col gap-2 bg-surface-container shadow-sm border border-outline-variant/30 rounded p-2 text-on-surface-variant transition-opacity duration-700 ease-in-out" id="floating-toolbar">
+          <div class="absolute -left-16 top-32 hidden lg:flex flex-col gap-2 bg-surface-container shadow-sm border border-outline-variant/30 rounded p-2 text-on-surface-variant">
             <button class="p-1 hover:bg-surface-variant rounded hover:text-primary transition-colors" title="Negrito">
               <span class="material-symbols-outlined text-[20px]" data-icon="format_bold">format_bold</span>
             </button>
@@ -217,63 +215,70 @@
       </div>
     </main>
 
-    <script>
-      const editor = document.querySelector('[contenteditable="true"]')
-      const titleInput = document.querySelector('input[type="text"]')
-      const sidebar = document.getElementById('sidebar')
-      const mainContent = document.getElementById('main-content')
-      const topbars = document.querySelectorAll('header, .sticky.top-0')
-      const floatingToolbar = document.getElementById('floating-toolbar')
-      const focusBtns = document.querySelectorAll('.focus-btn')
+    <aside class="hidden xl:flex fixed right-0 top-0 flex-col h-full py-6 w-sidebar-width border-l border-stone-200 dark:border-stone-800 bg-[#F2EFE9] dark:bg-stone-950 z-20 shrink-0">
+      <div class="px-6 mb-8 flex items-center justify-between">
+        <div class="font-h2 text-h2 text-on-surface">Revisão</div>
+        <span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="close">close</span>
+      </div>
+      <div class="flex-1 overflow-y-auto px-6 flex flex-col gap-8">
+        <section>
+          <h3 class="font-label-caps text-label-caps text-on-surface-variant mb-3 uppercase tracking-wider flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px]" data-icon="spellcheck">spellcheck</span>
+            Gramática
+          </h3>
+          <div class="bg-surface p-4 rounded border border-outline-variant/30 shadow-sm text-sm">
+            <div class="flex items-center gap-3 text-primary">
+              <span class="material-symbols-outlined text-[20px]" data-icon="check_circle">check_circle</span>
+              <p class="font-semibold">Nenhum erro encontrado.</p>
+            </div>
+            <p class="text-on-surface-variant mt-2">O texto parece bem escrito e de acordo com as normas.</p>
+          </div>
+        </section>
 
-      let isFocusEnabled = true
-      let typingTimer
-      const doneTypingInterval = 2500
+        <section>
+          <h3 class="font-label-caps text-label-caps text-on-surface-variant mb-3 uppercase tracking-wider flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px]" data-icon="style">style</span>
+            Sugestões de Estilo
+          </h3>
+          <div class="bg-surface p-4 rounded border border-outline-variant/30 shadow-sm text-sm space-y-4">
+            <div class="flex gap-3">
+              <span class="material-symbols-outlined text-secondary text-[20px] shrink-0" data-icon="lightbulb">lightbulb</span>
+              <div>
+                <p class="text-on-surface font-semibold mb-1">Ritmo Lento</p>
+                <p class="text-on-surface-variant">O trecho "Ele caminhava devagar" poderia ser substituído por um verbo mais expressivo para denotar o cansaço.</p>
+                <div class="mt-2 flex gap-2">
+                  <button class="text-xs bg-secondary-container text-on-secondary-container px-2 py-1 rounded hover:opacity-90 transition-opacity">arrastava-se</button>
+                  <button class="text-xs bg-secondary-container text-on-secondary-container px-2 py-1 rounded hover:opacity-90 transition-opacity">vagueava</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-      focusBtns.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          isFocusEnabled = !isFocusEnabled
-          focusBtns.forEach((button) => {
-            if (isFocusEnabled) {
-              button.classList.add('text-primary')
-              button.classList.remove('text-on-surface-variant')
-            } else {
-              button.classList.remove('text-primary')
-              button.classList.add('text-on-surface-variant')
-            }
-          })
-
-          if (!isFocusEnabled) {
-            exitFocusMode()
-          }
-        })
-      })
-
-      function enterFocusMode() {
-        if (!isFocusEnabled) return
-        sidebar?.classList.add('-translate-x-full', 'opacity-0')
-        mainContent?.classList.remove('md:ml-[280px]')
-        topbars.forEach((topbar) => topbar.classList.add('opacity-0', 'pointer-events-none'))
-        floatingToolbar?.classList.add('opacity-0', 'pointer-events-none')
-      }
-
-      function exitFocusMode() {
-        sidebar?.classList.remove('-translate-x-full', 'opacity-0')
-        mainContent?.classList.add('md:ml-[280px]')
-        topbars.forEach((topbar) => topbar.classList.remove('opacity-0', 'pointer-events-none'))
-        floatingToolbar?.classList.remove('opacity-0', 'pointer-events-none')
-      }
-
-      function handleTyping() {
-        clearTimeout(typingTimer)
-        enterFocusMode()
-        typingTimer = setTimeout(exitFocusMode, doneTypingInterval)
-      }
-
-      editor?.addEventListener('input', handleTyping)
-      editor?.addEventListener('keydown', handleTyping)
-      titleInput?.addEventListener('input', handleTyping)
-      titleInput?.addEventListener('keydown', handleTyping)
-    </script>
+        <section>
+          <h3 class="font-label-caps text-label-caps text-on-surface-variant mb-3 uppercase tracking-wider flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px]" data-icon="flag">flag</span>
+            Metas de Escrita
+          </h3>
+          <div class="bg-surface p-4 rounded border border-outline-variant/30 shadow-sm text-sm space-y-4">
+            <div>
+              <div class="flex justify-between items-center text-on-surface-variant mb-2">
+                <span>Palavras (Capítulo)</span>
+                <span class="font-semibold text-on-surface">142 / 500</span>
+              </div>
+              <div class="w-full bg-surface-variant rounded-full h-2">
+                <div class="bg-primary h-2 rounded-full" style="width: 28%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between items-center text-on-surface-variant mb-2">
+                <span>Tempo de Leitura</span>
+                <span class="font-semibold text-on-surface">~1 min</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </aside>
   </body>
 </html>
