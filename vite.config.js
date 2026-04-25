@@ -15,6 +15,7 @@ export default defineConfig({
         organize: resolve(__dirname, 'organize-se.html'),
         pohwEditor: resolve(__dirname, 'editor-pohw.html'),
         digitalRegistry: resolve(__dirname, 'cartorio-digital.html'),
+        linguisticAnalysis: resolve(__dirname, 'analise-linguistica.html'),
       },
     },
   },

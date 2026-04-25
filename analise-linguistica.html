@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Vereda - Análise Linguística</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-high": "#eae7e7",
+              outline: "#727975",
+              "surface-container-highest": "#e4e2e1",
+              "on-tertiary-fixed": "#2f1310",
+              "on-primary-fixed": "#002018",
+              "surface-variant": "#e4e2e1",
+              "on-error-container": "#93000a",
+              "on-tertiary-container": "#dbaaa3",
+              "secondary-fixed": "#ffdbd0",
+              secondary: "#99462a",
+              background: "#fcf9f8",
+              "on-secondary": "#ffffff",
+              "secondary-fixed-dim": "#ffb59e",
+              error: "#ba1a1a",
+              "on-primary-container": "#9bbdb0",
+              tertiary: "#482824",
+              "surface-container-lowest": "#ffffff",
+              "surface-container": "#f0eded",
+              "error-container": "#ffdad6",
+              "tertiary-fixed-dim": "#edbbb3",
+              "surface-container-low": "#f6f3f2",
+              "secondary-container": "#fe9572",
+              "on-tertiary-fixed-variant": "#613d38",
+              "on-surface": "#1b1c1c",
+              "on-primary-fixed-variant": "#2e4d43",
+              "surface-bright": "#fcf9f8",
+              "on-error": "#ffffff",
+              "inverse-surface": "#303030",
+              "on-background": "#1b1c1c",
+              "inverse-primary": "#accec1",
+              "on-surface-variant": "#414845",
+              "primary-fixed-dim": "#accec1",
+              "on-secondary-container": "#762c12",
+              "surface-tint": "#45655a",
+              "primary-fixed": "#c7eadc",
+              "primary-container": "#2e4d43",
+              "on-tertiary": "#ffffff",
+              "tertiary-container": "#623e39",
+              "inverse-on-surface": "#f3f0f0",
+              "on-secondary-fixed": "#390b00",
+              "tertiary-fixed": "#ffdad5",
+              primary: "#17362d",
+              "on-primary": "#ffffff",
+              "surface-dim": "#dcd9d9",
+              "outline-variant": "#c1c8c4",
+              surface: "#fcf9f8",
+              "on-secondary-fixed-variant": "#7a2f15"
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem"
+            },
+            spacing: {
+              "sidebar-width": "280px",
+              gutter: "24px",
+              "margin-focus": "64px",
+              unit: "8px",
+              "container-max-width": "720px"
+            },
+            fontFamily: {
+              "body-ui": ["Manrope"],
+              "label-caps": ["Manrope"],
+              "helper-text": ["Manrope"],
+              "body-reading": ["Newsreader"],
+              h1: ["Manrope"],
+              "display-lg": ["Newsreader"],
+              h2: ["Manrope"]
+            },
+            fontSize: {
+              "body-ui": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "700" }],
+              "helper-text": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              "body-reading": ["20px", { lineHeight: "34px", fontWeight: "400" }],
+              h1: ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }],
+              "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "600" }],
+              h2: ["24px", { lineHeight: "32px", fontWeight: "600" }]
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-background font-body-ui text-body-ui h-screen overflow-hidden flex">
+    <nav class="h-full w-64 border-r border-stone-200 dark:border-stone-800 bg-[#F2EFE9] dark:bg-stone-950 text-[#2E4D43] dark:text-emerald-400 font-sans text-xs uppercase tracking-widest font-medium fixed left-0 top-0 flex flex-col pt-20 z-20">
+      <div class="px-6 mb-8">
+        <h2 class="text-stone-800 dark:text-stone-100 font-bold text-sm tracking-wider">Análise</h2>
+        <p class="text-stone-500 dark:text-stone-400 mt-1">Processamento Vereda</p>
+      </div>
+      <div class="flex-1 flex flex-col gap-1">
+        <a class="flex items-center gap-3 border-l-2 border-[#2E4D43] dark:border-emerald-400 bg-stone-200/50 dark:bg-stone-900 text-[#2E4D43] dark:text-emerald-400 px-6 py-4 duration-200 ease-out" href="#">
+          <span class="material-symbols-outlined text-[20px]">segment</span>
+          Morfologia
+        </a>
+        <a class="flex items-center gap-3 text-stone-500 dark:text-stone-400 px-6 py-4 hover:bg-stone-100 dark:hover:bg-stone-900/50 hover:text-stone-800 dark:hover:text-stone-200 transition-all duration-200 ease-out" href="#">
+          <span class="material-symbols-outlined text-[20px]">account_tree</span>
+          Sintaxe
+        </a>
+        <a class="flex items-center gap-3 text-stone-500 dark:text-stone-400 px-6 py-4 hover:bg-stone-100 dark:hover:bg-stone-900/50 hover:text-stone-800 dark:hover:text-stone-200 transition-all duration-200 ease-out" href="#">
+          <span class="material-symbols-outlined text-[20px]">psychology</span>
+          Semântica
+        </a>
+        <a class="flex items-center gap-3 text-stone-500 dark:text-stone-400 px-6 py-4 hover:bg-stone-100 dark:hover:bg-stone-900/50 hover:text-stone-800 dark:hover:text-stone-200 transition-all duration-200 ease-out" href="#">
+          <span class="material-symbols-outlined text-[20px]">format_quote</span>
+          Léxico
+        </a>
+        <a class="flex items-center gap-3 text-stone-500 dark:text-stone-400 px-6 py-4 hover:bg-stone-100 dark:hover:bg-stone-900/50 hover:text-stone-800 dark:hover:text-stone-200 transition-all duration-200 ease-out" href="#">
+          <span class="material-symbols-outlined text-[20px]">bar_chart</span>
+          Estatística
+        </a>
+      </div>
+      <div class="mt-auto border-t border-stone-200 dark:border-stone-800 pt-2 pb-4">
+        <a class="flex items-center gap-3 text-stone-500 dark:text-stone-400 px-6 py-4 hover:bg-stone-100 dark:hover:bg-stone-900/50 hover:text-stone-800 dark:hover:text-stone-200 transition-all duration-200 ease-out" href="#">
+          <span class="material-symbols-outlined text-[20px]">download</span>
+          Exportar
+        </a>
+        <a class="flex items-center gap-3 text-stone-500 dark:text-stone-400 px-6 py-4 hover:bg-stone-100 dark:hover:bg-stone-900/50 hover:text-stone-800 dark:hover:text-stone-200 transition-all duration-200 ease-out" href="#">
+          <span class="material-symbols-outlined text-[20px]">settings</span>
+          Ajustes
+        </a>
+      </div>
+    </nav>
+
+    <div class="ml-64 flex-1 flex flex-col h-full bg-background relative z-10">
+      <header class="border-b border-stone-200 dark:border-stone-800 bg-[#F2EFE9] dark:bg-stone-900 flex justify-between items-center px-12 py-4 w-full z-10 shrink-0">
+        <div class="flex items-center gap-12">
+          <div class="text-2xl font-serif font-semibold text-[#2E4D43] dark:text-emerald-500 tracking-tight">Vereda</div>
+          <nav class="flex items-center gap-8 font-serif tracking-tight text-stone-800 dark:text-stone-100">
+            <a class="text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-colors duration-300 ease-in-out px-2 py-1 rounded-sm" href="#">Escrita</a>
+            <a class="text-[#2E4D43] dark:text-emerald-400 border-b-2 border-[#2E4D43] dark:border-emerald-400 pb-1 hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-colors duration-300 ease-in-out px-2 pt-1" href="#">Estrutura</a>
+            <a class="text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-colors duration-300 ease-in-out px-2 py-1 rounded-sm" href="#">Revisão</a>
+            <a class="text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-colors duration-300 ease-in-out px-2 py-1 rounded-sm" href="#">Arquivo</a>
+          </nav>
+        </div>
+        <div class="flex items-center gap-4 text-[#2E4D43] dark:text-emerald-400">
+          <button class="p-2 rounded-full hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-colors duration-300 ease-in-out flex items-center justify-center">
+            <span class="material-symbols-outlined text-[20px]">visibility</span>
+          </button>
+          <button class="p-2 rounded-full hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-colors duration-300 ease-in-out flex items-center justify-center">
+            <span class="material-symbols-outlined text-[20px]">analytics</span>
+          </button>
+          <button class="p-2 rounded-full hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-colors duration-300 ease-in-out flex items-center justify-center">
+            <span class="material-symbols-outlined text-[20px]">menu_book</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="flex-1 flex overflow-hidden">
+        <main class="flex-1 overflow-y-auto bg-surface relative">
+          <div class="absolute inset-0 pointer-events-none bg-gradient-to-b from-surface/50 to-transparent h-16 z-0"></div>
+          <article class="max-w-container-max-width mx-auto px-gutter py-margin-focus font-body-reading text-body-reading text-on-surface relative z-10 selection:bg-primary-fixed selection:text-on-primary-fixed">
+            <h1 class="font-display-lg text-display-lg text-on-background mb-12">O Buriti e a Vereda</h1>
+            <p class="mb-8 indent-8">
+              <span class="bg-primary-fixed-dim/30 text-on-primary-fixed-variant rounded-sm px-1 cursor-pointer hover:bg-primary-fixed transition-colors border-b border-primary-fixed">Olhava</span>
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">o sertão</span>,
+              <span class="bg-tertiary-fixed-dim/20 text-on-tertiary-fixed rounded-sm px-1 cursor-pointer hover:bg-tertiary-fixed transition-colors">imenso</span> e
+              <span class="bg-tertiary-fixed-dim/20 text-on-tertiary-fixed rounded-sm px-1 cursor-pointer hover:bg-tertiary-fixed transition-colors">vazio</span>.
+              <span class="bg-primary-fixed-dim/30 text-on-primary-fixed-variant rounded-sm px-1 cursor-pointer hover:bg-primary-fixed transition-colors border-b border-primary-fixed">Sentia</span>
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">o vento</span>
+              <span class="bg-tertiary-fixed-dim/20 text-on-tertiary-fixed rounded-sm px-1 cursor-pointer hover:bg-tertiary-fixed transition-colors">quente</span>
+              <span class="bg-primary-fixed-dim/30 text-on-primary-fixed-variant rounded-sm px-1 cursor-pointer hover:bg-primary-fixed transition-colors border-b border-primary-fixed">varrer</span>
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">a poeira</span>
+              <span class="bg-tertiary-fixed-dim/20 text-on-tertiary-fixed rounded-sm px-1 cursor-pointer hover:bg-tertiary-fixed transition-colors">fina</span>
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors ring-2 ring-outline-variant bg-surface-container">do chão</span>.
+              As
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">árvores</span>
+              <span class="bg-tertiary-fixed-dim/20 text-on-tertiary-fixed rounded-sm px-1 cursor-pointer hover:bg-tertiary-fixed transition-colors">retorcidas</span>
+              <span class="bg-primary-fixed-dim/30 text-on-primary-fixed-variant rounded-sm px-1 cursor-pointer hover:bg-primary-fixed transition-colors border-b border-primary-fixed">pareciam</span>
+              <span class="bg-primary-fixed-dim/30 text-on-primary-fixed-variant rounded-sm px-1 cursor-pointer hover:bg-primary-fixed transition-colors border-b border-primary-fixed">orar</span>
+              em
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">silêncio</span>,
+              <span class="bg-primary-fixed-dim/30 text-on-primary-fixed-variant rounded-sm px-1 cursor-pointer hover:bg-primary-fixed transition-colors border-b border-primary-fixed">esperando</span>
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">a chuva</span>
+              que
+              <span class="bg-primary-fixed-dim/30 text-on-primary-fixed-variant rounded-sm px-1 cursor-pointer hover:bg-primary-fixed transition-colors border-b border-primary-fixed">teimava</span>
+              em
+              <span class="bg-primary-fixed-dim/30 text-on-primary-fixed-variant rounded-sm px-1 cursor-pointer hover:bg-primary-fixed transition-colors border-b border-primary-fixed">não chegar</span>.
+            </p>
+            <p class="mb-8 indent-8">
+              Mais adiante, o
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">buriti</span>
+              se
+              <span class="bg-primary-fixed-dim/30 text-on-primary-fixed-variant rounded-sm px-1 cursor-pointer hover:bg-primary-fixed transition-colors border-b border-primary-fixed">erguia</span>,
+              <span class="bg-tertiary-fixed-dim/20 text-on-tertiary-fixed rounded-sm px-1 cursor-pointer hover:bg-tertiary-fixed transition-colors">solitário</span>
+              e
+              <span class="bg-tertiary-fixed-dim/20 text-on-tertiary-fixed rounded-sm px-1 cursor-pointer hover:bg-tertiary-fixed transition-colors">majestoso</span>,
+              <span class="bg-primary-fixed-dim/30 text-on-primary-fixed-variant rounded-sm px-1 cursor-pointer hover:bg-primary-fixed transition-colors border-b border-primary-fixed">marcando</span>
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">o caminho</span>
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">das águas</span>
+              <span class="bg-tertiary-fixed-dim/20 text-on-tertiary-fixed rounded-sm px-1 cursor-pointer hover:bg-tertiary-fixed transition-colors">profundas</span>.
+              Era
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">o guardião</span>
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">da vida</span>
+              <span class="bg-tertiary-fixed-dim/20 text-on-tertiary-fixed rounded-sm px-1 cursor-pointer hover:bg-tertiary-fixed transition-colors">oculta</span>,
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">o farol</span>
+              <span class="bg-tertiary-fixed-dim/20 text-on-tertiary-fixed rounded-sm px-1 cursor-pointer hover:bg-tertiary-fixed transition-colors">verde</span>
+              na
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">vastidão</span>
+              <span class="bg-tertiary-fixed-dim/20 text-on-tertiary-fixed rounded-sm px-1 cursor-pointer hover:bg-tertiary-fixed transition-colors">cinzenta</span>.
+              <span class="bg-primary-fixed-dim/30 text-on-primary-fixed-variant rounded-sm px-1 cursor-pointer hover:bg-primary-fixed transition-colors border-b border-primary-fixed">Saber</span>
+              <span class="bg-primary-fixed-dim/30 text-on-primary-fixed-variant rounded-sm px-1 cursor-pointer hover:bg-primary-fixed transition-colors border-b border-primary-fixed">ler</span>
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">essa paisagem</span>
+              <span class="bg-primary-fixed-dim/30 text-on-primary-fixed-variant rounded-sm px-1 cursor-pointer hover:bg-primary-fixed transition-colors border-b border-primary-fixed">exigia</span>
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">paciência</span>
+              e
+              <span class="bg-secondary-fixed-dim/20 text-on-secondary-fixed rounded-sm px-1 cursor-pointer hover:bg-secondary-fixed transition-colors">olhar</span>
+              <span class="bg-tertiary-fixed-dim/20 text-on-tertiary-fixed rounded-sm px-1 cursor-pointer hover:bg-tertiary-fixed transition-colors">demorado</span>.
+            </p>
+            <span class="inline-block w-[2px] h-[1em] bg-on-surface-variant align-middle animate-pulse ml-1"></span>
+          </article>
+        </main>
+
+        <aside class="w-[340px] border-l border-outline-variant bg-surface-container-low overflow-y-auto flex flex-col shrink-0">
+          <div class="px-6 py-5 border-b border-outline-variant bg-surface-container">
+            <h3 class="font-h2 text-h2 text-on-surface">Inspeção Lexical</h3>
+            <p class="font-helper-text text-helper-text text-on-surface-variant mt-1">Análise morfológica contextual</p>
+          </div>
+          <div class="p-6 flex flex-col gap-6">
+            <div class="bg-surface rounded-xl p-5 border border-outline-variant/50 relative overflow-hidden">
+              <div class="absolute top-0 right-0 w-16 h-16 bg-secondary-fixed/20 rounded-bl-full -mr-4 -mt-4"></div>
+              <div class="font-label-caps text-label-caps text-secondary mb-2 uppercase">Substantivo</div>
+              <div class="font-display-lg text-[32px] leading-tight text-on-surface mb-4">"do chão"</div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">Lema</span>
+                  <span class="font-body-ui text-body-ui text-on-surface">chão</span>
+                </div>
+                <div>
+                  <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">Gênero</span>
+                  <span class="font-body-ui text-body-ui text-on-surface">Masculino</span>
+                </div>
+                <div>
+                  <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">Número</span>
+                  <span class="font-body-ui text-body-ui text-on-surface">Singular</span>
+                </div>
+                <div>
+                  <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">Formação</span>
+                  <span class="font-body-ui text-body-ui text-on-surface">de + o</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-surface rounded-xl p-5 border border-outline-variant/50">
+              <h4 class="font-body-ui text-body-ui font-semibold text-on-surface mb-4 flex items-center justify-between">
+                Densidade do Trecho
+                <span class="material-symbols-outlined text-[18px] text-on-surface-variant">monitoring</span>
+              </h4>
+              <div class="space-y-4">
+                <div>
+                  <div class="flex justify-between text-sm mb-1">
+                    <span class="text-secondary font-medium">Substantivos</span>
+                    <span class="text-on-surface-variant">42%</span>
+                  </div>
+                  <div class="w-full bg-surface-container-highest rounded-full h-1.5">
+                    <div class="bg-secondary h-1.5 rounded-full" style="width: 42%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-sm mb-1">
+                    <span class="text-primary font-medium">Verbos</span>
+                    <span class="text-on-surface-variant">28%</span>
+                  </div>
+                  <div class="w-full bg-surface-container-highest rounded-full h-1.5">
+                    <div class="bg-primary h-1.5 rounded-full" style="width: 28%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-sm mb-1">
+                    <span class="text-tertiary font-medium">Adjetivos</span>
+                    <span class="text-on-surface-variant">18%</span>
+                  </div>
+                  <div class="w-full bg-surface-container-highest rounded-full h-1.5">
+                    <div class="bg-tertiary h-1.5 rounded-full" style="width: 18%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-surface rounded-xl p-5 border border-outline-variant/50">
+              <h4 class="font-body-ui text-body-ui font-semibold text-on-surface mb-3 flex items-center justify-between">
+                Academia Gramatical
+                <span class="material-symbols-outlined text-[18px] text-on-surface-variant">school</span>
+              </h4>
+              <div class="font-body-reading text-[18px] leading-snug text-secondary mb-4 italic">A âncora da frase, o substantivo dá nome ao mundo ao seu redor. É ele quem batiza objetos, lugares e emoções.</div>
+              <div class="space-y-4">
+                <div>
+                  <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">Definição</span>
+                  <p class="font-body-ui text-body-ui text-on-surface text-sm">Classe de palavras com que se nomeiam os seres em geral (pessoas, animais, coisas, lugares, sentimentos).</p>
+                </div>
+                <div>
+                  <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">Tipologia e Classificação</span>
+                  <p class="font-body-ui text-body-ui text-on-surface text-sm">Neste contexto, "chão" é um substantivo comum, simples, primitivo e concreto.</p>
+                </div>
+                <div>
+                  <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">Exemplos Práticos no Texto</span>
+                  <ul class="list-disc list-inside font-body-ui text-body-ui text-on-surface text-sm space-y-1 mt-1">
+                    <li><span class="text-secondary font-medium">sertão</span> (lugar)</li>
+                    <li><span class="text-secondary font-medium">vento</span> (fenômeno)</li>
+                    <li><span class="text-secondary font-medium">silêncio</span> (estado)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="h-10 bg-surface-container-highest border-t border-outline-variant flex items-center justify-between px-6 shrink-0 text-on-surface-variant font-helper-text text-helper-text">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-primary-fixed-dim"></div>
+          <span>Processamento Vereda: Sincronizado</span>
+        </div>
+        <div class="flex items-center gap-6">
+          <span class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">edit_document</span>
+            86 palavras
+          </span>
+          <span>Ln 12, Col 4</span>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
