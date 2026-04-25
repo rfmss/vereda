@@ -16,6 +16,7 @@ export default defineConfig({
         pohwEditor: resolve(__dirname, 'editor-pohw.html'),
         digitalRegistry: resolve(__dirname, 'cartorio-digital.html'),
         linguisticAnalysis: resolve(__dirname, 'analise-linguistica.html'),
+        launchTrack: resolve(__dirname, 'trilha-lancamento.html'),
       },
     },
   },

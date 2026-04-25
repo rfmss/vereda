@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html class="light scroll-smooth" lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Trilha do Lançamento | Vereda</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#17362d",
+              "on-tertiary": "#ffffff",
+              "on-surface-variant": "#414845",
+              "tertiary-fixed": "#ffdad5",
+              "surface-container-low": "#f6f3f2",
+              "on-surface": "#1b1c1c",
+              background: "#fcf9f8",
+              "on-primary-fixed-variant": "#2e4d43",
+              "surface-dim": "#dcd9d9",
+              "secondary-fixed": "#ffdbd0",
+              "on-secondary-fixed-variant": "#7a2f15",
+              "tertiary-fixed-dim": "#edbbb3",
+              "primary-fixed-dim": "#accec1",
+              "on-tertiary-container": "#dbaaa3",
+              "surface-variant": "#e4e2e1",
+              "on-background": "#1b1c1c",
+              "on-secondary": "#ffffff",
+              "primary-container": "#2e4d43",
+              "error-container": "#ffdad6",
+              "on-secondary-fixed": "#390b00",
+              "surface-container-highest": "#e4e2e1",
+              surface: "#fcf9f8",
+              "inverse-on-surface": "#f3f0f0",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed": "#2f1310",
+              "on-tertiary-fixed-variant": "#613d38",
+              "surface-container-lowest": "#ffffff",
+              outline: "#727975",
+              "primary-fixed": "#c7eadc",
+              "on-secondary-container": "#762c12",
+              "surface-container": "#f0eded",
+              "surface-container-high": "#eae7e7",
+              "secondary-container": "#fe9572",
+              "on-primary-fixed": "#002018",
+              error: "#ba1a1a",
+              secondary: "#99462a",
+              tertiary: "#482824",
+              "secondary-fixed-dim": "#ffb59e",
+              "on-error": "#ffffff",
+              "tertiary-container": "#623e39",
+              "surface-tint": "#45655a",
+              "surface-bright": "#fcf9f8",
+              "inverse-primary": "#accec1",
+              "outline-variant": "#c1c8c4",
+              "on-primary-container": "#9bbdb0",
+              "inverse-surface": "#303030"
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem"
+            },
+            spacing: {
+              unit: "8px",
+              "sidebar-width": "280px",
+              "container-max-width": "720px",
+              "margin-focus": "64px",
+              gutter: "24px"
+            },
+            fontFamily: {
+              "label-caps": ["Manrope"],
+              h2: ["Manrope"],
+              "body-ui": ["Manrope"],
+              "helper-text": ["Manrope"],
+              h1: ["Manrope"],
+              "body-reading": ["Newsreader"],
+              "display-lg": ["Newsreader"]
+            },
+            fontSize: {
+              "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "700" }],
+              h2: ["24px", { lineHeight: "32px", fontWeight: "600" }],
+              "body-ui": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "helper-text": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              h1: ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }],
+              "body-reading": ["20px", { lineHeight: "34px", fontWeight: "400" }],
+              "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "600" }]
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+
+      .parallax-bg {
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-background antialiased selection:bg-primary-container selection:text-on-primary-container">
+    <nav class="bg-[#F2EFE9]/80 backdrop-blur-sm dark:bg-stone-950/80 z-50 sticky border-b border-stone-200/50 dark:border-stone-800/50 shadow-sm shadow-black/[0.02] duration-500 ease-in-out flex justify-between items-center w-full px-8 py-4 max-w-7xl mx-auto">
+      <div class="text-2xl font-serif italic font-semibold text-[#2E4D43] dark:text-emerald-500 font-body-reading">Vereda Escritores</div>
+      <div class="hidden md:flex space-x-8">
+        <a class="text-stone-500 hover:text-[#2E4D43] transition-colors font-body-ui" href="#">Sobre</a>
+        <a class="text-stone-500 hover:text-[#2E4D43] transition-colors font-body-ui" href="#">Aprendizado</a>
+        <a class="text-[#2E4D43] font-bold border-b-2 border-[#2E4D43] pb-1 font-body-ui" href="#">Branding</a>
+        <a class="text-stone-500 hover:text-[#2E4D43] transition-colors font-body-ui" href="#">Assessoria</a>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button class="text-[#2E4D43] hover:bg-emerald-900/5 dark:hover:bg-emerald-400/5 rounded transition-all p-2 flex items-center justify-center">
+          <span class="material-symbols-outlined">menu_book</span>
+        </button>
+        <button class="bg-primary text-on-tertiary px-6 py-2 rounded font-body-ui hover:bg-primary-container transition-colors">Entrar</button>
+      </div>
+    </nav>
+
+    <header
+      class="relative min-h-[921px] flex items-center justify-center overflow-hidden parallax-bg"
+      style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAj4UYr8-YUm09-s_vWzeMO90irK6DfGdCpy-CGrDmIfzw-fuwvVvd0-B4olAiNBDLmnQ7JskgWPuZ-FhV0WtEayn_qDTRL-OkVTL2dbE6-dLBagA6bNSxdE97A2gldgNhjwj01jEevgZQlxAoh7o8mDnsWMM-IA_H69myLo-AwEQXfCgfHXYh0ZD52Kjs-Yic2rhB3Jp1-wtvXyrYMwylWcuuvFW5LagLiUYWDLEJyi5Ae8KwIFFrrZWtjvzdiWDfP5E6z7nmkJ0eg');"
+    >
+      <div class="absolute inset-0 bg-surface/80 backdrop-blur-sm"></div>
+      <div class="relative z-10 text-center max-w-container-max-width px-gutter mx-auto flex flex-col items-center gap-8">
+        <span class="font-label-caps text-label-caps text-secondary tracking-[0.15em] uppercase border-b border-secondary pb-2">O Caminho do Autor</span>
+        <h1 class="font-display-lg text-display-lg text-primary">
+          Sua Voz no Mundo:<br />
+          <span class="italic font-light">Trilha do Lançamento</span>
+        </h1>
+        <p class="font-body-reading text-body-reading text-on-surface-variant max-w-2xl">Navegue pelas águas do mercado editorial com propósito. Da concepção da sua marca pessoal à amplificação da sua mensagem através de redes e assessoria consciente.</p>
+        <button class="mt-8 bg-primary text-on-tertiary font-body-ui text-body-ui px-8 py-4 rounded-full hover:bg-primary-container transition-colors flex items-center gap-2">
+          Iniciar a Trilha <span class="material-symbols-outlined">arrow_downward</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-gutter py-24 space-y-32">
+      <section class="grid md:grid-cols-2 gap-16 items-center">
+        <div class="space-y-8 order-2 md:order-1">
+          <div class="space-y-4">
+            <span class="font-label-caps text-label-caps text-secondary uppercase flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm">badge</span> Identidade
+            </span>
+            <h2 class="font-h1 text-h1 text-primary">Guia de Personal Branding</h2>
+            <p class="font-body-reading text-body-reading text-on-surface-variant">Sua voz literária não termina no último ponto final. Ela se estende para como você se apresenta ao mundo. Construa uma marca pessoal autêntica que ressoe com seus leitores.</p>
+          </div>
+          <div class="grid gap-6">
+            <div class="bg-surface-container-low p-6 rounded-xl border border-surface-variant flex items-start gap-4">
+              <div class="p-3 bg-secondary-container text-on-secondary-container rounded-lg shrink-0">
+                <span class="material-symbols-outlined">record_voice_over</span>
+              </div>
+              <div>
+                <h3 class="font-h2 text-body-ui font-semibold text-primary mb-2">Tom de Voz</h3>
+                <p class="font-helper-text text-helper-text text-on-surface-variant">Defina a persona narrativa da sua comunicação pública. Acadêmico, poético, provocativo ou acolhedor?</p>
+              </div>
+            </div>
+            <div class="bg-surface-container-low p-6 rounded-xl border border-surface-variant flex items-start gap-4">
+              <div class="p-3 bg-tertiary-container text-on-tertiary-container rounded-lg shrink-0">
+                <span class="material-symbols-outlined">palette</span>
+              </div>
+              <div>
+                <h3 class="font-h2 text-body-ui font-semibold text-primary mb-2">Estética Visual</h3>
+                <p class="font-helper-text text-helper-text text-on-surface-variant">Cores, tipografia e estilo fotográfico que complementam a atmosfera das suas obras.</p>
+              </div>
+            </div>
+            <div class="bg-surface-container-low p-6 rounded-xl border border-surface-variant flex items-start gap-4">
+              <div class="p-3 bg-primary-container text-on-primary-container rounded-lg shrink-0">
+                <span class="material-symbols-outlined">description</span>
+              </div>
+              <div>
+                <h3 class="font-h2 text-body-ui font-semibold text-primary mb-2">O Manifesto</h3>
+                <p class="font-helper-text text-helper-text text-on-surface-variant">A declaração das suas intenções literárias. O porquê você escreve e para quem.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="relative order-1 md:order-2">
+          <div class="aspect-[4/5] rounded-2xl overflow-hidden shadow-sm relative">
+            <img alt="Moodboard de marca literária" class="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFKBn0FBrJfLIUBtf6KdYSw96_DPn2fSdxyNoitxDmaSH1LS4Hc3XDvqEzqVm2rKc0NxNQmeg8BtP6DBbM_tBvZFpn4fAOXP3ohVDb3MFVB3dx2r_jd64ZRuyb3c9MjRVWmhdsmeeMkV24hHunK6yeTd-v_aCtgtOWIr_LWBYtqS2uyBJ4JvC_w5s7ZI8M9qCKkhp-i0tmph3flxQVxf6-QCaNkmIDdOOO-AgRjvUdyISrxhxOObEsyFjCesId5f0yY1mStMMjGNio" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-8">
+              <p class="font-body-reading text-body-reading text-surface-container-low italic">"A marca do autor é a promessa implícita feita ao leitor antes mesmo da primeira página ser aberta."</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="flex flex-col items-center space-y-16">
+        <div class="text-center max-w-3xl space-y-6">
+          <span class="font-label-caps text-label-caps text-secondary uppercase flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-sm">hub</span> Ecossistema Digital
+          </span>
+          <h2 class="font-h1 text-h1 text-primary">Navegando nas Redes</h2>
+          <p class="font-body-reading text-body-reading text-on-surface-variant">Entenda a dinâmica entre as grandes praças públicas e os jardins murados. Onde sua voz ecoa mais longe e onde ela cria raízes mais profundas?</p>
+        </div>
+        <div class="w-full grid lg:grid-cols-2 gap-8">
+          <div class="bg-surface-container p-8 rounded-2xl border border-surface-variant relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-secondary-container/20 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+            <div class="relative z-10 space-y-6">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-secondary text-on-secondary flex items-center justify-center">
+                  <span class="material-symbols-outlined">public</span>
+                </div>
+                <h3 class="font-h2 text-h2 text-primary">Redes de Massa</h3>
+              </div>
+              <p class="font-body-ui text-body-ui text-on-surface-variant">X/Twitter, Instagram, TikTok. A praça do mercado, ruidosa mas vital para descoberta inicial.</p>
+              <div class="space-y-4 pt-4">
+                <div>
+                  <div class="flex justify-between font-label-caps text-label-caps text-on-surface mb-1"><span>Alcance Potencial</span><span>Alto</span></div>
+                  <div class="h-2 bg-surface-variant rounded-full overflow-hidden"><div class="h-full bg-secondary w-4/5 rounded-full"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between font-label-caps text-label-caps text-on-surface mb-1"><span>Engajamento Profundo</span><span>Baixo</span></div>
+                  <div class="h-2 bg-surface-variant rounded-full overflow-hidden"><div class="h-full bg-secondary/50 w-1/4 rounded-full"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between font-label-caps text-label-caps text-on-surface mb-1"><span>Controle Autoral</span><span>Baixo</span></div>
+                  <div class="h-2 bg-surface-variant rounded-full overflow-hidden"><div class="h-full bg-secondary/30 w-1/5 rounded-full"></div></div>
+                </div>
+              </div>
+              <div class="mt-6 flex gap-2">
+                <span class="px-3 py-1 bg-surface-container-high rounded text-helper-text font-helper-text text-on-surface">Visibilidade</span>
+                <span class="px-3 py-1 bg-surface-container-high rounded text-helper-text font-helper-text text-on-surface">Volume</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-primary p-8 rounded-2xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-primary-fixed/10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+            <div class="relative z-10 space-y-6 text-on-primary">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center">
+                  <span class="material-symbols-outlined">diversity_3</span>
+                </div>
+                <h3 class="font-h2 text-h2 text-on-primary">Redes Federadas</h3>
+              </div>
+              <p class="font-body-ui text-body-ui text-primary-fixed-dim">Mastodon, Bluesky, Newsletters. Jardins cultivados, focados em comunidade, nicho e soberania sobre seus contatos.</p>
+              <div class="space-y-4 pt-4">
+                <div>
+                  <div class="flex justify-between font-label-caps text-label-caps text-on-primary mb-1"><span>Alcance Potencial</span><span class="text-primary-fixed-dim">Médio</span></div>
+                  <div class="h-2 bg-primary-container rounded-full overflow-hidden"><div class="h-full bg-primary-fixed w-2/5 rounded-full"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between font-label-caps text-label-caps text-on-primary mb-1"><span>Engajamento Profundo</span><span class="text-primary-fixed-dim">Alto</span></div>
+                  <div class="h-2 bg-primary-container rounded-full overflow-hidden"><div class="h-full bg-primary-fixed w-4/5 rounded-full"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between font-label-caps text-label-caps text-on-primary mb-1"><span>Controle Autoral</span><span class="text-primary-fixed-dim">Alto</span></div>
+                  <div class="h-2 bg-primary-container rounded-full overflow-hidden"><div class="h-full bg-primary-fixed w-full rounded-full"></div></div>
+                </div>
+              </div>
+              <div class="mt-6 flex gap-2">
+                <span class="px-3 py-1 bg-primary-container rounded text-helper-text font-helper-text text-on-primary">Nicho</span>
+                <span class="px-3 py-1 bg-primary-container rounded text-helper-text font-helper-text text-on-primary">Soberania</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-surface-container-low rounded-3xl p-8 md:p-16 border border-surface-variant flex flex-col md:flex-row gap-12 items-center">
+        <div class="w-full md:w-1/3 flex justify-center">
+          <div class="relative w-48 h-64 md:w-64 md:h-80 bg-surface shadow-sm rounded-lg border border-surface-variant p-4 rotate-[-3deg] hover:rotate-0 transition-transform duration-300">
+            <div class="w-full h-full border border-dashed border-outline-variant flex flex-col items-center justify-center p-4 text-center gap-4">
+              <span class="material-symbols-outlined text-4xl text-secondary">newsmode</span>
+              <h4 class="font-h2 text-body-ui font-bold text-primary uppercase">
+                Media Kit<br />
+                Literário
+              </h4>
+              <div class="w-16 h-1 bg-secondary/30 rounded"></div>
+              <p class="font-helper-text text-helper-text text-outline text-xs">Exemplo de Template</p>
+            </div>
+          </div>
+        </div>
+        <div class="w-full md:w-2/3 space-y-6">
+          <span class="font-label-caps text-label-caps text-secondary uppercase flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">campaign</span> Eco Midiático
+          </span>
+          <h2 class="font-h1 text-h1 text-primary">Assessoria &amp; Media Kit</h2>
+          <p class="font-body-reading text-body-reading text-on-surface-variant">Apresente sua obra para a imprensa e influenciadores literários de forma profissional. Um Media Kit bem estruturado é a sua carta de apresentação para resenhas e entrevistas.</p>
+          <ul class="space-y-4 pt-4">
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-secondary mt-1 text-lg">check_circle</span>
+              <div>
+                <strong class="font-body-ui text-body-ui text-primary block">Release de Lançamento</strong>
+                <span class="font-helper-text text-helper-text text-on-surface-variant">Sinopse atraente, ganchos para pautas atuais e informações técnicas do livro.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-secondary mt-1 text-lg">check_circle</span>
+              <div>
+                <strong class="font-body-ui text-body-ui text-primary block">Fotos em Alta Resolução</strong>
+                <span class="font-helper-text text-helper-text text-on-surface-variant">Retratos autorais profissionais e mockups de qualidade da capa do livro.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-secondary mt-1 text-lg">check_circle</span>
+              <div>
+                <strong class="font-body-ui text-body-ui text-primary block">Mapeamento de Influenciadores</strong>
+                <span class="font-helper-text text-helper-text text-on-surface-variant">Como identificar e abordar booktubers e bookstagrammers do seu nicho.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="text-center py-24 border-t border-surface-variant">
+        <h2 class="font-display-lg text-display-lg text-primary mb-6">Pronto para o Próximo Capítulo?</h2>
+        <p class="font-body-reading text-body-reading text-on-surface-variant max-w-2xl mx-auto mb-10">Transforme sua escrita em uma presença estabelecida. Junte-se à Vereda e inicie sua jornada de publicação e divulgação consciente.</p>
+        <button class="bg-primary text-on-tertiary font-h2 text-body-ui px-10 py-5 rounded-full hover:bg-primary-container transition-all hover:scale-105 shadow-sm inline-flex items-center gap-3">
+          Publicar e Divulgar <span class="material-symbols-outlined">rocket_launch</span>
+        </button>
+      </section>
+    </main>
+
+    <footer class="bg-[#F2EFE9] dark:bg-stone-950 w-full border-t border-stone-200 dark:border-stone-800 mt-20 flex flex-col md:flex-row justify-between items-center px-12 py-10 max-w-7xl mx-auto">
+      <div class="font-serif font-black text-emerald-900 font-body-reading text-lg mb-4 md:mb-0">Vereda</div>
+      <p class="font-serif italic text-stone-600 dark:text-stone-400 text-sm font-helper-text text-center md:text-left mb-4 md:mb-0">© 2024 Vereda. Cultivando a literatura independente através da tecnologia calma.</p>
+      <div class="flex gap-6">
+        <a class="text-stone-500 hover:text-emerald-800 dark:hover:text-emerald-300 font-helper-text text-sm hover:opacity-80 transition-opacity" href="#">Privacidade</a>
+        <a class="text-stone-500 hover:text-emerald-800 dark:hover:text-emerald-300 font-helper-text text-sm hover:opacity-80 transition-opacity" href="#">Termos</a>
+        <a class="text-stone-500 hover:text-emerald-800 dark:hover:text-emerald-300 font-helper-text text-sm hover:opacity-80 transition-opacity" href="#">Manifesto Literário</a>
+      </div>
+    </footer>
+  </body>
+</html>
