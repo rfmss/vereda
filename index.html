@@ -3,63 +3,65 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Vereda - Espaço de Escrita Avançado</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <title>Vereda - Editor</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Newsreader:wght@400;600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
         theme: {
           extend: {
             colors: {
-              "tertiary-container": "#623e39",
-              "surface-container-low": "#f6f3f2",
-              tertiary: "#482824",
-              "secondary-fixed": "#ffdbd0",
-              "on-primary-fixed-variant": "#2e4d43",
-              "on-error-container": "#93000a",
-              "tertiary-fixed": "#ffdad5",
-              "surface-bright": "#fcf9f8",
-              "error-container": "#ffdad6",
-              background: "#fcf9f8",
-              "primary-fixed-dim": "#accec1",
-              "tertiary-fixed-dim": "#edbbb3",
-              "surface-container-lowest": "#ffffff",
-              "secondary-container": "#fe9572",
-              "on-surface": "#1b1c1c",
-              "on-secondary-fixed-variant": "#7a2f15",
-              "on-tertiary-fixed-variant": "#613d38",
+              "on-secondary": "#ffffff",
+              "on-primary-container": "#9bbdb0",
+              "on-tertiary-container": "#dbaaa3",
+              "primary-container": "#2e4d43",
+              "inverse-surface": "#303030",
               "on-primary-fixed": "#002018",
+              "surface-variant": "#e4e2e1",
+              "on-secondary-container": "#762c12",
+              "inverse-primary": "#accec1",
+              "surface-container-highest": "#e4e2e1",
+              "on-surface-variant": "#414845",
+              surface: "#fcf9f8",
+              "tertiary-fixed": "#ffdad5",
+              "primary-fixed": "#c7eadc",
+              error: "#ba1a1a",
+              "surface-bright": "#fcf9f8",
+              primary: "#17362d",
+              "outline-variant": "#c1c8c4",
+              "on-tertiary-fixed": "#2f1310",
+              "on-surface": "#1b1c1c",
+              "tertiary-container": "#623e39",
+              "surface-dim": "#dcd9d9",
+              "surface-container-low": "#f6f3f2",
+              secondary: "#99462a",
+              "on-tertiary-fixed-variant": "#613d38",
+              "on-secondary-fixed-variant": "#7a2f15",
+              "on-primary-fixed-variant": "#2e4d43",
+              "on-primary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "on-background": "#1b1c1c",
+              "error-container": "#ffdad6",
+              "inverse-on-surface": "#f3f0f0",
+              "surface-container": "#f0eded",
+              "on-tertiary": "#ffffff",
+              tertiary: "#482824",
+              "surface-container-high": "#eae7e7",
+              "on-error-container": "#93000a",
+              "tertiary-fixed-dim": "#edbbb3",
+              "secondary-fixed-dim": "#ffb59e",
               outline: "#727975",
               "on-secondary-fixed": "#390b00",
-              "on-secondary-container": "#762c12",
-              "on-background": "#1b1c1c",
-              "primary-fixed": "#c7eadc",
-              "inverse-primary": "#accec1",
-              "outline-variant": "#c1c8c4",
-              "surface-variant": "#e4e2e1",
-              "on-primary": "#ffffff",
-              "surface-dim": "#dcd9d9",
-              "on-tertiary": "#ffffff",
-              "surface-container": "#f0eded",
-              "primary-container": "#2e4d43",
-              error: "#ba1a1a",
-              secondary: "#99462a",
+              "primary-fixed-dim": "#accec1",
               "surface-tint": "#45655a",
-              "secondary-fixed-dim": "#ffb59e",
-              "on-tertiary-fixed": "#2f1310",
+              "secondary-fixed": "#ffdbd0",
+              background: "#fcf9f8",
               "on-error": "#ffffff",
-              "inverse-surface": "#303030",
-              "surface-container-highest": "#e4e2e1",
-              "on-tertiary-container": "#dbaaa3",
-              "on-primary-container": "#9bbdb0",
-              primary: "#17362d",
-              "inverse-on-surface": "#f3f0f0",
-              "on-secondary": "#ffffff",
-              "surface-container-high": "#eae7e7",
-              "on-surface-variant": "#414845",
-              surface: "#fcf9f8"
+              "secondary-container": "#fe9572"
             },
             borderRadius: {
               DEFAULT: "0.125rem",
@@ -68,187 +70,215 @@
               full: "0.75rem"
             },
             spacing: {
-              "sidebar-width": "280px",
               "margin-focus": "64px",
               "container-max-width": "720px",
               unit: "8px",
+              "sidebar-width": "280px",
               gutter: "24px"
             },
             fontFamily: {
+              h1: ["Manrope"],
+              "body-reading": ["Newsreader"],
+              "label-caps": ["Manrope"],
               "helper-text": ["Manrope"],
               "body-ui": ["Manrope"],
-              "label-caps": ["Manrope"],
-              "body-reading": ["Newsreader"],
-              h1: ["Manrope"],
-              "display-lg": ["Newsreader"],
-              h2: ["Manrope"]
+              h2: ["Manrope"],
+              "display-lg": ["Newsreader"]
             },
             fontSize: {
+              h1: ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }],
+              "body-reading": ["20px", { lineHeight: "34px", fontWeight: "400" }],
+              "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "700" }],
               "helper-text": ["14px", { lineHeight: "20px", fontWeight: "400" }],
               "body-ui": ["16px", { lineHeight: "24px", fontWeight: "400" }],
-              "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "700" }],
-              "body-reading": ["20px", { lineHeight: "34px", fontWeight: "400" }],
-              h1: ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }],
-              "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "600" }],
-              h2: ["24px", { lineHeight: "32px", fontWeight: "600" }]
+              h2: ["24px", { lineHeight: "32px", fontWeight: "600" }],
+              "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "600" }]
             }
-          },
-        },
+          }
+        }
       }
     </script>
-  </head>
-  <body class="bg-background text-on-background h-screen flex flex-col overflow-hidden">
-    <header class="flex justify-between items-center w-full px-6 py-2 bg-[#F2EFE9] dark:bg-stone-950 border-b border-stone-200 dark:border-stone-800">
-      <div class="flex items-center gap-4">
-        <span class="text-xl font-serif tracking-tight text-[#2E4D43] dark:text-emerald-500">Vereda</span>
-        <div class="h-4 w-px bg-outline-variant"></div>
-        <div class="flex items-center gap-2 cursor-pointer hover:bg-surface-variant p-1 rounded transition-colors">
-          <span class="font-body-ui text-body-ui text-on-surface">O Grande Sertão</span>
-          <span class="material-symbols-outlined text-outline" style="font-size: 16px;">expand_more</span>
-        </div>
-      </div>
-      <div class="flex items-center gap-4">
-        <button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary text-on-primary hover:opacity-90 transition-opacity">
-          <span class="font-label-caps text-label-caps">EXPORTAR</span>
-          <span class="material-symbols-outlined" style="font-size: 16px;">ios_share</span>
-        </button>
-        <a class="text-stone-500 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 p-2 rounded-full transition-colors" href="/vereda/preparando.html" aria-label="Preparação offline">
-          <span class="material-symbols-outlined">cloud_off</span>
-        </a>
-        <a class="text-stone-500 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 p-2 rounded-full transition-colors" href="/vereda/reader.html" aria-label="Modo leitor">
-          <span class="material-symbols-outlined">visibility</span>
-        </a>
-        <a class="text-stone-500 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 p-2 rounded-full transition-colors" href="/vereda/analise.html" aria-label="Análise linguística">
-          <span class="material-symbols-outlined">analytics</span>
-        </a>
-        <button class="text-stone-500 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 p-2 rounded-full transition-colors" aria-label="Configurações">
-          <span class="material-symbols-outlined">settings</span>
-        </button>
-        <img alt="Perfil da escritora" class="w-8 h-8 rounded-full ml-2 object-cover border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLgJtxl55Tog1rKNvPsICAZf89Gs-w3663IIZZO801QZyaMH5aE2ISd9Gs6he4hT4ua79wyQQ1FZLkLQfa1WyDHaOoqSGRv1YxyEUgBqcw4gWoync9tP1AgO2oxCEtj0rqFgoXsYuCeKNip-bG9O-6cSJiEs3LAWP3Mqhoe8wNhPg3pbLgx5nBxSigeb8RKEcHY0c_h5ispFi6hXNz8A7atyUVTQBXxy3sv8NiwCygk5S9UOn1kXUo-e-zAUFqwepum_Fsrm7YyqSA" />
-      </div>
-    </header>
+    <style>
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
 
-    <div class="flex flex-1 overflow-hidden">
-      <aside class="w-sidebar-width bg-surface-container flex flex-col border-r border-outline-variant/30 flex-shrink-0">
-        <div class="p-4 border-b border-outline-variant/20 flex justify-between items-center">
-          <span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">O Organizador</span>
-          <button class="text-outline hover:text-primary transition-colors" aria-label="Adicionar item">
-            <span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #e4e2e1;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #c1c8c4;
+      }
+
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+  </head>
+  <body class="bg-surface text-on-surface h-screen overflow-hidden antialiased selection:bg-primary-container selection:text-on-primary-container">
+    <div class="flex h-full w-full">
+      <nav class="w-[280px] h-full bg-surface-container-low border-r border-outline-variant/50 flex flex-col flex-shrink-0 z-20">
+        <div class="p-6 pb-8">
+          <h1 class="font-h2 text-h2 text-primary-container tracking-tight">Vereda</h1>
+          <p class="font-helper-text text-helper-text text-on-surface-variant mt-1">Caminhos da Escrita</p>
+        </div>
+
+        <div class="px-6 mb-8">
+          <button class="w-full bg-primary-container text-surface-container-lowest py-2.5 rounded hover:bg-primary transition-colors flex justify-center items-center gap-2">
+            <span class="font-label-caps text-label-caps uppercase">Novo Texto</span>
           </button>
         </div>
-        <div class="flex-1 overflow-y-auto p-4 space-y-1">
-          <div>
-            <div class="flex items-center gap-2 p-2 rounded hover:bg-surface-variant cursor-pointer group">
-              <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" style="font-size: 16px;">keyboard_arrow_down</span>
-              <span class="material-symbols-outlined text-outline" style="font-size: 16px;">folder</span>
-              <span class="font-body-ui text-helper-text font-semibold text-on-surface">Capítulo 1: A Seca</span>
-            </div>
-            <div class="ml-6 border-l border-outline-variant/50 pl-2 space-y-1 mt-1">
-              <div class="flex items-center gap-2 p-2 rounded border-l-2 border-[#2E4D43] bg-surface-variant/50 cursor-pointer">
-                <span class="material-symbols-outlined text-[#2E4D43]" style="font-size: 14px;">description</span>
-                <span class="font-body-ui text-helper-text text-primary-container font-semibold">Cena 1: O Poço Seco</span>
-              </div>
-              <div class="flex items-center gap-2 p-2 rounded hover:bg-surface-variant cursor-pointer">
-                <span class="material-symbols-outlined text-outline" style="font-size: 14px;">description</span>
-                <span class="font-body-ui text-helper-text text-on-surface-variant">Cena 2: Encontro com João</span>
-              </div>
-            </div>
-          </div>
-          <div class="pt-2">
-            <div class="flex items-center gap-2 p-2 rounded hover:bg-surface-variant cursor-pointer group">
-              <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" style="font-size: 16px;">keyboard_arrow_right</span>
-              <span class="material-symbols-outlined text-outline" style="font-size: 16px;">folder</span>
-              <span class="font-body-ui text-helper-text text-on-surface">Capítulo 2: A Viagem</span>
-            </div>
-          </div>
-          <a class="flex items-center gap-2 p-2 rounded hover:bg-surface-variant cursor-pointer group text-on-surface-variant" href="/vereda/templates.html">
-            <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" style="font-size: 16px;">book_5</span>
-            <span class="font-body-ui text-helper-text">Biblioteca de Templates</span>
+
+        <ul class="flex-1 flex flex-col gap-1">
+          <li>
+            <a class="border-l-2 border-primary-container bg-surface-container-highest/50 text-primary-container px-6 py-3 flex items-center gap-4 transition-all" href="/vereda/">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">book_2</span>
+              <span class="font-body-ui text-body-ui font-medium">Manuscritos</span>
+            </a>
+          </li>
+          <li>
+            <a class="border-l-2 border-transparent text-on-surface-variant hover:text-primary-container hover:bg-surface-container-highest/20 px-6 py-3 flex items-center gap-4 transition-all group" href="#">
+              <span class="material-symbols-outlined group-hover:scale-110 transition-transform">menu_book</span>
+              <span class="font-body-ui text-body-ui">Dicionário</span>
+            </a>
+          </li>
+          <li>
+            <a class="border-l-2 border-transparent text-on-surface-variant hover:text-primary-container hover:bg-surface-container-highest/20 px-6 py-3 flex items-center gap-4 transition-all group" href="#">
+              <span class="material-symbols-outlined group-hover:scale-110 transition-transform">star</span>
+              <span class="font-body-ui text-body-ui">Favoritos</span>
+            </a>
+          </li>
+          <li>
+            <a class="border-l-2 border-transparent text-on-surface-variant hover:text-primary-container hover:bg-surface-container-highest/20 px-6 py-3 flex items-center gap-4 transition-all group" href="/vereda/preparando.html">
+              <span class="material-symbols-outlined group-hover:scale-110 transition-transform">cloud_download</span>
+              <span class="font-body-ui text-body-ui">Offline</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="p-6 border-t border-outline-variant/30 flex flex-col gap-4">
+          <a class="text-on-surface-variant hover:text-primary-container flex items-center gap-3 transition-colors" href="#">
+            <span class="material-symbols-outlined text-[20px]">settings</span>
+            <span class="font-body-ui text-body-ui text-[14px]">Configurações</span>
+          </a>
+          <a class="text-on-surface-variant hover:text-primary-container flex items-center gap-3 transition-colors" href="#">
+            <span class="material-symbols-outlined text-[20px]">help</span>
+            <span class="font-body-ui text-body-ui text-[14px]">Ajuda</span>
           </a>
         </div>
-      </aside>
+      </nav>
 
-      <main class="flex-1 bg-surface-bright overflow-y-auto flex justify-center relative">
-        <div class="w-full max-w-container-max-width py-margin-focus px-gutter outline-none">
-          <div class="mb-12 border-b border-outline-variant/30 pb-4">
-            <input class="w-full bg-transparent border-none font-display-lg text-display-lg text-on-surface focus:ring-0 p-0 placeholder-outline-variant" placeholder="Título da Cena..." type="text" value="Cena 1: O Poço Seco" />
+      <div class="flex-1 flex flex-col min-w-0 bg-surface relative">
+        <header class="h-16 w-full flex justify-between items-center px-8 flex-shrink-0 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 z-10 sticky top-0">
+          <div class="flex gap-8 items-center h-full">
+            <a class="h-full flex items-center font-label-caps text-label-caps text-primary-container border-b-2 border-primary-container uppercase tracking-widest mt-0.5" href="/vereda/">Escrita</a>
+            <a class="h-full flex items-center font-label-caps text-label-caps text-on-surface-variant hover:text-primary-container transition-colors uppercase tracking-widest" href="/vereda/templates.html">Biblioteca</a>
+            <a class="h-full flex items-center font-label-caps text-label-caps text-on-surface-variant hover:text-primary-container transition-colors uppercase tracking-widest" href="#">Notas</a>
           </div>
-          <div class="font-body-reading text-body-reading text-on-surface space-y-6 outline-none" contenteditable="true">
-            <p>O sol rachava a terra, abrindo veias ressecadas no chão de barro. Maria olhou para o fundo do poço, esperando ver o reflexo do céu, mas encontrou apenas o escuro da pedra nua. A seca não perdoava, transformando a esperança em pó fino que o vento carregava para longe.</p>
-            <p>Ela apertou o balde de flandres contra o peito. Era o terceiro poço que visitava naquela manhã, e a resposta era sempre a mesma: silêncio e poeira.</p>
-            <p>"Não tem jeito," murmurou para si mesma, a voz áspera arranhando a garganta seca. Precisariam caminhar até o rio, uma jornada de três léguas sob o castigo do sol do meio-dia.</p>
-            <p>Ao longe, um redemoinho de poeira dançava no horizonte, parecendo zombar de sua sede. O sertão cobrava seu preço, e a moeda corrente era o suor salgado e as lágrimas que não tinham permissão para cair.</p>
+
+          <div class="flex gap-5 items-center text-on-surface-variant">
+            <a class="hover:text-primary-container hover:bg-surface-container p-2 rounded-full transition-all flex items-center justify-center" href="/vereda/preparando.html" aria-label="Preparação offline">
+              <span class="material-symbols-outlined text-[22px]">download_done</span>
+            </a>
+            <a class="hover:text-primary-container hover:bg-surface-container p-2 rounded-full transition-all flex items-center justify-center" href="/vereda/analise.html" aria-label="Análise linguística">
+              <span class="material-symbols-outlined text-[22px]">help_outline</span>
+            </a>
+            <button class="hover:text-primary-container hover:bg-surface-container p-2 rounded-full transition-all flex items-center justify-center" aria-label="Perfil">
+              <span class="material-symbols-outlined text-[22px]">account_circle</span>
+            </button>
           </div>
-        </div>
-        <button class="absolute bottom-8 right-8 w-12 h-12 bg-surface-container rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:bg-surface-variant transition-colors border border-outline-variant/20" aria-label="Modo foco">
-          <span class="material-symbols-outlined text-on-surface-variant">center_focus_strong</span>
-        </button>
-      </main>
+        </header>
 
-      <aside class="w-[320px] bg-surface-container-low flex flex-col border-l border-outline-variant/30 flex-shrink-0">
-        <div class="flex border-b border-outline-variant/20 px-2 pt-2">
-          <button class="flex-1 pb-2 border-b-2 border-primary text-primary font-label-caps text-label-caps flex flex-col items-center gap-1 transition-colors">
-            <span class="material-symbols-outlined" style="font-size: 20px;">person_search</span>
-            Personagens
-          </button>
-          <button class="flex-1 pb-2 border-b-2 border-transparent text-outline hover:text-on-surface font-label-caps text-label-caps flex flex-col items-center gap-1 transition-colors">
-            <span class="material-symbols-outlined" style="font-size: 20px;">map</span>
-            Lugares
-          </button>
-          <button class="flex-1 pb-2 border-b-2 border-transparent text-outline hover:text-on-surface font-label-caps text-label-caps flex flex-col items-center gap-1 transition-colors">
-            <span class="material-symbols-outlined" style="font-size: 20px;">edit_note</span>
-            Notas
-          </button>
-        </div>
+        <div class="flex-1 flex overflow-hidden">
+          <main class="flex-1 overflow-y-auto relative scroll-smooth">
+            <div class="max-w-[720px] mx-auto mt-16 px-12 pb-32">
+              <div class="mb-12">
+                <input class="w-full bg-transparent border-0 border-b border-outline-variant/40 focus:ring-0 focus:border-primary-container font-h1 text-h1 text-on-surface p-0 pb-2 placeholder-on-surface-variant/30" placeholder="Título do manuscrito..." type="text" value="A Memória das Águas" />
+              </div>
 
-        <div class="flex-1 overflow-y-auto p-4 space-y-4">
-          <div class="bg-surface rounded-lg p-3 border border-outline-variant/30 shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:border-primary/30 transition-colors cursor-pointer">
-            <div class="flex items-center gap-3 mb-2">
-              <img alt="Maria" class="w-10 h-10 rounded-full object-cover border border-outline-variant/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCZ8-1HZoEQBWZ8BYT0NbiP00SYQku-vxh935WTU_QkUL2rm9AZNnkSILrX7mSOB3156EMwp4d7Ar9a_3DOLKLGgvk9MOXa33Cb0hYg6RW7J-esKXLGyUlGmddZt6VBuf-5nVaMVi9LH-_mvFW2nPQZemAukCp2GA5JauEzn-6SIcxTS0f1La7z5U8RCt543VyXchOxYBpWFs1gVmAf_5_hGNiwRP8WHtC4kSJ3w8-NTJkSRPjSD7vWV6EnIa-rWzupCWEAowKdxub" />
-              <div>
-                <h4 class="font-h2 text-helper-text font-bold text-on-surface">Maria das Graças</h4>
-                <span class="font-label-caps text-[10px] text-secondary uppercase px-2 py-0.5 bg-secondary-fixed/50 rounded-full">Protagonista</span>
+              <article class="font-body-reading text-body-reading text-on-surface space-y-8 leading-relaxed">
+                <p>O som do rio ao fundo era uma constante, quase imperceptível, até que o silêncio da casa o tornava o único companheiro da noite. Sentado diante da velha escrivaninha de imbuia, tentava capturar a essência daquele vilarejo perdido no tempo.</p>
+                <p>Havia algo na forma como a luz da lamparina dançava sobre o papel que convidava à introspecção. As palavras vinham lentas, tateando o escuro da memória. Lembrei-me da figura de Bento, com seu olhar profundo e seus contos sobre um tempo que já não existia mais, um tempo que parecia cada vez mais <span class="bg-primary-container/15 text-primary-container px-1 py-0.5 rounded cursor-text border-b-2 border-primary-container/40 relative group">efêmero<span class="absolute -bottom-1 left-0 w-full h-0.5 bg-primary-container animate-pulse"></span></span> diante da modernidade implacável que avançava pelas estradas de terra.</p>
+                <p>A escrita não era apenas um registro, era uma âncora. Cada frase construída afastava um pouco o fantasma do esquecimento que rondava aquelas paragens. E assim, linha após linha, a história começava a ganhar corpo, textura e, quem sabe, um pouco de eternidade.</p>
+              </article>
+            </div>
+          </main>
+
+          <aside class="w-[380px] bg-surface-container-lowest border-l border-outline-variant/30 flex flex-col flex-shrink-0 shadow-[-4px_0_24px_rgba(0,0,0,0.02)] z-10">
+            <div class="p-5 border-b border-outline-variant/20 bg-surface-container-lowest sticky top-0 z-10">
+              <div class="relative flex items-center">
+                <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[20px]">search</span>
+                <input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2.5 font-body-ui text-body-ui text-on-surface focus:ring-1 focus:ring-primary-container placeholder-on-surface-variant/50" placeholder="Buscar no dicionário..." type="text" value="efêmero" />
               </div>
             </div>
-            <p class="font-body-ui text-helper-text text-on-surface-variant line-clamp-2">Mulher forte, endurecida pela seca. Busca água para sua família enquanto espera o retorno do marido.</p>
-          </div>
 
-          <div class="bg-surface rounded-lg p-3 border border-outline-variant/30 shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:border-primary/30 transition-colors cursor-pointer">
-            <div class="flex items-center gap-3 mb-2">
-              <img alt="João" class="w-10 h-10 rounded-full object-cover border border-outline-variant/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxnHWmwmvw52oIsO1UVx4FWa29lhRA0w4HhJBvgl_XFXik3AcnEkT1K2v-E2jy4qCLYb-nxGbNeTeCAXFjwO_rxi8lDzJjZ6ZEHYlqvTs1tWSm18oK8jo0Jj1Adwav83qL5D3RS2ePXjJemO58UfG--dvyET4MFj5MzxFHYVB84GFDLBeHej8pbx3THlXWZTVV4e5QfbdAeQccZD2GRYrpDqU1duFujvqOF2415DzbEr1cxhGJO4yTjJIpayqqfMi8IwQgrtbQvlb4" />
+            <div class="flex-1 overflow-y-auto p-6 space-y-8">
+              <header>
+                <h2 class="font-display-lg text-display-lg text-on-surface tracking-tight mb-2">efêmero</h2>
+                <div class="flex items-center gap-3 font-body-ui text-body-ui text-on-surface-variant">
+                  <span>/e'fêmero/</span>
+                  <span class="w-1 h-1 rounded-full bg-outline-variant/50"></span>
+                  <span class="italic">Do grego ephémeros</span>
+                </div>
+              </header>
+
               <div>
-                <h4 class="font-h2 text-helper-text font-bold text-on-surface">João de Deus</h4>
-                <span class="font-label-caps text-[10px] text-primary uppercase px-2 py-0.5 bg-primary-fixed/50 rounded-full">Antagonista</span>
+                <span class="inline-flex items-center px-2.5 py-1 bg-secondary/10 text-secondary font-label-caps text-label-caps uppercase tracking-widest rounded">Adjetivo</span>
+              </div>
+
+              <div class="bg-surface-container-low border-l-2 border-secondary p-4 rounded-r-lg">
+                <p class="font-body-ui text-body-ui text-on-surface-variant italic">"Pense no adjetivo como o tempero da frase: use com moderação para não esconder o sabor principal."</p>
+              </div>
+
+              <div class="space-y-6">
+                <div>
+                  <div class="flex gap-3">
+                    <span class="font-label-caps text-label-caps text-primary-container mt-1 shrink-0">1.</span>
+                    <p class="font-body-ui text-body-ui text-on-surface">Que tem a duração de apenas um dia; que dura muito pouco.</p>
+                  </div>
+                  <p class="ml-5 mt-2 font-body-ui text-body-ui text-on-surface-variant italic border-l border-outline-variant/30 pl-3">"A glória dos homens é uma ilusão efêmera."</p>
+                </div>
+
+                <div>
+                  <div class="flex gap-3">
+                    <span class="font-label-caps text-label-caps text-primary-container mt-1 shrink-0">2.</span>
+                    <p class="font-body-ui text-body-ui text-on-surface">De caráter passageiro, transitório, fugaz.</p>
+                  </div>
+                  <p class="ml-5 mt-2 font-body-ui text-body-ui text-on-surface-variant italic border-l border-outline-variant/30 pl-3">"Sentia uma alegria efêmera ao observar o pôr do sol."</p>
+                </div>
+              </div>
+
+              <div class="pt-6 border-t border-outline-variant/20 space-y-5">
+                <div>
+                  <h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mb-3">Sinônimos</h3>
+                  <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-surface border border-outline-variant/40 rounded text-on-surface font-body-ui text-body-ui hover:border-primary-container cursor-pointer transition-colors">breve</span>
+                    <span class="px-3 py-1 bg-surface border border-outline-variant/40 rounded text-on-surface font-body-ui text-body-ui hover:border-primary-container cursor-pointer transition-colors">fugaz</span>
+                    <span class="px-3 py-1 bg-surface border border-outline-variant/40 rounded text-on-surface font-body-ui text-body-ui hover:border-primary-container cursor-pointer transition-colors">passageiro</span>
+                    <span class="px-3 py-1 bg-surface border border-outline-variant/40 rounded text-on-surface font-body-ui text-body-ui hover:border-primary-container cursor-pointer transition-colors">transitório</span>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mb-3">Antônimos</h3>
+                  <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-surface border border-outline-variant/40 rounded text-on-surface font-body-ui text-body-ui hover:border-primary-container cursor-pointer transition-colors">duradouro</span>
+                    <span class="px-3 py-1 bg-surface border border-outline-variant/40 rounded text-on-surface font-body-ui text-body-ui hover:border-primary-container cursor-pointer transition-colors">eterno</span>
+                    <span class="px-3 py-1 bg-surface border border-outline-variant/40 rounded text-on-surface font-body-ui text-body-ui hover:border-primary-container cursor-pointer transition-colors">permanente</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <p class="font-body-ui text-helper-text text-on-surface-variant line-clamp-2">Dono das terras vizinhas, controla o único poço artesiano da região e cobra caro pela água.</p>
-          </div>
-
-          <button class="w-full py-2 border border-dashed border-outline-variant text-outline hover:text-primary hover:border-primary transition-colors rounded-lg flex items-center justify-center gap-2 font-body-ui text-helper-text">
-            <span class="material-symbols-outlined" style="font-size: 16px;">add</span>
-            Novo Personagem
-          </button>
+          </aside>
         </div>
-      </aside>
+      </div>
     </div>
-
-    <footer class="h-10 bg-surface-container border-t border-outline-variant/30 px-4 flex items-center justify-between flex-shrink-0 z-10">
-      <div class="flex items-center gap-3 text-on-surface-variant">
-        <span class="material-symbols-outlined" style="font-size: 16px;">track_changes</span>
-        <span class="font-label-caps text-label-caps">METAS DIÁRIAS</span>
-        <div class="w-48 h-1.5 bg-surface-variant rounded-full overflow-hidden ml-2">
-          <div class="h-full bg-primary w-[65%] rounded-full"></div>
-        </div>
-        <span class="font-body-ui text-helper-text">1.300 / 2.000 palavras</span>
-      </div>
-      <div class="flex items-center gap-4 text-on-surface-variant">
-        <span class="font-body-ui text-helper-text">Total: 45.200 palavras</span>
-        <div class="h-3 w-px bg-outline-variant"></div>
-        <div class="flex items-center gap-1">
-          <div class="w-2 h-2 rounded-full bg-green-500"></div>
-          <span class="font-body-ui text-helper-text">Salvo há 2 min</span>
-        </div>
-      </div>
-    </footer>
   </body>
 </html>
