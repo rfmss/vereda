@@ -8,6 +8,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         analysis: resolve(__dirname, 'analise.html'),
+        templates: resolve(__dirname, 'templates.html'),
         reader: resolve(__dirname, 'reader.html'),
         readerDark: resolve(__dirname, 'reader-dark.html'),
       },
