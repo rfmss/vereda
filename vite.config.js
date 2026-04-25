@@ -12,6 +12,7 @@ export default defineConfig({
         preparing: resolve(__dirname, 'preparando.html'),
         reader: resolve(__dirname, 'reader.html'),
         readerDark: resolve(__dirname, 'reader-dark.html'),
+        organize: resolve(__dirname, 'organize-se.html'),
       },
     },
   },

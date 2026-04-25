@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Organize-se - Vereda</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap" rel="stylesheet" />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
+      }
+
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #e4e2e1;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #c1c8c4;
+      }
+    </style>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#ffdad5",
+              "on-surface-variant": "#414845",
+              "surface-bright": "#fcf9f8",
+              "on-secondary-fixed-variant": "#7a2f15",
+              "on-primary": "#ffffff",
+              "inverse-primary": "#accec1",
+              "inverse-surface": "#303030",
+              "tertiary-fixed-dim": "#edbbb3",
+              "secondary-fixed": "#ffdbd0",
+              surface: "#fcf9f8",
+              "secondary-container": "#fe9572",
+              "on-tertiary": "#ffffff",
+              "on-tertiary-fixed-variant": "#613d38",
+              primary: "#17362d",
+              "outline-variant": "#c1c8c4",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary": "#ffffff",
+              "surface-container": "#f0eded",
+              "on-tertiary-container": "#dbaaa3",
+              "inverse-on-surface": "#f3f0f0",
+              "on-primary-fixed": "#002018",
+              "surface-container-high": "#eae7e7",
+              tertiary: "#482824",
+              "tertiary-container": "#623e39",
+              "on-secondary-container": "#762c12",
+              "on-primary-fixed-variant": "#2e4d43",
+              "on-primary-container": "#9bbdb0",
+              "secondary-fixed-dim": "#ffb59e",
+              "surface-dim": "#dcd9d9",
+              "on-tertiary-fixed": "#2f1310",
+              "primary-container": "#2e4d43",
+              "on-error-container": "#93000a",
+              "primary-fixed-dim": "#accec1",
+              "on-surface": "#1b1c1c",
+              outline: "#727975",
+              "surface-container-low": "#f6f3f2",
+              "surface-container-highest": "#e4e2e1",
+              secondary: "#99462a",
+              "error-container": "#ffdad6",
+              error: "#ba1a1a",
+              "on-secondary-fixed": "#390b00",
+              background: "#fcf9f8",
+              "surface-variant": "#e4e2e1",
+              "surface-tint": "#45655a",
+              "primary-fixed": "#c7eadc",
+              "on-background": "#1b1c1c"
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem"
+            },
+            spacing: {
+              "sidebar-width": "280px",
+              "container-max-width": "720px",
+              "margin-focus": "64px",
+              unit: "8px",
+              gutter: "24px"
+            },
+            fontFamily: {
+              h1: ["Manrope"],
+              "body-ui": ["Manrope"],
+              h2: ["Manrope"],
+              "body-reading": ["Newsreader"],
+              "helper-text": ["Manrope"],
+              "display-lg": ["Newsreader"],
+              "label-caps": ["Manrope"]
+            },
+            fontSize: {
+              h1: ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }],
+              "body-ui": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              h2: ["24px", { lineHeight: "32px", fontWeight: "600" }],
+              "body-reading": ["20px", { lineHeight: "34px", fontWeight: "400" }],
+              "helper-text": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "600" }],
+              "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "700" }]
+            }
+          }
+        }
+      };
+    </script>
+  </head>
+  <body class="bg-background text-on-background font-body-ui flex h-screen overflow-hidden selection:bg-primary-fixed selection:text-on-primary-fixed">
+    <aside class="w-[80px] h-full border-r border-surface-variant bg-surface-container-low flex flex-col items-center py-6 justify-between z-30 shrink-0 hidden md:flex">
+      <div class="flex flex-col gap-6 items-center">
+        <a class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center mb-4" href="/vereda/">
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">ink_pen</span>
+        </a>
+        <a class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded-lg group relative" href="/vereda/">
+          <span class="material-symbols-outlined">home</span>
+        </a>
+        <a class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded-lg group relative" href="/vereda/templates.html">
+          <span class="material-symbols-outlined">menu_book</span>
+        </a>
+      </div>
+      <div class="flex flex-col gap-4 items-center">
+        <a class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded-lg flex flex-col items-center gap-1 group" title="Backup" href="/vereda/preparando.html">
+          <span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+        </a>
+        <button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors rounded-lg flex flex-col items-center gap-1 group" title="Restaurar">
+          <span class="material-symbols-outlined text-[20px]">restore</span>
+        </button>
+      </div>
+    </aside>
+    <div class="flex-1 flex flex-col min-w-0 relative">
+      <header class="bg-[#F2EFE9] dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 flex justify-between items-center w-full px-8 py-4 z-20 shrink-0">
+        <div class="flex items-center gap-6">
+          <h1 class="text-xl font-bold tracking-tighter text-[#2E4D43] dark:text-emerald-400 font-serif">Organize-se</h1>
+          <nav class="hidden md:flex gap-6 items-center">
+            <a class="text-stone-500 dark:text-stone-400 font-medium hover:text-[#2E4D43] dark:hover:text-emerald-300 transition-colors" href="#">Escrita</a>
+            <a class="text-stone-500 dark:text-stone-400 font-medium hover:text-[#2E4D43] dark:hover:text-emerald-300 transition-colors" href="#">Biblioteca</a>
+            <a class="text-stone-500 dark:text-stone-400 font-medium hover:text-[#2E4D43] dark:hover:text-emerald-300 transition-colors" href="#">Estatísticas</a>
+          </nav>
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="text-stone-500 dark:text-stone-400 font-medium text-sm">2024</span>
+          <div class="flex gap-2">
+            <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-[#2E4D43] dark:text-emerald-500">
+              <span class="material-symbols-outlined">sync</span>
+            </button>
+            <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-[#2E4D43] dark:text-emerald-500">
+              <span class="material-symbols-outlined">settings</span>
+            </button>
+          </div>
+          <div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant ml-2 border border-stone-200">
+            <img
+              alt="Avatar do Escritor"
+              class="w-full h-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcphItPlK4bX8pomdrSAqSb4weXe3DQk5Q0VoL9RkswHIm_Q-Vncxo9_fzbEhEqU5kvovy6xFx-wnAABsoP1A9Z2iJYA10zUzzGs4PCm0NMM-KmgR4uj6bngKSPoXU5A16aNCrwbSw6DiP1u8dMlA9tzURk39QlOBO_NcsaWsC-KY5MFYbEchXERuEyhRMMJrGCrcegBS1F3EtITmg3ZbiAobrvutB2_a4ZaoSWT__LQvfzKTiWcmztMmupmvffZnAv4O7rWi0hV-i"
+            />
+          </div>
+        </div>
+      </header>
+
+      <main class="flex-1 flex overflow-hidden relative">
+        <div class="flex-1 overflow-y-auto px-margin-focus py-10 flex flex-col relative" style="padding-right: 320px;">
+          <div class="max-w-container-max-width mx-auto w-full">
+            <div class="flex items-end justify-between mb-12">
+              <h2 class="font-display-lg text-display-lg text-on-surface">Organize-se em 2026</h2>
+              <div class="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-full border border-surface-variant">
+                <span class="material-symbols-outlined text-on-surface-variant">calendar_month</span>
+                <span class="font-h2 text-h2 text-on-surface text-[18px]">Abril</span>
+                <span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">expand_more</span>
+              </div>
+            </div>
+
+            <div class="flex justify-between items-center mb-16 px-4 py-6 bg-surface-container-lowest rounded-2xl border border-surface-variant shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+              <div class="flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity"><span class="font-label-caps text-label-caps">JAN</span><div class="flex gap-[2px]"><div class="w-1.5 h-1.5 rounded-full bg-surface-variant"></div><div class="w-1.5 h-1.5 rounded-full bg-surface-variant"></div></div></div>
+              <div class="flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity"><span class="font-label-caps text-label-caps">FEV</span><div class="flex gap-[2px]"><div class="w-1.5 h-1.5 rounded-full bg-primary-container"></div></div></div>
+              <div class="flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity"><span class="font-label-caps text-label-caps">MAR</span><div class="flex gap-[2px]"><div class="w-1.5 h-1.5 rounded-full bg-primary-container"></div><div class="w-1.5 h-1.5 rounded-full bg-primary-container"></div></div></div>
+              <div class="flex flex-col items-center gap-2 cursor-pointer text-primary"><span class="font-label-caps text-label-caps">ABR</span><div class="flex gap-[2px]"><div class="w-1.5 h-1.5 rounded-full bg-primary"></div><div class="w-1.5 h-1.5 rounded-full bg-primary"></div><div class="w-1.5 h-1.5 rounded-full bg-surface-variant"></div></div></div>
+              <div class="flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity"><span class="font-label-caps text-label-caps">MAI</span><div class="flex gap-[2px]"><div class="w-1.5 h-1.5 rounded-full bg-surface-variant"></div></div></div>
+              <div class="flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity"><span class="font-label-caps text-label-caps">JUN</span><div class="flex gap-[2px]"></div></div>
+              <div class="flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity"><span class="font-label-caps text-label-caps">JUL</span><div class="flex gap-[2px]"></div></div>
+              <div class="flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity"><span class="font-label-caps text-label-caps">AGO</span><div class="flex gap-[2px]"></div></div>
+              <div class="flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity"><span class="font-label-caps text-label-caps">SET</span><div class="flex gap-[2px]"></div></div>
+              <div class="flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity"><span class="font-label-caps text-label-caps">OUT</span><div class="flex gap-[2px]"></div></div>
+              <div class="flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity"><span class="font-label-caps text-label-caps">NOV</span><div class="flex gap-[2px]"></div></div>
+              <div class="flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity"><span class="font-label-caps text-label-caps">DEZ</span><div class="flex gap-[2px]"></div></div>
+            </div>
+
+            <div class="relative pl-8 before:content-[''] before:absolute before:left-4 before:top-2 before:bottom-12 before:w-[1px] before:bg-surface-variant">
+              <div class="relative mb-12 group">
+                <div class="absolute -left-8 top-1.5 w-2 h-2 rounded-full bg-surface border-2 border-primary z-10"></div>
+                <div class="flex items-baseline gap-4 mb-3">
+                  <span class="font-h2 text-h2 text-on-surface">1</span>
+                  <span class="font-helper-text text-helper-text text-on-surface-variant">Quarta-feira</span>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="bg-primary-fixed text-on-primary-fixed px-4 py-2 rounded-xl flex items-center gap-3 w-max hover:shadow-sm transition-all cursor-pointer">
+                    <span class="material-symbols-outlined text-[18px]">edit</span>
+                    <span class="font-body-ui text-[14px] font-medium">Revisar Capítulo 4</span>
+                  </div>
+                  <div class="bg-surface-container px-4 py-2 rounded-xl flex items-center gap-3 w-max border border-transparent hover:border-outline-variant transition-all cursor-pointer">
+                    <span class="material-symbols-outlined text-[18px] text-on-surface-variant">notes</span>
+                    <span class="font-body-ui text-[14px] text-on-surface-variant">Ideias para o arco do vilão</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="relative mb-12 group">
+                <div class="absolute -left-8 top-1.5 w-2 h-2 rounded-full bg-surface-variant z-10 group-hover:bg-outline transition-colors"></div>
+                <div class="flex items-baseline gap-4 mb-3">
+                  <span class="font-h2 text-h2 text-on-surface">2</span>
+                  <span class="font-helper-text text-helper-text text-on-surface-variant">Quinta-feira</span>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="bg-secondary-fixed text-on-secondary-fixed px-4 py-2 rounded-xl flex items-center gap-3 w-max hover:shadow-sm transition-all cursor-pointer">
+                    <span class="material-symbols-outlined text-[18px]">group</span>
+                    <span class="font-body-ui text-[14px] font-medium">Ficha de Personagem: Helena</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="relative mb-12 group opacity-80">
+                <div class="absolute -left-[35px] top-1 w-3.5 h-3.5 rounded-full bg-surface border-2 border-tertiary-fixed-dim z-10 flex items-center justify-center">
+                  <div class="w-1 h-1 bg-tertiary rounded-full"></div>
+                </div>
+                <div class="flex items-baseline gap-4 mb-3">
+                  <span class="font-h2 text-h2 text-tertiary">3</span>
+                  <span class="font-helper-text text-helper-text text-tertiary flex items-center gap-2">
+                    Sexta-feira
+                    <span class="bg-tertiary-fixed text-on-tertiary-fixed px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">Feriado: Sexta-feira Santa</span>
+                  </span>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="bg-surface-container-low border border-dashed border-outline-variant text-on-surface-variant px-4 py-2 rounded-xl flex items-center gap-3 w-max">
+                    <span class="material-symbols-outlined text-[18px] opacity-50">self_improvement</span>
+                    <span class="font-body-ui text-[14px] italic opacity-80">Dia de descanso criativo</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="relative mb-12 group">
+                <div class="absolute -left-8 top-1.5 w-2 h-2 rounded-full bg-surface-variant z-10 group-hover:bg-outline transition-colors"></div>
+                <div class="flex items-baseline gap-4 mb-3">
+                  <span class="font-h2 text-h2 text-on-surface">4</span>
+                  <span class="font-helper-text text-helper-text text-on-surface-variant">Sábado</span>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="bg-[#e8f0fe] text-[#1a73e8] px-4 py-2 rounded-xl flex items-center gap-3 w-max hover:shadow-sm transition-all cursor-pointer">
+                    <span class="material-symbols-outlined text-[18px]">menu_book</span>
+                    <span class="font-body-ui text-[14px] font-medium">Leitura de pesquisa (Guimarães Rosa)</span>
+                  </div>
+                  <div class="flex gap-2">
+                    <div class="bg-surface-container-highest w-8 h-8 rounded-full flex items-center justify-center hover:bg-outline-variant cursor-pointer transition-colors text-on-surface-variant">
+                      <span class="material-symbols-outlined text-[16px]">add</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="bg-[#F2EFE9] dark:bg-stone-900 border-l border-stone-200 dark:border-stone-800 fixed right-0 top-[64px] h-[calc(100vh-64px)] w-64 flex flex-col z-40 transition-all duration-200 ease-in-out font-sans text-sm tracking-wide">
+          <div class="p-6 border-b border-stone-200 dark:border-stone-800">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-[#2E4D43] dark:text-emerald-500">
+                <span class="material-symbols-outlined">track_changes</span>
+              </div>
+              <div>
+                <h3 class="font-semibold text-stone-800 dark:text-stone-200">Metas de Junho</h3>
+                <p class="text-xs text-stone-500 dark:text-stone-400 font-serif italic">Vereda Literária</p>
+              </div>
+            </div>
+            <button class="w-full py-2 bg-[#2E4D43] hover:bg-[#1a3029] text-white rounded-md flex items-center justify-center gap-2 transition-colors">
+              <span class="material-symbols-outlined text-[18px]">add</span>
+              Nova Meta
+            </button>
+          </div>
+          <nav class="flex-1 overflow-y-auto py-4 flex flex-col gap-1">
+            <a class="text-stone-500 dark:text-stone-400 pl-4 py-3 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800/50" href="#">
+              <span class="material-symbols-outlined">edit_note</span>
+              Metas de Escrita
+            </a>
+            <a class="border-l-2 border-[#2E4D43] bg-stone-100 dark:bg-stone-800 text-[#2E4D43] dark:text-emerald-400 pl-4 py-3 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800/50" href="#">
+              <span class="material-symbols-outlined">calendar_today</span>
+              Cronograma
+            </a>
+            <a class="text-stone-500 dark:text-stone-400 pl-4 py-3 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800/50" href="#">
+              <span class="material-symbols-outlined">search</span>
+              Pesquisa
+            </a>
+            <a class="text-stone-500 dark:text-stone-400 pl-4 py-3 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800/50" href="#">
+              <span class="material-symbols-outlined">group</span>
+              Personagens
+            </a>
+            <a class="text-stone-500 dark:text-stone-400 pl-4 py-3 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800/50" href="#">
+              <span class="material-symbols-outlined">auto_stories</span>
+              Revisão
+            </a>
+          </nav>
+          <div class="p-4 border-t border-stone-200 dark:border-stone-800 flex flex-col gap-1">
+            <a class="text-stone-500 dark:text-stone-400 pl-4 py-2 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800/50 rounded-md" href="#">
+              <span class="material-symbols-outlined">archive</span>
+              Arquivo
+            </a>
+            <a class="text-stone-500 dark:text-stone-400 pl-4 py-2 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800/50 rounded-md" href="#">
+              <span class="material-symbols-outlined">delete</span>
+              Lixeira
+            </a>
+          </div>
+        </aside>
+      </main>
+    </div>
+  </body>
+</html>
